@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>SewaLink · Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+    }
+
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      width: 300px;
+      background: white;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .sidebar-logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f4c81;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sidebar-logo span {
+      color: #2563eb;
+    }
+
+    .admin-info {
+      padding: 1rem 1.5rem;
+      background: #f8fafc;
+      margin: 1rem;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .admin-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    .admin-details h4 {
+      font-size: 0.9rem;
+      color: #0f172a;
+    }
+    .admin-details p {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 0 1rem;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      padding-left: 0.8rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      color: #334155;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      margin-bottom: 0.2rem;
+      cursor: pointer;
+    }
+    .nav-item i {
+      width: 20px;
+      color: #64748b;
+    }
+    .nav-item:hover {
+      background: #f1f5f9;
+      color: #2563eb;
+    }
+    .nav-item.active {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+    .nav-item.active i {
+      color: #2563eb;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      background: white;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .top-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .notification-badge {
+      position: relative;
+      cursor: pointer;
+    }
+    .badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .content-area {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    /* ========== STATS CARDS ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #f1f5f9;
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-icon i {
+      font-size: 1.5rem;
+      color: #2563eb;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* ========== TABLES ========== */
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 2rem;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .table-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.8rem 1rem;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef9c3; color: #854d0e; }
+    .badge-danger { background: #fee2e2; color: #b91c1c; }
+    .badge-info { background: #dbeafe; color: #1e40af; }
+
+    .btn {
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-success { background: #22c55e; color: white; }
+    .btn-warning { background: #f59e0b; color: white; }
+    .btn-info { background: #3b82f6; color: white; }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+    }
+    .search-box i {
+      color: #94a3b8;
+      margin-right: 0.5rem;
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      font-size: 0.9rem;
+    }
+    .search-box input:focus {
+      outline: none;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      color: #64748b;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .filter-tab.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .status-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .status-card:hover {
+      background: #eff6ff;
+      border-color: #2563eb;
+    }
+
+    .activity-log {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+    }
+    .log-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .log-item:last-child {
+      border-bottom: none;
+    }
+
+    @media (max-width: 768px) {
+      .admin-wrapper { flex-direction: column; }
+      .sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="sidebar-logo">
+          <i class="fas fa-shield-hal"></i> Sewa<span>Link</span>
+        </a>
+      </div>
+
+      <div id="adminInfo" class="admin-info">
+        <div class="admin-avatar" id="adminAvatar">A</div>
+        <div class="admin-details">
+          <h4 id="adminName">Loading...</h4>
+          <p id="adminRole">Super Admin</p>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <!-- SECTION A: ADMIN AUTH & CORE -->
+        <div class="nav-section">
+          <div class="nav-section-title">🔐 ADMIN CORE</div>
+          <div class="nav-item active" onclick="showSection('dashboard')">
+            <i class="fas fa-chart-pie"></i> Security Dashboard
+          </div>
+          <div class="nav-item" onclick="showSection('admins')">
+            <i class="fas fa-user-shield"></i> Admin Manager
+          </div>
+          <div class="nav-item" onclick="showSection('audit')">
+            <i class="fas fa-history"></i> Audit Trail
+          </div>
+          <div class="nav-item" onclick="showSection('sessions')">
+            <i class="fas fa-clock"></i> Session Control
+          </div>
+        </div>
+
+        <!-- SECTION B: USER MANAGEMENT -->
+        <div class="nav-section">
+          <div class="nav-section-title">👥 USER MANAGEMENT</div>
+          <div class="nav-item" onclick="showSection('users')">
+            <i class="fas fa-users"></i> All Users
+          </div>
+          <div class="nav-item" onclick="showSection('freelancers')">
+            <i class="fas fa-briefcase"></i> Freelancers
+          </div>
+          <div class="nav-item" onclick="showSection('blacklist')">
+            <i class="fas fa-list"></i> Blacklist Manager
+          </div>
+        </div>
+
+        <!-- SECTION C: JOB CONTROL -->
+        <div class="nav-section">
+          <div class="nav-section-title">📋 JOB CONTROL</div>
+          <div class="nav-item" onclick="showSection('jobs')">
+            <i class="fas fa-briefcase"></i> All Jobs
+          </div>
+          <div class="nav-item" onclick="showSection('categories')">
+            <i class="fas fa-tags"></i> Categories
+          </div>
+        </div>
+
+        <!-- SECTION D: PAYMENTS -->
+        <div class="nav-section">
+          <div class="nav-section-title">💰 PAYMENTS</div>
+          <div class="nav-item" onclick="showSection('commission')">
+            <i class="fas fa-percent"></i> Commission Editor
+          </div>
+          <div class="nav-item" onclick="showSection('transactions')">
+            <i class="fas fa-credit-card"></i> Transactions
+          </div>
+        </div>
+
+        <!-- SECTION E: ANALYTICS -->
+        <div class="nav-section">
+          <div class="nav-section-title">📊 ANALYTICS</div>
+          <div class="nav-item" onclick="showSection('ai-detection')">
+            <i class="fas fa-robot"></i> AI Fraud Detection
+          </div>
+        </div>
+
+        <!-- SECTION F: SYSTEM -->
+        <div class="nav-section">
+          <div class="nav-section-title">⚙️ SYSTEM</div>
+          <div class="nav-item" onclick="showSection('maintenance')">
+            <i class="fas fa-shield"></i> Maintenance Mode
+          </div>
+          <div class="nav-item" onclick="showSection('settings')">
+            <i class="fas fa-gear"></i> Settings
+          </div>
+          <div class="nav-item logout" onclick="adminLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <div class="top-bar">
+        <div class="page-title" id="pageTitle">Security Dashboard</div>
+        <div class="top-bar-actions">
+          <div class="notification-badge" onclick="showSection('notifications')">
+            <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b;"></i>
+            <span class="badge" id="notificationCount">0</span>
+          </div>
+          <div id="sessionTimer" style="color: #64748b; font-size: 0.85rem;">
+            <i class="fas fa-clock"></i> 30:00
+          </div>
+        </div>
+      </div>
+
+      <div id="contentArea" class="content-area">
+        <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
+          <span style="margin-left: 1rem; color: #64748b;">Loading secure dashboard...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      orderBy,
+      limit,
+      getDocs,
+      getDoc,
+      doc,
+      updateDoc,
+      deleteDoc,
+      addDoc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    // ========== INITIALIZE FIREBASE ==========
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== ADMIN STATE ==========
+    let currentAdmin = null;
+    let adminData = null;
+    let sessionTimer = null;
+    let sessionTime = 30 * 60; // 30 minutes
+
+    // ========== CHECK AUTH ==========
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'admin-login.html';
+        return;
+      }
+
+      try {
+        // Check if admin in Firestore
+        const adminRef = doc(db, 'admins', user.uid);
+        const adminSnap = await getDoc(adminRef);
+        
+        if (!adminSnap.exists()) {
+          await signOut(auth);
+          window.location.href = 'admin-login.html';
+          return;
+        }
+
+        currentAdmin = user;
+        adminData = adminSnap.data();
+        
+        // Update UI
+        const nameEl = document.getElementById('adminName');
+        const roleEl = document.getElementById('adminRole');
+        const avatarEl = document.getElementById('adminAvatar');
+        
+        if (nameEl) nameEl.textContent = adminData.name || user.email || 'Admin';
+        if (roleEl) roleEl.textContent = adminData.role || 'Super Admin';
+        if (avatarEl) avatarEl.textContent = (adminData.name || 'A').charAt(0).toUpperCase();
+        
+        // Start session timer
+        startSessionTimer();
+        
+        // Load dashboard
+        await loadDashboard();
+        
+        // Log activity
+        try {
+          await addDoc(collection(db, 'adminLogs'), {
+            adminId: user.uid,
+            email: user.email,
+            action: 'dashboard_access',
+            timestamp: serverTimestamp()
+          });
+        } catch (e) {
+          console.log('Logging skipped');
+        }
+      } catch (error) {
+        console.error('Auth error:', error);
+      }
+    });
+
+    // ========== SESSION MANAGEMENT ==========
+    function startSessionTimer() {
+      if (sessionTimer) clearInterval(sessionTimer);
+      
+      sessionTimer = setInterval(() => {
+        sessionTime--;
+        const minutes = Math.floor(sessionTime / 60);
+        const seconds = sessionTime % 60;
+        const timerEl = document.getElementById('sessionTimer');
+        if (timerEl) {
+          timerEl.innerHTML = `<i class="fas fa-clock"></i> ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        if (sessionTime <= 0) {
+          clearInterval(sessionTimer);
+          adminLogout();
+          alert('Session expired. Please login again.');
+        }
+      }, 1000);
+    }
+
+    // ========== ADMIN LOGOUT ==========
+    window.adminLogout = async function() {
+      try {
+        clearInterval(sessionTimer);
+        await signOut(auth);
+        window.location.href = 'admin-login.html';
+      } catch (error) {
+        console.error('Logout error:', error);
+        window.location.href = 'admin-login.html';
+      }
+    };
+
+    // ========== SHOW SECTION ==========
+    window.showSection = async function(section) {
+      // Update active nav
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+
+      const titles = {
+        'dashboard': 'Security Dashboard',
+        'admins': 'Admin Manager',
+        'audit': 'Audit Trail',
+        'sessions': 'Session Control',
+        'users': 'User Management',
+        'freelancers': 'Freelancer Management',
+        'blacklist': 'Blacklist Manager',
+        'jobs': 'Job Management',
+        'categories': 'Category Manager',
+        'commission': 'Commission Editor',
+        'transactions': 'Transaction History',
+        'ai-detection': 'AI Fraud Detection',
+        'maintenance': 'Maintenance Mode',
+        'settings': 'Platform Settings'
+      };
+      
+      const titleEl = document.getElementById('pageTitle');
+      if (titleEl) titleEl.textContent = titles[section] || 'Dashboard';
+
+      // Load section
+      try {
+        switch(section) {
+          case 'dashboard': await loadDashboard(); break;
+          case 'users': await loadUsers(); break;
+          case 'freelancers': await loadFreelancers(); break;
+          case 'jobs': await loadJobs(); break;
+          case 'admins': await loadAdminManager(); break;
+          case 'audit': await loadAuditLogs(); break;
+          case 'sessions': loadSessions(); break;
+          case 'blacklist': loadBlacklist(); break;
+          case 'categories': loadCategories(); break;
+          case 'commission': loadCommission(); break;
+          case 'transactions': loadTransactions(); break;
+          case 'ai-detection': loadAIDetection(); break;
+          case 'maintenance': loadMaintenance(); break;
+          case 'settings': loadSettings(); break;
+          default: await loadDashboard();
+        }
+      } catch (error) {
+        console.error('Error loading section:', error);
+        const contentArea = document.getElementById('contentArea');
+        if (contentArea) {
+          contentArea.innerHTML = `
+            <div style="text-align: center; padding: 4rem;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444;"></i>
+              <h3 style="margin-top: 1rem;">Error Loading Section</h3>
+              <p style="color: #64748b;">${error.message}</p>
+              <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">Refresh</button>
+            </div>
+          `;
+        }
+      }
+    };
+
+    // ========== DASHBOARD ==========
+    window.loadDashboard = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
+          <span style="margin-left: 1rem; color: #64748b;">Loading dashboard...</span>
+        </div>
+      `;
+
+      try {
+        // Get real counts
+        let totalUsers = 0, totalFreelancers = 0, totalJobs = 0, activeJobs = 0, completedJobs = 0, totalVolume = 0;
+        
+        try {
+          const usersSnapshot = await getDocs(collection(db, 'users'));
+          totalUsers = usersSnapshot.size;
+          
+          usersSnapshot.forEach(doc => {
+            const user = doc.data();
+            if (user.role === 'freelancer' || user.role === 'both') totalFreelancers++;
+          });
+        } catch (e) { console.log('Users collection error'); }
+
+        try {
+          const jobsSnapshot = await getDocs(collection(db, 'jobs'));
+          totalJobs = jobsSnapshot.size;
+          
+          jobsSnapshot.forEach(doc => {
+            const job = doc.data();
+            if (job.status === 'open') activeJobs++;
+            if (job.status === 'completed') {
+              completedJobs++;
+              totalVolume += job.budget || 0;
+            }
+          });
+        } catch (e) { console.log('Jobs collection error'); }
+
+        // Get admin count
+        let adminCount = 0;
+        try {
+          const adminsSnapshot = await getDocs(collection(db, 'admins'));
+          adminCount = adminsSnapshot.size;
+        } catch (e) { console.log('Admins collection error'); }
+
+        contentArea.innerHTML = `
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <span class="stat-value">${totalUsers}</span>
+              </div>
+              <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
+                <span class="stat-value">${totalFreelancers}</span>
+              </div>
+              <div class="stat-label">Freelancers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                <span class="stat-value">$${totalVolume.toLocaleString()}</span>
+              </div>
+              <div class="stat-label">Total Volume</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <span class="stat-value">${activeJobs}</span>
+              </div>
+              <div class="stat-label">Active Jobs</div>
+            </div>
+          </div>
+
+          <div class="status-grid">
+            <div class="status-card" onclick="showSection('admins')">
+              <i class="fas fa-user-shield" style="font-size: 2rem; color: #3b82f6;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${adminCount}</h4>
+                <p style="color: #64748b;">Admin Accounts</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('users')">
+              <i class="fas fa-users" style="font-size: 2rem; color: #10b981;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${totalUsers}</h4>
+                <p style="color: #64748b;">Total Users</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('jobs')">
+              <i class="fas fa-briefcase" style="font-size: 2rem; color: #8b5cf6;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${totalJobs}</h4>
+                <p style="color: #64748b;">Total Jobs</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('freelancers')">
+              <i class="fas fa-briefcase" style="font-size: 2rem; color: #f59e0b;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${totalFreelancers}</h4>
+                <p style="color: #64748b;">Freelancers</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="table-container">
+              <div class="table-header">
+                <div class="table-title">System Health</div>
+              </div>
+              <table>
+                <tr>
+                  <td>Firestore</td>
+                  <td><span class="badge badge-success">Operational</span></td>
+                </tr>
+                <tr>
+                  <td>Authentication</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Storage</td>
+                  <td><span class="badge badge-success">Online</span></td>
+                </tr>
+                <tr>
+                  <td>Admin Session</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="table-container">
+              <div class="table-header">
+                <div class="table-title">Quick Actions</div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <button class="btn btn-primary" onclick="showSection('users')" style="width: 100%;">Manage Users</button>
+                <button class="btn btn-primary" onclick="showSection('jobs')" style="width: 100%;">Manage Jobs</button>
+                <button class="btn btn-primary" onclick="showSection('freelancers')" style="width: 100%;">Manage Freelancers</button>
+                <button class="btn btn-warning" onclick="showSection('maintenance')" style="width: 100%;">Maintenance</button>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Dashboard error:', error);
+        contentArea.innerHTML = `
+          <div style="text-align: center; padding: 4rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444;"></i>
+            <h3 style="margin-top: 1rem;">Error Loading Dashboard</h3>
+            <p style="color: #64748b;">${error.message}</p>
+            <button onclick="loadDashboard()" class="btn btn-primary" style="margin-top: 1rem;">Try Again</button>
+          </div>
+        `;
+      }
+    };
+
+    // ========== USERS MANAGEMENT ==========
+    window.loadUsers = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading users...</div>`;
+
+      try {
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const users = [];
+        usersSnapshot.forEach(doc => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">All Users (${users.length})</div>
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="userSearch" placeholder="Search users..." onkeyup="searchUsers()">
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                ${users.slice(0, 20).map(user => `
+                  <tr class="user-row">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <div>
+                          <div style="font-weight: 600;">${user.displayName || 'N/A'}</div>
+                          <div style="font-size: 0.7rem; color: #64748b;">${user.id?.substring(0, 8) || ''}...</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>${user.email || 'N/A'}</td>
+                    <td>${user.phoneNumber || '—'}</td>
+                    <td><span class="badge badge-info">${user.role || 'user'}</span></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <div style="display: flex; gap: 0.3rem;">
+                        <button class="btn btn-primary btn-sm" onclick="viewUser('${user.id}')">View</button>
+                        <button class="btn btn-danger btn-sm" onclick="banUser('${user.id}')">Ban</button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading users:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== FREELANCERS ==========
+    window.loadFreelancers = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading freelancers...</div>`;
+
+      try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('role', 'in', ['freelancer', 'both']));
+        const snapshot = await getDocs(q);
+        const freelancers = [];
+        
+        for (const doc of snapshot.docs) {
+          const freelancer = { id: doc.id, ...doc.data() };
+          
+          // Get completed jobs
+          try {
+            const jobsRef = collection(db, 'jobs');
+            const completedJobsQuery = query(jobsRef, where('acceptedBy', '==', doc.id), where('status', '==', 'completed'));
+            const completedSnapshot = await getDocs(completedJobsQuery);
+            freelancer.completedJobs = completedSnapshot.size;
+          } catch (e) {
+            freelancer.completedJobs = 0;
+          }
+          
+          freelancers.push(freelancer);
+        }
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Freelancers (${freelancers.length})</div>
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search freelancers...">
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Freelancer</th>
+                  <th>Email</th>
+                  <th>Skills</th>
+                  <th>Rate</th>
+                  <th>Completed</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${freelancers.slice(0, 20).map(f => `
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'Freelancer') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <span style="font-weight: 600;">${f.displayName || 'Freelancer'}</span>
+                      </div>
+                    </td>
+                    <td>${f.email || 'N/A'}</td>
+                    <td>${(f.skills || []).slice(0, 2).join(', ') || '—'}</td>
+                    <td>${f.hourlyRate ? `$${f.hourlyRate}/hr` : '—'}</td>
+                    <td>${f.completedJobs || 0}</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="viewUser('${f.id}')">View</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading freelancers:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== JOBS MANAGEMENT ==========
+    window.loadJobs = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading jobs...</div>`;
+
+      try {
+        const jobsSnapshot = await getDocs(collection(db, 'jobs'));
+        const jobs = [];
+        jobsSnapshot.forEach(doc => {
+          jobs.push({ id: doc.id, ...doc.data() });
+        });
+
+        jobs.sort((a, b) => {
+          const dateA = a.createdAt?.toDate?.() || new Date(0);
+          const dateB = b.createdAt?.toDate?.() || new Date(0);
+          return dateB - dateA;
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">All Jobs (${jobs.length})</div>
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search jobs...">
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Job Title</th>
+                  <th>Client</th>
+                  <th>Category</th>
+                  <th>Budget</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${jobs.slice(0, 20).map(job => `
+                  <tr>
+                    <td>${job.title || 'Untitled'}</td>
+                    <td>${job.clientName || 'Anonymous'}</td>
+                    <td>${job.category || 'General'}</td>
+                    <td>$${job.budget || 0}</td>
+                    <td><span class="badge badge-${job.status === 'open' ? 'success' : 'warning'}">${job.status || 'open'}</span></td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="viewJob('${job.id}')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="deleteJob('${job.id}')">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== ADMIN MANAGER ==========
+    window.loadAdminManager = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      try {
+        const adminsSnapshot = await getDocs(collection(db, 'admins'));
+        const admins = [];
+        adminsSnapshot.forEach(doc => {
+          admins.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Admin Manager (${admins.length})</div>
+              <button class="btn btn-primary" onclick="createSuperAdmin()">
+                <i class="fas fa-plus"></i> Add Admin
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Admin</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${admins.map(admin => `
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center;">
+                          ${(admin.name || admin.email || 'A').charAt(0).toUpperCase()}
+                        </div>
+                        <span>${admin.name || 'Admin'}</span>
+                      </div>
+                    </td>
+                    <td>${admin.email || 'N/A'}</td>
+                    <td><span class="badge ${admin.role === 'super_admin' ? 'badge-danger' : 'badge-info'}">${admin.role || 'admin'}</span></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-danger btn-sm" onclick="revokeAdmin('${admin.id}')">Revoke</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading admins:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== AUDIT LOGS ==========
+    window.loadAuditLogs = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      try {
+        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(50));
+        const logsSnapshot = await getDocs(logsQuery);
+        const logs = [];
+        logsSnapshot.forEach(doc => {
+          logs.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Admin Audit Trail</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Admin</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${logs.map(log => `
+                  <tr>
+                    <td>${log.timestamp ? new Date(log.timestamp.seconds * 1000).toLocaleString() : 'Unknown'}</td>
+                    <td>${log.email || log.adminId?.substring(0, 8) || 'Unknown'}</td>
+                    <td>${log.action || 'Unknown'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading logs:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== BLACKLIST MANAGER ==========
+    window.loadBlacklist = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Blacklist Manager</div>
+          </div>
+          <div style="padding: 2rem; text-align: center; color: #64748b;">
+            <i class="fas fa-ban" style="font-size: 3rem;"></i>
+            <p style="margin-top: 1rem;">Blacklist management coming soon</p>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== CATEGORIES ==========
+    window.loadCategories = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Category Manager</div>
+          </div>
+          <div style="padding: 2rem; text-align: center; color: #64748b;">
+            <i class="fas fa-tags" style="font-size: 3rem;"></i>
+            <p style="margin-top: 1rem;">Category management coming soon</p>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== COMMISSION ==========
+    window.loadCommission = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Commission Settings</div>
+          </div>
+          <div style="padding: 2rem;">
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Platform Commission (%)</label>
+              <input type="number" id="globalCommission" value="10" style="width: 100%; padding: 0.8rem; border: 1.5px solid #e2e8f0; border-radius: 12px;">
+            </div>
+            <button class="btn btn-primary" onclick="saveCommission()">Save Settings</button>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== TRANSACTIONS ==========
+    window.loadTransactions = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Transaction History</div>
+          </div>
+          <div style="padding: 2rem; text-align: center; color: #64748b;">
+            <i class="fas fa-credit-card" style="font-size: 3rem;"></i>
+            <p style="margin-top: 1rem;">Transaction history coming soon</p>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== AI FRAUD DETECTION ==========
+    window.loadAIDetection = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-robot"></i></div>
+              <span class="stat-value">0</span>
+            </div>
+            <div class="stat-label">Flagged Accounts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon"><i class="fas fa-flag"></i></div>
+              <span class="stat-value">0</span>
+            </div>
+            <div class="stat-label">Suspicious Jobs</div>
+          </div>
+        </div>
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Fraud Detection</div>
+          </div>
+          <div style="padding: 2rem; text-align: center; color: #64748b;">
+            <p>AI fraud detection system ready</p>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== MAINTENANCE MODE ==========
+    window.loadMaintenance = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Maintenance Mode</div>
+          </div>
+          <div style="padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
+              <span style="font-weight: 600;">Current Status:</span>
+              <span class="badge badge-info">Offline</span>
+              <button class="btn btn-warning" onclick="toggleMaintenance()">Enable</button>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== SETTINGS ==========
+    window.loadSettings = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Platform Settings</div>
+          </div>
+          <div style="padding: 2rem; text-align: center; color: #64748b;">
+            <i class="fas fa-gear" style="font-size: 3rem;"></i>
+            <p style="margin-top: 1rem;">Settings panel coming soon</p>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== SESSIONS ==========
+    window.loadSessions = function() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Session Control</div>
+          </div>
+          <div style="padding: 2rem;">
+            <p>Current Session Timeout: 30 minutes</p>
+            <button class="btn btn-warning" onclick="alert('Session timeout reset')">Reset Timeout</button>
+          </div>
+        </div>
+      `;
+    };
+
+    // ========== UTILITY FUNCTIONS ==========
+    window.viewUser = function(userId) {
+      if (userId) {
+        window.open(`viewer.html?id=${userId}`, '_blank');
+      } else {
+        alert('User ID not available');
+      }
+    };
+
+    window.banUser = async function(userId) {
+      if (!userId) {
+        alert('User ID not available');
+        return;
+      }
+      if (confirm(`Permanently ban this user?`)) {
+        try {
+          await updateDoc(doc(db, 'users', userId), {
+            status: 'banned',
+            bannedAt: serverTimestamp(),
+            bannedBy: currentAdmin?.uid
+          });
+          alert('User banned successfully');
+          loadUsers();
+        } catch (error) {
+          alert('Error banning user: ' + error.message);
+        }
+      }
+    };
+
+    window.deleteJob = async function(jobId) {
+      if (!jobId) {
+        alert('Job ID not available');
+        return;
+      }
+      if (confirm(`Permanently delete this job?`)) {
+        try {
+          await deleteDoc(doc(db, 'jobs', jobId));
+          alert('Job deleted');
+          loadJobs();
+        } catch (error) {
+          alert('Error deleting job: ' + error.message);
+        }
+      }
+    };
+
+    window.viewJob = function(jobId) {
+      if (jobId) {
+        window.open(`open.html?job=${jobId}`, '_blank');
+      } else {
+        alert('Job ID not available');
+      }
+    };
+
+    window.createSuperAdmin = function() {
+      window.open('https://console.firebase.google.com/project/sewalink-ead02/authentication/users', '_blank');
+    };
+
+    window.revokeAdmin = async function(adminId) {
+      if (!adminId) return;
+      if (confirm(`Revoke admin access?`)) {
+        try {
+          await deleteDoc(doc(db, 'admins', adminId));
+          alert('Admin revoked');
+          loadAdminManager();
+        } catch (error) {
+          alert('Error revoking admin: ' + error.message);
+        }
+      }
+    };
+
+    window.saveCommission = function() {
+      alert('Commission settings saved');
+    };
+
+    window.toggleMaintenance = function() {
+      alert('Maintenance mode toggled');
+    };
+
+    window.searchUsers = function() {
+      const searchTerm = document.getElementById('userSearch')?.value.toLowerCase() || '';
+      const rows = document.querySelectorAll('.user-row');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? 'table-row' : 'none';
+      });
+    };
+
+    // ========== INIT ==========
+    window.onload = function() {
+      console.log('Admin dashboard loaded');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up · SewaLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f8fcff, #f1f5f9);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .auth-card {
+      background: white;
+      max-width: 500px;
+      width: 100%;
+      padding: 2.8rem 2.5rem;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f4c81;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+
+    .sub {
+      color: #475569;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      background: #fafcfc;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      outline: none;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .btn-signup {
+      width: 100%;
+      padding: 0.95rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-signup:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.35);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #94a3b8;
+      margin: 2rem 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .btn-google {
+      width: 100%;
+      padding: 0.85rem;
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-google:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02);
+    }
+
+    .btn-google i {
+      color: #2563eb;
+      font-size: 1.2rem;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 2rem;
+      color: #475569;
+    }
+
+    .footer-link a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #b91c1c;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+      color: #2563eb;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <h2>Create account</h2>
+    <div class="sub">Get started as a freelancer or client</div>
+
+    <div id="loading" class="loading">
+      <i class="fas fa-spinner fa-spin"></i> Creating account...
+    </div>
+
+    <form id="signupForm">
+      <div class="input-group">
+        <label>Full name</label>
+        <input type="text" id="name" placeholder="John Doe" required>
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="hello@sewalink.com" required>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="at least 6 characters" required>
+      </div>
+      <div class="input-group">
+        <label>Confirm password</label>
+        <input type="password" id="confirmPassword" placeholder="••••••••" required>
+      </div>
+      <div id="signupError" class="error-message"></div>
+      <button type="submit" class="btn-signup">Create Account</button>
+    </form>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span>or</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <button class="btn-google" id="googleBtn">
+      <i class="fab fa-google"></i> Sign up with Google
+    </button>
+
+    <p class="footer-link">
+      Already have an account? <a href="sign-in.html">Sign in</a>
+    </p>
+  </div>
+
+  <script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword,
+      updateProfile,
+      signInWithPopup,
+      GoogleAuthProvider,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97",
+      measurementId: "G-44SGGSRS04"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Redirect if already logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = 'index.html';
+      }
+    });
+
+    const signupForm = document.getElementById('signupForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirmPassword');
+    const errorDiv = document.getElementById('signupError');
+    const loadingDiv = document.getElementById('loading');
+    const googleBtn = document.getElementById('googleBtn');
+
+    // Email/Password Sign Up
+    if (signupForm) {
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const confirm = confirmInput.value.trim();
+
+        if (!name || !email || !password || !confirm) {
+          errorDiv.textContent = 'All fields are required.';
+          return;
+        }
+
+        if (password !== confirm) {
+          errorDiv.textContent = 'Passwords do not match.';
+          return;
+        }
+
+        if (password.length < 6) {
+          errorDiv.textContent = 'Password must be at least 6 characters.';
+          return;
+        }
+
+        try {
+          errorDiv.textContent = '';
+          loadingDiv.classList.add('show');
+          
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          
+          await updateProfile(userCredential.user, {
+            displayName: name
+          });
+
+          window.location.href = 'index.html';
+        } catch (error) {
+          loadingDiv.classList.remove('show');
+          console.error('Sign up error:', error);
+          
+          switch (error.code) {
+            case 'auth/email-already-in-use':
+              errorDiv.textContent = 'Email already in use. Please sign in.';
+              break;
+            case 'auth/invalid-email':
+              errorDiv.textContent = 'Invalid email address.';
+              break;
+            case 'auth/weak-password':
+              errorDiv.textContent = 'Password is too weak.';
+              break;
+            default:
+              errorDiv.textContent = 'Sign up failed. Please try again.';
+          }
+        }
+      });
+    }
+
+    // Google Sign Up
+    if (googleBtn) {
+      googleBtn.addEventListener('click', async () => {
+        try {
+          loadingDiv.classList.add('show');
+          await signInWithPopup(auth, provider);
+          window.location.href = 'index.html';
+        } catch (error) {
+          loadingDiv.classList.remove('show');
+          console.error('Google sign up error:', error);
+          errorDiv.textContent = 'Google sign up failed. Please try again.';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

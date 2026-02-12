@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink · Profile Viewer</title>
+  <meta name="description" content="View freelancer and client profiles.">
+  
+  <!-- PWA / App-like settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2563eb">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-outline {
+      padding: 0.4rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e293b;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      padding: 0.4rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .container {
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ========== BACK BUTTON ========== */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== PROFILE CARD ========== */
+    .profile-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .avatar-section {
+      position: relative;
+    }
+
+    .profile-avatar-large {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .profile-info {
+      width: 100%;
+    }
+
+    .profile-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-name h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .favorite-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .favorite-btn.active {
+      color: #eab308;
+    }
+    .favorite-btn:active {
+      transform: scale(1.1);
+    }
+
+    .profile-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 0.25rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin: 0.2rem;
+    }
+
+    .phone-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #dcfce7;
+      color: #166534;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    /* ========== STATS GRID ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 0.2rem;
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== INFO SECTIONS ========== */
+    .info-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .info-section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .info-item {
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 16px;
+    }
+
+    .info-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 0.2rem;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .bio-box {
+      background: #f8fafc;
+      padding: 1.2rem;
+      border-radius: 16px;
+      line-height: 1.6;
+      color: #334155;
+      font-size: 0.9rem;
+    }
+
+    /* ========== SKILLS ========== */
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+    }
+
+    .skill-tag {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* ========== SOCIAL LINKS ========== */
+    .social-links {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .social-link:active {
+      background: #2563eb;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    /* ========== CONTACT ACTIONS ========== */
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn-contact, .btn-message {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .btn-contact {
+      background: #25D366;
+      color: white;
+    }
+    .btn-message {
+      background: #2563eb;
+      color: white;
+    }
+    .btn-contact:active, .btn-message:active {
+      transform: scale(0.98);
+    }
+
+    /* ========== JOBS SECTION ========== */
+    .jobs-section {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .job-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .job-card:active {
+      border-color: #2563eb;
+      background: #f1f5f9;
+    }
+
+    .job-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+    }
+
+    .job-description {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .job-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .job-budget {
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 1rem;
+    }
+
+    .job-status {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      background: #22c55e;
+      color: white;
+    }
+    .job-status.accepted { background: #3b82f6; }
+    .job-status.completed { background: #8b5cf6; }
+
+    .job-time {
+      color: #94a3b8;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ========== EMPTY STATES ========== */
+    .empty-message {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #64748b;
+      grid-column: 1 / -1;
+    }
+
+    /* ========== LOADING ========== */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+    .loading i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== ERROR ========== */
+    .error-message {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: white;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+    }
+
+    /* ========== BOTTOM PADDING ========== */
+    .bottom-padding {
+      height: 70px;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .profile-header {
+        flex-direction: row;
+        text-align: left;
+      }
+      .profile-name {
+        justify-content: flex-start;
+      }
+      .contact-actions {
+        flex-direction: row;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div id="authUI" class="auth-buttons"></div>
+  </header>
+
+  <div id="alertContainer"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <a href="javascript:history.back()" class="back-button">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    
+    <div id="profileViewerContainer">
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Loading profile...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+  
+  <div class="bottom-padding"></div>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      query,
+      where,
+      updateDoc,
+      arrayUnion,
+      arrayRemove,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== DOM ==========
+    const authUI = document.getElementById('authUI');
+    const profileViewerContainer = document.getElementById('profileViewerContainer');
+    const alertContainer = document.getElementById('alertContainer');
+
+    // ========== STATE ==========
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+    let currentUser = null;
+    let userFavorites = [];
+
+    // ========== HELPERS ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+    }
+
+    function formatNPR(amount) {
+      if (!amount && amount !== 0) return 'रु 0';
+      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+    }
+
+    function formatTimeAgo(date) {
+      if (!date) return 'Just now';
+      try {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days}d ago`;
+        return date.toLocaleDateString();
+      } catch {
+        return 'Just now';
+      }
+    }
+
+    function showAlert(message, type = 'success') {
+      const div = document.createElement('div');
+      div.className = `alert ${type}`;
+      div.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span style="flex:1;">${message}</span>
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem;">×</button>
+      `;
+      alertContainer.appendChild(div);
+      setTimeout(() => div.remove(), 4000);
+    }
+
+    // ========== AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        currentUser = user;
+        
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            displayName: user.displayName || 'User',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            role: 'freelancer',
+            favorites: [],
+            createdAt: new Date()
+          });
+        }
+
+        authUI.innerHTML = `
+          <div class="profile-container">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="user-info">
+                <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                <div class="user-email">${escapeHTML(user.email || '')}</div>
+              </div>
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+              <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+          </div>
+        `;
+
+        const avatar = document.getElementById('avatarTrigger');
+        const dropdown = document.getElementById('dropdownMenu');
+        
+        avatar?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown?.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+            dropdown?.classList.remove('show');
+          }
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+          await signOut(auth);
+          window.location.reload();
+        });
+
+        await loadUserFavorites();
+        await loadProfile();
+        
+      } else {
+        currentUser = null;
+        authUI.innerHTML = `
+          <a href="sign-in.html" class="btn-outline">Sign In</a>
+          <a href="sign-up.html" class="btn-primary">Sign Up</a>
+        `;
+        await loadProfile();
+      }
+    }
+
+    // ========== LOAD USER FAVORITES ==========
+    async function loadUserFavorites() {
+      if (!currentUser) return;
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          userFavorites = userSnap.data().favoritePeople || [];
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error);
+      }
+    }
+
+    // ========== TOGGLE FAVORITE ==========
+    window.toggleFavorite = async function(profileUserId) {
+      if (!currentUser) {
+        showAlert('Please sign in to save favorites', 'error');
+        window.location.href = 'sign-in.html';
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        if (userFavorites.includes(profileUserId)) {
+          await updateDoc(userRef, {
+            favoritePeople: arrayRemove(profileUserId)
+          });
+          userFavorites = userFavorites.filter(id => id !== profileUserId);
+          showAlert('Removed from favorites');
+        } else {
+          await updateDoc(userRef, {
+            favoritePeople: arrayUnion(profileUserId)
+          });
+          userFavorites.push(profileUserId);
+          showAlert('⭐ Added to favorites');
+        }
+        loadProfile(); // Reload profile to update button state
+      } catch (error) {
+        console.error('Error toggling favorite:', error);
+        showAlert('Failed to update favorites', 'error');
+      }
+    };
+
+    // ========== LOAD PROFILE ==========
+    async function loadProfile() {
+      if (!userId) {
+        profileViewerContainer.innerHTML = `
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+            <h2 style="color: #0f172a; margin-bottom: 0.5rem;">User Not Found</h2>
+            <p style="color: #64748b;">No user ID provided.</p>
+            <a href="index.html" style="display: inline-block; margin-top: 2rem; padding: 0.8rem 2rem; background: #2563eb; color: white; border-radius: 30px; text-decoration: none;">Back to Home</a>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        // Get user profile
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        
+        if (!userSnap.exists()) {
+          throw new Error('User not found');
+        }
+
+        const userData = userSnap.data();
+        const isFavorite = currentUser ? userFavorites.includes(userId) : false;
+        const isOwnProfile = currentUser && currentUser.uid === userId;
+
+        // ===== NO INDEX NEEDED - SIMPLE QUERY =====
+        // Get user's jobs without orderBy to avoid index requirement
+        const jobsRef = collection(db, 'jobs');
+        const jobsQuery = query(
+          jobsRef, 
+          where('clientId', '==', userId)
+        );
+        
+        const jobsSnapshot = await getDocs(jobsQuery);
+        
+        // Convert to array and sort manually in JavaScript (NO INDEX NEEDED)
+        let jobs = [];
+        jobsSnapshot.forEach((doc) => {
+          jobs.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Manual sort by createdAt (newest first)
+        jobs.sort((a, b) => {
+          const dateA = a.createdAt?.toDate?.() || new Date(0);
+          const dateB = b.createdAt?.toDate?.() || new Date(0);
+          return dateB - dateA;
+        });
+        
+        // Take only the 6 most recent
+        const recentJobs = jobs.slice(0, 6);
+
+        // Calculate stats
+        let completedJobs = 0;
+        let totalSpent = 0;
+        let totalEarned = 0;
+        
+        jobs.forEach((job) => {
+          if (job.status === 'completed') {
+            completedJobs++;
+            totalSpent += job.budget || 0;
+          }
+        });
+
+        // Get accepted jobs if this is a freelancer
+        if (userData.role === 'freelancer' || userData.role === 'both') {
+          const acceptedQuery = query(
+            jobsRef,
+            where('acceptedBy', '==', userId),
+            where('status', '==', 'completed')
+          );
+          const acceptedSnapshot = await getDocs(acceptedQuery);
+          acceptedSnapshot.forEach((doc) => {
+            totalEarned += doc.data().budget || 0;
+          });
+        }
+
+        // Format social links
+        const socialLinks = [];
+        if (userData.website) socialLinks.push({ url: userData.website, icon: 'fa-globe', label: 'Website' });
+        if (userData.linkedin) socialLinks.push({ url: userData.linkedin, icon: 'fa-linkedin', label: 'LinkedIn' });
+        if (userData.github) socialLinks.push({ url: userData.github, icon: 'fa-github', label: 'GitHub' });
+        if (userData.twitter) socialLinks.push({ url: userData.twitter, icon: 'fa-twitter', label: 'Twitter' });
+        if (userData.instagram) socialLinks.push({ url: userData.instagram, icon: 'fa-instagram', label: 'Instagram' });
+
+        // Format member since date
+        let memberSince = 'Recently';
+        if (userData.createdAt) {
+          if (userData.createdAt.toDate) {
+            memberSince = userData.createdAt.toDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+          } else if (userData.createdAt.seconds) {
+            memberSince = new Date(userData.createdAt.seconds * 1000).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+          }
+        }
+
+        // Render jobs
+        let jobsHTML = '';
+        if (recentJobs.length === 0) {
+          jobsHTML = '<div class="empty-message">No jobs posted yet</div>';
+        } else {
+          recentJobs.forEach((job) => {
+            const createdAt = job.createdAt?.toDate?.();
+            const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
+            
+            let statusClass = '';
+            if (job.status === 'open') statusClass = 'job-status';
+            else if (job.status === 'accepted') statusClass = 'job-status accepted';
+            else if (job.status === 'completed') statusClass = 'job-status completed';
+            
+            jobsHTML += `
+              <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
+                <div class="job-title">${escapeHTML(job.title || 'Untitled')}</div>
+                <div class="job-description">${escapeHTML(job.description?.substring(0, 80) || 'No description')}...</div>
+                <div class="job-meta">
+                  <span class="job-budget">${formatNPR(job.budget)}</span>
+                  <span class="${statusClass}">${escapeHTML(job.status || 'open')}</span>
+                </div>
+                <div class="job-time">${timeAgo}</div>
+              </div>
+            `;
+          });
+        }
+
+        // Render profile
+        profileViewerContainer.innerHTML = `
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="avatar-section">
+                <img src="${userData.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.displayName || 'User') + '&background=2563eb&color=fff&size=100'}" alt="${escapeHTML(userData.displayName || 'User')}" class="profile-avatar-large">
+              </div>
+              <div class="profile-info">
+                <div class="profile-name">
+                  <h1>${escapeHTML(userData.displayName || 'Anonymous User')}</h1>
+                  ${!isOwnProfile && currentUser ? `
+                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${userId}')">
+                      <i class="fas fa-star"></i>
+                    </button>
+                  ` : ''}
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap;">
+                  <span class="profile-badge">
+                    <i class="fas ${userData.role === 'freelancer' ? 'fa-briefcase' : userData.role === 'client' ? 'fa-user-tie' : 'fa-users'}"></i>
+                    ${escapeHTML(userData.role || 'freelancer')}
+                  </span>
+                  ${userData.phoneNumber ? `
+                    <span class="phone-verified">
+                      <i class="fas fa-check-circle"></i> Verified
+                    </span>
+                  ` : ''}
+                </div>
+                <div style="color: #64748b; font-size: 0.8rem; margin-top: 0.5rem;">
+                  <i class="fas fa-calendar-alt"></i> Member since ${memberSince}
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value">${jobs.length}</div>
+                <div class="stat-label">Jobs</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${completedJobs}</div>
+                <div class="stat-label">Completed</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${formatNPR(userData.role === 'freelancer' ? totalEarned : totalSpent)}</div>
+                <div class="stat-label">${userData.role === 'freelancer' ? 'Earned' : 'Spent'}</div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h2><i class="fas fa-info-circle"></i> About</h2>
+              <div class="bio-box">
+                ${escapeHTML(userData.bio || 'No bio provided.')}
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h2><i class="fas fa-address-card"></i> Contact</h2>
+              <div class="info-grid">
+                ${userData.location ? `
+                  <div class="info-item">
+                    <div class="info-label">Location</div>
+                    <div class="info-value">
+                      <i class="fas fa-map-marker-alt" style="color: #2563eb;"></i>
+                      ${escapeHTML(userData.location)}
+                    </div>
+                  </div>
+                ` : ''}
+                ${userData.hourlyRate ? `
+                  <div class="info-item">
+                    <div class="info-label">Hourly Rate</div>
+                    <div class="info-value">${formatNPR(userData.hourlyRate)}/hr</div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            ${userData.skills && userData.skills.length > 0 ? `
+              <div class="info-section">
+                <h2><i class="fas fa-code"></i> Skills</h2>
+                <div class="skills-container">
+                  ${userData.skills.map(skill => `<span class="skill-tag">${escapeHTML(skill)}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${socialLinks.length > 0 ? `
+              <div class="info-section">
+                <h2><i class="fas fa-share-alt"></i> Social</h2>
+                <div class="social-links">
+                  ${socialLinks.map(link => `
+                    <a href="${escapeHTML(link.url)}" target="_blank" class="social-link" title="${link.label}">
+                      <i class="fab ${link.icon}"></i>
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${!isOwnProfile && currentUser ? `
+              <div class="contact-actions">
+                ${userData.phoneNumber ? `
+                  <a href="https://wa.me/${userData.phoneNumber.replace(/\D/g, '')}?text=Hello! I saw your profile on SewaLink and would like to connect." target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                  </a>
+                ` : ''}
+                <a href="messages.html?user=${userId}" class="btn-message">
+                  <i class="fas fa-comment"></i> Message
+                </a>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="jobs-section">
+            <h2 style="font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-briefcase"></i> Recent Jobs
+            </h2>
+            <div class="jobs-grid">
+              ${jobsHTML}
+            </div>
+            ${jobs.length > 6 ? `
+              <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="user-jobs.html?id=${userId}" style="color: #2563eb; text-decoration: none; font-weight: 600;">
+                  View All ${jobs.length} Jobs <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            ` : ''}
+          </div>
+        `;
+
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        profileViewerContainer.innerHTML = `
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+            <h2 style="color: #0f172a; margin-bottom: 0.5rem;">Error Loading Profile</h2>
+            <p style="color: #64748b; margin-bottom: 1rem;">${escapeHTML(error.message)}</p>
+            <button onclick="window.location.reload()" style="padding: 0.8rem 2rem; background: #2563eb; color: white; border: none; border-radius: 30px; cursor: pointer;">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // ========== AUTH STATE LISTENER ==========
+    onAuthStateChanged(auth, renderAuthUI);
+
+    // ========== EXPOSE GLOBALS ==========
+    window.toggleFavorite = toggleFavorite;
+  </script>
+</body>
+</html>

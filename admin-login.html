@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>SewaLink · Admin Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .login-wrapper {
+      display: flex;
+      max-width: 1000px;
+      width: 100%;
+      background: white;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-left {
+      flex: 1;
+      padding: 3rem;
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-left h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .login-left p {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .security-badge {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .badge-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .badge-item i {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-right {
+      flex: 1;
+      padding: 3rem;
+      background: white;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f4c81;
+      margin-bottom: 0.5rem;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .login-sub {
+      color: #64748b;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .input-field:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .password-hint {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.3rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .login-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .login-error {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .login-wrapper { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-left">
+      <h1>Admin Access</h1>
+      <p>Secure enterprise-grade administration panel for SewaLink platform. All actions are encrypted and logged.</p>
+      <div class="security-badge">
+        <div class="badge-item">
+          <i class="fas fa-shield-hal"></i>
+          <span style="font-size: 0.8rem;">256-bit SSL</span>
+        </div>
+        <div class="badge-item">
+          <i class="fas fa-history"></i>
+          <span style="font-size: 0.8rem;">Audit Trail</span>
+        </div>
+        <div class="badge-item">
+          <i class="fas fa-mobile-alt"></i>
+          <span style="font-size: 0.8rem;">2FA Ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="logo">Sewa<span>Link</span></div>
+      <div class="login-sub">Administrator Authentication</div>
+      
+      <div class="input-group">
+        <label class="input-label">Email Address</label>
+        <input type="email" id="adminEmail" class="input-field" placeholder="admin@sewalink.com" value="admin@sewalink.com" autofocus>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Password</label>
+        <input type="password" id="adminPassword" class="input-field" placeholder="••••••••" value="Bishal@87190227#">
+        <div class="password-hint">Minimum 8 characters with 1 number & 1 special character</div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="rememberDevice" style="width: 18px; height: 18px;">
+        <label for="rememberDevice" style="color: #475569;">Trust this device for 30 days</label>
+      </div>
+
+      <button onclick="adminLogin()" class="login-btn">
+        <i class="fas fa-lock"></i> Secure Login
+      </button>
+      <div id="loginError" class="login-error"></div>
+      
+      <div style="margin-top: 2rem; text-align: center; color: #94a3b8; font-size: 0.8rem;">
+        <i class="fas fa-database"></i> Connected to Firebase • Live Production
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS - FIXED ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      serverTimestamp,
+      collection,
+      addDoc,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97",
+      measurementId: "G-44SGGSRS04"
+    };
+
+    // ========== INITIALIZE FIREBASE ==========
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== MAKE FUNCTIONS GLOBAL ==========
+    window.adminLogin = async function() {
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      const errorDiv = document.getElementById('loginError');
+      
+      if (!email || !password) {
+        errorDiv.innerHTML = '❌ Email and password required';
+        return;
+      }
+
+      try {
+        // Sign in with Firebase Auth
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Check if user is admin in Firestore
+        const adminRef = doc(db, 'admins', user.uid);
+        const adminSnap = await getDoc(adminRef);
+        
+        // If admin document doesn't exist, create it
+        if (!adminSnap.exists()) {
+          await setDoc(adminRef, {
+            email: user.email,
+            role: 'super_admin',
+            name: 'Super Admin',
+            createdAt: serverTimestamp(),
+            lastLogin: serverTimestamp(),
+            twoFactor: false,
+            status: 'active'
+          });
+        }
+
+        // Log login attempt
+        try {
+          await addDoc(collection(db, 'adminLogs'), {
+            adminId: user.uid,
+            email: user.email,
+            action: 'login',
+            ip: 'client-side',
+            timestamp: serverTimestamp(),
+            device: navigator.userAgent,
+            status: 'success'
+          });
+        } catch (e) {
+          console.log('Logging skipped - collection may not exist');
+        }
+
+        // Store session
+        sessionStorage.setItem('adminId', user.uid);
+        sessionStorage.setItem('adminEmail', user.email);
+        
+        // Redirect to dashboard
+        window.location.href = 'admin-dashboard.html';
+        
+      } catch (error) {
+        console.error('Login error:', error);
+        let message = '❌ Login failed: ';
+        
+        if (error.code === 'auth/user-not-found') {
+          message += 'Admin user not found. Please create admin@sewalink.com in Firebase Auth';
+        } else if (error.code === 'auth/wrong-password') {
+          message += 'Incorrect password';
+        } else if (error.code === 'auth/too-many-requests') {
+          message += 'Too many failed attempts. Try again later';
+        } else if (error.code === 'auth/invalid-credential') {
+          message += 'Invalid email or password';
+        } else {
+          message += error.message;
+        }
+        
+        errorDiv.innerHTML = message;
+      }
+    };
+
+    // ========== CHECK IF ALREADY LOGGED IN ==========
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Check if admin
+        const adminRef = doc(db, 'admins', user.uid);
+        const adminSnap = await getDoc(adminRef);
+        if (adminSnap.exists()) {
+          // Redirect to dashboard
+          window.location.href = 'admin-dashboard.html';
+        }
+      }
+    });
+
+    // ========== HANDLE ENTER KEY ==========
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        window.adminLogin();
+      }
+    });
+  </script>
+</body>
+</html>

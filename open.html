@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink · Job Details</title>
+  <meta name="description" content="View job details, apply, and connect with clients.">
+  
+  <!-- PWA / App-like settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2563eb">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-outline {
+      padding: 0.4rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e293b;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      padding: 0.4rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .container {
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ========== JOB DETAIL CARD ========== */
+    .job-detail-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .job-header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .job-title-section h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+
+    .job-meta-tags {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .job-status-badge {
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-open {
+      background: #22c55e;
+      color: white;
+    }
+    .status-accepted {
+      background: #3b82f6;
+      color: white;
+    }
+    .status-completed {
+      background: #8b5cf6;
+      color: white;
+    }
+    .status-declined {
+      background: #ef4444;
+      color: white;
+    }
+
+    .job-category-badge {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .btn-edit, .btn-delete, .btn-accept, .btn-whatsapp, .btn-negotiate, .btn-view-profile, .btn-complete, .btn-message {
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    .btn-edit, .btn-message {
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .btn-delete {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+    .btn-accept {
+      background: #22c55e;
+      color: white;
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+    }
+    .btn-negotiate {
+      background: #f59e0b;
+      color: white;
+    }
+    .btn-view-profile {
+      background: #8b5cf6;
+      color: white;
+    }
+    .btn-complete {
+      background: #8b5cf6;
+      color: white;
+    }
+    .btn-complete.active {
+      background: #22c55e;
+    }
+
+    /* ========== JOB DETAIL GRID ========== */
+    .job-detail-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-item {
+      background: #f8fafc;
+      padding: 1.2rem;
+      border-radius: 16px;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .detail-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .detail-description {
+      background: #f8fafc;
+      padding: 1.2rem;
+      border-radius: 16px;
+    }
+
+    .detail-description p {
+      color: #475569;
+      line-height: 1.7;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ========== COMPLETION STATUS ========== */
+    .completion-status {
+      margin-top: 1.5rem;
+      padding: 1.2rem;
+      background: #f8fafc;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .status-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .status-icon.completed {
+      background: #22c55e;
+      color: white;
+    }
+    .status-icon.pending {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    /* ========== CLIENT INFO CARD ========== */
+    .client-info-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .client-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .client-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .client-info {
+      width: 100%;
+    }
+
+    .client-info h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.25rem;
+    }
+
+    .client-name-link {
+      color: #2563eb;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .client-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .favorite-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #fef9c3;
+      color: #854d0e;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .favorite-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ========== ATTACHMENTS SECTION ========== */
+    .attachments-section {
+      margin-top: 1.5rem;
+      padding: 1.2rem;
+      background: #f8fafc;
+      border-radius: 16px;
+    }
+    .attachments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+    }
+    .attachment-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #f1f5f9;
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+    .attachment-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .attachment-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .attachment-item:active .attachment-overlay {
+      opacity: 1;
+    }
+    .attachment-view {
+      background: white;
+      color: #0f172a;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* ========== EDIT FORM ========== */
+    .edit-form {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 16px;
+    }
+    .edit-form.show {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #2563eb;
+      outline: none;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: flex-end;
+    }
+
+    /* ========== LOADING & EMPTY STATES ========== */
+    .loading {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #64748b;
+    }
+    .loading i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== ALERTS ========== */
+    .alert {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      border-left: 4px solid #22c55e;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 9999;
+      font-size: 0.85rem;
+      animation: slideIn 0.2s ease;
+    }
+    .alert.error {
+      border-left-color: #ef4444;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0%); opacity: 1; }
+    }
+
+    /* ========== BACK BUTTON ========== */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== BOTTOM PADDING ========== */
+    .bottom-padding {
+      height: 70px;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .job-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .client-header {
+        flex-direction: row;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div id="authUI" class="auth-buttons"></div>
+  </header>
+
+  <div id="alertContainer"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <a href="javascript:history.back()" class="back-button">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    
+    <div id="jobDetailContainer">
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Loading job details...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item active">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="notification.html" class="nav-item">
+      <i class="fas fa-bell"></i>
+      <span>Alerts</span>
+    </a>
+  </nav>
+  
+  <div class="bottom-padding"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      deleteDoc,
+      addDoc,
+      collection,
+      serverTimestamp,
+      arrayUnion,
+      arrayRemove,
+      increment,
+      query,
+      where,
+      getDocs,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== DOM ==========
+    const authUI = document.getElementById('authUI');
+    const jobDetailContainer = document.getElementById('jobDetailContainer');
+    const alertContainer = document.getElementById('alertContainer');
+
+    // ========== STATE ==========
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('job');
+    let currentUser = null;
+    let userFavorites = [];
+
+    // ========== CURRENCY FORMATTER ==========
+    function formatNPR(amount) {
+      if (!amount && amount !== 0) return 'रु 0';
+      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+    }
+
+    // ========== TIME FORMATTER ==========
+    function formatTimeAgo(date) {
+      if (!date) return 'Just now';
+      try {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days}d ago`;
+        return date.toLocaleDateString();
+      } catch {
+        return 'Just now';
+      }
+    }
+
+    // ========== ESCAPE HTML ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+    }
+
+    // ========== SHOW ALERT ==========
+    function showAlert(message, type = 'success') {
+      const div = document.createElement('div');
+      div.className = `alert ${type}`;
+      div.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span style="flex:1;">${message}</span>
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem;">×</button>
+      `;
+      alertContainer.appendChild(div);
+      setTimeout(() => div.remove(), 4000);
+    }
+
+    // ========== CREATE NOTIFICATION - FIXED ==========
+    async function createNotification(userId, type, jobId, message, fromUserId, additionalData = {}) {
+      if (!userId || !type) {
+        console.error('Missing required notification fields');
+        return;
+      }
+      
+      try {
+        // Get job details for better notification
+        let jobTitle = '';
+        let jobBudget = 0;
+        if (jobId) {
+          const jobRef = doc(db, 'jobs', jobId);
+          const jobSnap = await getDoc(jobRef);
+          if (jobSnap.exists()) {
+            jobTitle = jobSnap.data().title || 'Job';
+            jobBudget = jobSnap.data().budget || 0;
+          }
+        }
+
+        // Get sender info
+        let senderName = 'Someone';
+        if (fromUserId) {
+          const userRef = doc(db, 'users', fromUserId);
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            senderName = userSnap.data().displayName || 'User';
+          }
+        }
+
+        const notificationData = {
+          userId: userId,
+          type: type,
+          jobId: jobId || '',
+          jobTitle: jobTitle,
+          jobBudget: jobBudget,
+          message: message || `You have a new ${type} notification`,
+          fromUserId: fromUserId || '',
+          fromUserName: senderName,
+          read: false,
+          createdAt: serverTimestamp(),
+          ...additionalData
+        };
+
+        const docRef = await addDoc(collection(db, 'notifications'), notificationData);
+        console.log(`✅ Notification created: ${docRef.id} for user ${userId}`, notificationData);
+        return docRef;
+      } catch (error) {
+        console.error('❌ Error creating notification:', error);
+      }
+    }
+
+    // ========== AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        currentUser = user;
+        
+        // Ensure user doc exists
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            displayName: user.displayName || 'User',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            friends: [],
+            favoritePeople: [],
+            createdAt: serverTimestamp()
+          });
+        }
+
+        authUI.innerHTML = `
+          <div class="profile-container">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="user-info">
+                <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                <div class="user-email">${escapeHTML(user.email || '')}</div>
+              </div>
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+              <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+          </div>
+        `;
+
+        const avatar = document.getElementById('avatarTrigger');
+        const dropdown = document.getElementById('dropdownMenu');
+        
+        avatar?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown?.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+            dropdown?.classList.remove('show');
+          }
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+          await signOut(auth);
+          window.location.reload();
+        });
+
+        await loadUserFavorites();
+        await loadJobDetails();
+        
+      } else {
+        currentUser = null;
+        authUI.innerHTML = `
+          <a href="sign-in.html" class="btn-outline">Sign In</a>
+          <a href="sign-up.html" class="btn-primary">Sign Up</a>
+        `;
+        await loadJobDetails();
+      }
+    }
+
+    // ========== LOAD USER FAVORITES ==========
+    async function loadUserFavorites() {
+      if (!currentUser) return;
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          userFavorites = userSnap.data().favoritePeople || [];
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error);
+      }
+    }
+
+    // ========== TOGGLE FAVORITE ==========
+    window.toggleFavorite = async function(profileUserId) {
+      if (!currentUser) {
+        showAlert('Please sign in to save favorites', 'error');
+        window.location.href = 'sign-in.html';
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        if (userFavorites.includes(profileUserId)) {
+          await updateDoc(userRef, {
+            favoritePeople: arrayRemove(profileUserId)
+          });
+          userFavorites = userFavorites.filter(id => id !== profileUserId);
+          showAlert('Removed from favorites');
+        } else {
+          await updateDoc(userRef, {
+            favoritePeople: arrayUnion(profileUserId)
+          });
+          userFavorites.push(profileUserId);
+          showAlert('⭐ Added to favorites');
+        }
+        loadJobDetails();
+      } catch (error) {
+        console.error('Error toggling favorite:', error);
+        showAlert('Failed to update favorites', 'error');
+      }
+    };
+
+    // ========== ACCEPT JOB ==========
+    window.acceptJob = async function() {
+      if (!currentUser) {
+        showAlert('Please sign in to accept jobs', 'error');
+        window.location.href = 'sign-in.html';
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        
+        if (!userData?.phoneNumber) {
+          showAlert('📱 Please add your phone number in profile to accept jobs', 'error');
+          window.location.href = 'profile.html';
+          return;
+        }
+
+        const jobRef = doc(db, 'jobs', jobId);
+        const jobSnap = await getDoc(jobRef);
+        const job = jobSnap.data();
+
+        await updateDoc(jobRef, {
+          status: 'accepted',
+          acceptedBy: currentUser.uid,
+          acceptedByName: currentUser.displayName || 'Freelancer',
+          acceptedByPhone: userData.phoneNumber,
+          acceptedAt: serverTimestamp(),
+          clientCompleted: false,
+          freelancerCompleted: false
+        });
+
+        // Send notification to client
+        await createNotification(
+          job.clientId,
+          'job_accepted',
+          jobId,
+          `✅ ${currentUser.displayName || 'A freelancer'} accepted your job: "${job.title}"`,
+          currentUser.uid,
+          {
+            budget: job.budget,
+            freelancerName: currentUser.displayName || 'Freelancer'
+          }
+        );
+
+        const message = `Hello! I accepted your job: "${job.title}" with budget ${formatNPR(job.budget)}. My name is ${currentUser.displayName}. Let's discuss the details.`;
+        const whatsappUrl = `https://wa.me/${job.clientPhone?.replace(/\D/g, '') || ''}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        
+        loadJobDetails();
+        showAlert('✅ Job accepted! WhatsApp opened to contact client.');
+        
+      } catch (error) {
+        console.error('Error accepting job:', error);
+        showAlert('Error accepting job. Please try again.', 'error');
+      }
+    };
+
+    // ========== COMPLETE JOB ==========
+    window.completeJob = async function() {
+      if (!currentUser) {
+        showAlert('Please sign in to complete jobs', 'error');
+        return;
+      }
+
+      try {
+        const jobRef = doc(db, 'jobs', jobId);
+        const jobSnap = await getDoc(jobRef);
+        const job = jobSnap.data();
+
+        const isClient = currentUser.uid === job.clientId;
+        const isFreelancer = currentUser.uid === job.acceptedBy;
+
+        if (!isClient && !isFreelancer) {
+          showAlert('You are not authorized to complete this job', 'error');
+          return;
+        }
+
+        if (job.status !== 'accepted') {
+          showAlert('Job must be accepted before completing', 'error');
+          return;
+        }
+
+        let completionField = isClient ? 'clientCompleted' : 'freelancerCompleted';
+        await updateDoc(jobRef, {
+          [completionField]: true,
+          [`${completionField}At`]: serverTimestamp()
+        });
+
+        const updatedJob = await getDoc(jobRef);
+        const jobData = updatedJob.data();
+
+        if (jobData.clientCompleted && jobData.freelancerCompleted) {
+          // Both completed - release payment
+          await updateDoc(jobRef, {
+            status: 'completed',
+            completedAt: serverTimestamp(),
+            paymentReleased: true,
+            paymentReleasedAt: serverTimestamp()
+          });
+
+          // Update freelancer's earnings
+          const freelancerRef = doc(db, 'users', job.acceptedBy);
+          await updateDoc(freelancerRef, {
+            totalEarned: arrayUnion({
+              amount: job.budget,
+              jobId: jobId,
+              paidAt: new Date(),
+              paidBy: job.clientId,
+              jobTitle: job.title
+            }),
+            balance: increment(job.budget)
+          });
+
+          // Update client's spending
+          const clientRef = doc(db, 'users', job.clientId);
+          await updateDoc(clientRef, {
+            totalSpent: arrayUnion({
+              amount: job.budget,
+              jobId: jobId,
+              paidAt: new Date(),
+              paidTo: job.acceptedBy,
+              freelancerName: job.acceptedByName,
+              jobTitle: job.title
+            })
+          });
+
+          // Auto-add as friends
+          await updateDoc(clientRef, {
+            friends: arrayUnion(job.acceptedBy)
+          });
+          await updateDoc(freelancerRef, {
+            friends: arrayUnion(job.clientId)
+          });
+
+          // Create notifications
+          await createNotification(
+            job.clientId,
+            'payment_released',
+            jobId,
+            `✅ Payment of ${formatNPR(job.budget)} released to ${job.acceptedByName || 'freelancer'} for job: ${job.title}`,
+            currentUser.uid,
+            { amount: job.budget }
+          );
+          
+          await createNotification(
+            job.acceptedBy,
+            'payment_received',
+            jobId,
+            `💰 You received ${formatNPR(job.budget)} for job: ${job.title} from ${job.clientName || 'client'}`,
+            currentUser.uid,
+            { amount: job.budget }
+          );
+
+          showAlert(`🎉 Job completed! Payment of ${formatNPR(job.budget)} transferred. You are now friends!`);
+        } else {
+          let waitingFor = isClient ? 'freelancer' : 'client';
+          showAlert(`✅ Completion confirmed. Waiting for the ${waitingFor} to complete.`);
+        }
+
+        loadJobDetails();
+      } catch (error) {
+        console.error('Error completing job:', error);
+        showAlert('Failed to complete job: ' + error.message, 'error');
+      }
+    };
+
+    // ========== LOAD JOB DETAILS ==========
+    async function loadJobDetails() {
+      if (!jobId) {
+        jobDetailContainer.innerHTML = `
+          <div class="job-detail-card">
+            <div style="text-align: center; padding: 2rem;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+              <h2 style="color: #0f172a; margin-bottom: 0.5rem;">Job Not Found</h2>
+              <p style="color: #64748b; margin-top: 1rem;">The job you're looking for doesn't exist.</p>
+              <a href="index.html" class="btn-edit" style="display: inline-block; margin-top: 2rem; padding: 0.8rem 2rem; text-decoration: none;">← Back to Jobs</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const jobRef = doc(db, 'jobs', jobId);
+        const jobSnap = await getDoc(jobRef);
+        
+        if (!jobSnap.exists()) {
+          throw new Error('Job not found');
+        }
+
+        const job = { id: jobSnap.id, ...jobSnap.data() };
+        const isOwner = currentUser && currentUser.uid === job.clientId;
+        const isFreelancer = currentUser && currentUser.uid === job.acceptedBy;
+
+        // Get client info
+        let clientData = {};
+        let isClientFavorite = false;
+        if (job.clientId) {
+          const clientRef = doc(db, 'users', job.clientId);
+          const clientSnap = await getDoc(clientRef);
+          if (clientSnap.exists()) {
+            clientData = clientSnap.data();
+            isClientFavorite = userFavorites.includes(job.clientId);
+          }
+        }
+
+        // Get freelancer info
+        let freelancerData = {};
+        if (job.acceptedBy) {
+          const freelancerRef = doc(db, 'users', job.acceptedBy);
+          const freelancerSnap = await getDoc(freelancerRef);
+          if (freelancerSnap.exists()) {
+            freelancerData = freelancerSnap.data();
+          }
+        }
+
+        const createdAt = job.createdAt?.toDate?.();
+        const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
+
+        let statusClass = '';
+        if (job.status === 'open') statusClass = 'status-open';
+        else if (job.status === 'accepted') statusClass = 'status-accepted';
+        else if (job.status === 'completed') statusClass = 'status-completed';
+        else statusClass = 'status-declined';
+
+        // Action buttons
+        let actionButtons = '';
+        
+        if (isOwner) {
+          actionButtons = `
+            <button class="btn-edit" onclick="showEditForm()">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn-delete" onclick="deleteJob()">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          `;
+          if (job.status === 'accepted') {
+            actionButtons += `
+              <button class="btn-complete ${job.clientCompleted ? 'active' : ''}" onclick="completeJob()">
+                <i class="fas fa-check-circle"></i> ${job.clientCompleted ? 'Completed ✓' : 'Mark Complete'}
+              </button>
+            `;
+          }
+        } else if (currentUser) {
+          if (job.status === 'open') {
+            actionButtons = `
+              <button class="btn-accept" onclick="acceptJob()">
+                <i class="fab fa-whatsapp"></i> Accept & WhatsApp
+              </button>
+              <button class="btn-negotiate" onclick="askForPriceChange()">
+                <i class="fas fa-tag"></i> Negotiate
+              </button>
+            `;
+          } else if (job.status === 'accepted' && job.acceptedBy === currentUser.uid) {
+            actionButtons = `
+              <a href="https://wa.me/${job.clientPhone?.replace(/\D/g, '') || ''}?text=Hello! I accepted your job: ${job.title}. Let's discuss." class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Client
+              </a>
+              <button class="btn-complete ${job.freelancerCompleted ? 'active' : ''}" onclick="completeJob()">
+                <i class="fas fa-check-circle"></i> ${job.freelancerCompleted ? 'Completed ✓' : 'Mark Complete'}
+              </button>
+            `;
+          }
+        } else {
+          actionButtons = `
+            <a href="sign-in.html" class="btn-accept" style="text-decoration: none;">
+              <i class="fas fa-sign-in-alt"></i> Sign in to Accept
+            </a>
+          `;
+        }
+
+        // Always add View Profile button
+        if (job.clientId) {
+          actionButtons += `
+            <a href="viewer.html?id=${job.clientId}" class="btn-view-profile" style="text-decoration: none;">
+              <i class="fas fa-user"></i> View Client
+            </a>
+          `;
+        }
+
+        // Add Message button if accepted
+        if (job.status === 'accepted' && currentUser) {
+          actionButtons += `
+            <a href="messages.html?user=${currentUser.uid === job.clientId ? job.acceptedBy : job.clientId}" class="btn-message" style="text-decoration: none;">
+              <i class="fas fa-comment"></i> Message
+            </a>
+          `;
+        }
+
+        // Completion status
+        let completionStatusHTML = '';
+        if (job.status === 'accepted') {
+          completionStatusHTML = `
+            <div class="completion-status">
+              <h3 style="font-size: 1rem; margin-bottom: 0.8rem;">Completion Status</h3>
+              <div class="status-row">
+                <div class="status-icon ${job.clientCompleted ? 'completed' : 'pending'}">
+                  <i class="fas ${job.clientCompleted ? 'fa-check' : 'fa-clock'}"></i>
+                </div>
+                <div style="flex: 1;">
+                  <strong>Client</strong> • ${job.clientCompleted ? '✓ Completed' : '⏳ Pending'}
+                </div>
+              </div>
+              <div class="status-row">
+                <div class="status-icon ${job.freelancerCompleted ? 'completed' : 'pending'}">
+                  <i class="fas ${job.freelancerCompleted ? 'fa-check' : 'fa-clock'}"></i>
+                </div>
+                <div style="flex: 1;">
+                  <strong>Freelancer</strong> • ${job.freelancerCompleted ? '✓ Completed' : '⏳ Pending'}
+                </div>
+              </div>
+              ${job.clientCompleted && job.freelancerCompleted ? `
+                <div style="margin-top: 0.8rem; padding: 0.6rem; background: #dcfce7; border-radius: 12px; color: #166534; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Payment released! You are now friends.</strong>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        // Render job details
+        jobDetailContainer.innerHTML = `
+          <div class="job-detail-card">
+            <div class="job-header">
+              <div class="job-title-section">
+                <h1>${escapeHTML(job.title || 'Untitled')}</h1>
+                <div class="job-meta-tags">
+                  <span class="job-status-badge ${statusClass}">${escapeHTML(job.status || 'open')}</span>
+                  <span class="job-category-badge">${escapeHTML(job.category || 'General')}</span>
+                </div>
+              </div>
+              <div class="job-actions">
+                ${actionButtons}
+              </div>
+            </div>
+
+            <div class="job-detail-grid">
+              <div class="detail-item">
+                <div class="detail-label">Budget</div>
+                <div class="detail-value">${formatNPR(job.budget)}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Posted</div>
+                <div class="detail-value">${timeAgo}</div>
+              </div>
+              <div class="detail-description">
+                <div class="detail-label">Description</div>
+                <p>${escapeHTML(job.description || 'No description provided.')}</p>
+              </div>
+            </div>
+
+            ${completionStatusHTML}
+
+            ${isOwner ? `
+              <div id="editForm" class="edit-form">
+                <h3 style="margin-bottom: 1rem;">Edit Job</h3>
+                <div class="form-group">
+                  <label>Job Title</label>
+                  <input type="text" id="editTitle" value="${escapeHTML(job.title || '')}">
+                </div>
+                <div class="form-group">
+                  <label>Category</label>
+                  <select id="editCategory">
+                    <option value="Driver / Labor" ${job.category === 'Driver / Labor' ? 'selected' : ''}>Driver / Labor</option>
+                    <option value="Programmer / Developer" ${job.category === 'Programmer / Developer' ? 'selected' : ''}>Programmer / Developer</option>
+                    <option value="Designer" ${job.category === 'Designer' ? 'selected' : ''}>Designer</option>
+                    <option value="Marketing / Sales" ${job.category === 'Marketing / Sales' ? 'selected' : ''}>Marketing / Sales</option>
+                    <option value="Other Services" ${job.category === 'Other Services' ? 'selected' : ''}>Other Services</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Budget (रु NPR)</label>
+                  <input type="number" id="editBudget" value="${job.budget || 0}" min="0">
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="editDescription" rows="4">${escapeHTML(job.description || '')}</textarea>
+                </div>
+                <div class="form-actions">
+                  <button class="btn-edit" onclick="saveJobEdits()">
+                    <i class="fas fa-save"></i> Save
+                  </button>
+                  <button class="btn-delete" onclick="hideEditForm()">
+                    <i class="fas fa-times"></i> Cancel
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="client-info-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem;">Client Information</h3>
+              ${currentUser && currentUser.uid !== job.clientId ? `
+                <button class="favorite-btn" onclick="toggleFavorite('${job.clientId}')">
+                  <i class="fas fa-star" style="font-size: 1.3rem; color: ${isClientFavorite ? '#eab308' : '#94a3b8'};"></i>
+                </button>
+              ` : ''}
+            </div>
+            <div class="client-header">
+              <a href="viewer.html?id=${job.clientId}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; width: 100%;">
+                <img src="${clientData.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(job.clientName || 'Client') + '&background=2563eb&color=fff&size=80'}" alt="${escapeHTML(job.clientName || 'Client')}" class="client-avatar">
+                <div class="client-info">
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <h3 class="client-name-link">
+                      ${escapeHTML(job.clientName || 'Anonymous')}
+                      <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+                    </h3>
+                    <span class="client-badge">${escapeHTML(clientData.role || 'freelancer')}</span>
+                    ${isClientFavorite ? '<span class="favorite-indicator"><i class="fas fa-star"></i> Favorite</span>' : ''}
+                  </div>
+                  <p style="color: #64748b; margin-top: 0.3rem; font-size: 0.85rem;">${escapeHTML(clientData.bio || 'No bio provided')}</p>
+                  ${job.status === 'accepted' && clientData.phoneNumber ? `
+                    <p style="color: #2563eb; margin-top: 0.5rem; font-size: 0.85rem;">
+                      <i class="fas fa-phone-alt"></i> ${escapeHTML(clientData.phoneNumber)}
+                    </p>
+                  ` : ''}
+                </div>
+              </a>
+            </div>
+          </div>
+
+          ${job.status === 'accepted' && job.acceptedBy ? `
+            <div class="client-info-card" style="margin-top: 1rem;">
+              <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Freelancer Information</h3>
+              <div class="client-header">
+                <a href="viewer.html?id=${job.acceptedBy}" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; width: 100%;">
+                  <img src="${freelancerData.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(job.acceptedByName || 'Freelancer') + '&background=2563eb&color=fff&size=80'}" alt="${escapeHTML(job.acceptedByName || 'Freelancer')}" class="client-avatar">
+                  <div class="client-info">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                      <h3 class="client-name-link">
+                        ${escapeHTML(job.acceptedByName || 'Freelancer')}
+                        <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+                      </h3>
+                      <span class="client-badge">${escapeHTML(freelancerData.role || 'freelancer')}</span>
+                    </div>
+                    <p style="color: #64748b; margin-top: 0.3rem; font-size: 0.85rem;">${escapeHTML(freelancerData.bio || 'No bio provided')}</p>
+                    ${freelancerData.phoneNumber ? `
+                      <p style="color: #2563eb; margin-top: 0.5rem; font-size: 0.85rem;">
+                        <i class="fas fa-phone-alt"></i> ${escapeHTML(freelancerData.phoneNumber)}
+                      </p>
+                    ` : ''}
+                  </div>
+                </a>
+              </div>
+            </div>
+          ` : ''}
+        `;
+
+        // Make functions global for edit form
+        if (isOwner) {
+          window.showEditForm = () => {
+            document.getElementById('editForm').classList.add('show');
+          };
+          window.hideEditForm = () => {
+            document.getElementById('editForm').classList.remove('show');
+          };
+          window.saveJobEdits = async () => {
+            const title = document.getElementById('editTitle').value;
+            const category = document.getElementById('editCategory').value;
+            const budget = document.getElementById('editBudget').value;
+            const description = document.getElementById('editDescription').value;
+
+            if (!budget || budget <= 0) {
+              showAlert('Please enter a valid budget', 'error');
+              return;
+            }
+
+            try {
+              await updateDoc(jobRef, {
+                title,
+                category,
+                budget: Number(budget),
+                description,
+                updatedAt: serverTimestamp()
+              });
+              hideEditForm();
+              loadJobDetails();
+              showAlert('✅ Job updated successfully');
+            } catch (error) {
+              console.error('Error updating job:', error);
+              showAlert('Failed to update job', 'error');
+            }
+          };
+          window.deleteJob = async () => {
+            if (confirm('Are you sure you want to delete this job?')) {
+              try {
+                await deleteDoc(jobRef);
+                window.location.href = 'index.html';
+              } catch (error) {
+                console.error('Error deleting job:', error);
+                showAlert('Failed to delete job', 'error');
+              }
+            }
+          };
+        }
+
+      } catch (error) {
+        console.error('Error loading job:', error);
+        jobDetailContainer.innerHTML = `
+          <div class="job-detail-card">
+            <div style="text-align: center; padding: 2rem;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+              <h2 style="color: #0f172a; margin-bottom: 0.5rem;">Error Loading Job</h2>
+              <p style="color: #64748b; margin-top: 1rem;">${escapeHTML(error.message)}</p>
+              <button onclick="window.location.reload()" style="margin-top: 2rem; padding: 0.8rem 2rem; background: #2563eb; color: white; border: none; border-radius: 30px; cursor: pointer;">
+                Try Again
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    // ========== PRICE NEGOTIATION - FIXED ==========
+    window.askForPriceChange = async function() {
+      if (!currentUser) {
+        showAlert('Please sign in to negotiate', 'error');
+        window.location.href = 'sign-in.html';
+        return;
+      }
+
+      try {
+        const jobRef = doc(db, 'jobs', jobId);
+        const jobSnap = await getDoc(jobRef);
+        const job = jobSnap.data();
+
+        const newPrice = prompt('Enter your proposed budget (रु):', job.budget);
+        if (!newPrice) return;
+        
+        const message = prompt('Add a message to the client (optional):', 'I would like to negotiate the price.');
+
+        // Create detailed notification for client
+        await createNotification(
+          job.clientId,
+          'price_negotiation',
+          jobId,
+          `${currentUser.displayName || 'A freelancer'} proposed रु ${Number(newPrice).toLocaleString()} for "${job.title}"`,
+          currentUser.uid,
+          {
+            proposedPrice: Number(newPrice),
+            originalPrice: job.budget,
+            negotiationMessage: message || 'No message',
+            jobTitle: job.title
+          }
+        );
+
+        showAlert('✅ Price proposal sent to client!');
+        console.log('Negotiation notification sent to client:', job.clientId);
+        
+      } catch (error) {
+        console.error('Error negotiating:', error);
+        showAlert('Failed to send proposal', 'error');
+      }
+    };
+
+    // ========== AUTH STATE LISTENER ==========
+    onAuthStateChanged(auth, renderAuthUI);
+  </script>
+</body>
+</html>

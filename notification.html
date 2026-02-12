@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink · Notifications</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2563eb">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-outline {
+      padding: 0.4rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e293b;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      padding: 0.4rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== NOTIFICATIONS CONTAINER ========== */
+    .container {
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .header h1 i {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      padding: 0.5rem;
+      border-radius: 12px;
+      font-size: 1.3rem;
+    }
+
+    .unread-badge {
+      background: #ef4444;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .mark-read-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .mark-read-btn:active {
+      background: #e2e8f0;
+      transform: scale(0.98);
+    }
+
+    /* ========== FILTER TABS ========== */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      scrollbar-width: none;
+    }
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-tab {
+      padding: 0.5rem 1.2rem;
+      color: #64748b;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+    .filter-tab.active {
+      color: white;
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+
+    /* ========== DEBUG PANEL ========== */
+    .debug-panel {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      display: none;
+    }
+    .debug-panel.show {
+      display: block;
+    }
+    .debug-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      color: #94a3b8;
+    }
+    .debug-log {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .debug-log div {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    /* ========== NOTIFICATIONS LIST ========== */
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .notification-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      background: white;
+      border-radius: 20px;
+      border: 1px solid #f1f5f9;
+      transition: all 0.2s ease;
+      animation: fadeIn 0.3s ease;
+    }
+    .notification-card:active {
+      background: #f8fafc;
+    }
+    .notification-card.unread {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .notification-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .notification-title {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+
+    .notification-badge {
+      background: #2563eb;
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    .notification-message {
+      color: #475569;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .notification-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #64748b;
+      font-size: 0.7rem;
+    }
+
+    .notification-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-accept {
+      background: #22c55e;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-accept:active {
+      transform: scale(0.98);
+    }
+
+    .btn-decline {
+      background: #ef4444;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-decline:active {
+      transform: scale(0.98);
+    }
+
+    .btn-view {
+      background: white;
+      color: #2563eb;
+      border: 1px solid #2563eb;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-view:active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-message {
+      background: #8b5cf6;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-message {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #64748b;
+      background: white;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+    }
+    .empty-message i {
+      font-size: 3rem;
+      color: #e2e8f0;
+      margin-bottom: 1rem;
+    }
+    .empty-message h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+      color: #0f172a;
+    }
+    .empty-message p {
+      font-size: 0.85rem;
+    }
+
+    /* ========== ALERTS ========== */
+    .alert {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      border-left: 4px solid #22c55e;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 9999;
+      font-size: 0.85rem;
+      animation: slideIn 0.2s ease;
+    }
+    .alert.error {
+      border-left-color: #ef4444;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ========== LOADING ========== */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #64748b;
+    }
+    .loading i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== BOTTOM PADDING ========== */
+    .bottom-padding {
+      height: 70px;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div id="authUI" class="auth-buttons"></div>
+  </header>
+
+  <div id="alertContainer"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="header">
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <h1><i class="fas fa-bell"></i> Notifications</h1>
+        <span id="unreadCountBadge" class="unread-badge" style="display: none;">0</span>
+      </div>
+      <button class="mark-read-btn" id="markAllReadBtn">
+        <i class="fas fa-check-double"></i> Mark All Read
+      </button>
+    </div>
+
+    <!-- DEBUG PANEL - TAP LOGO 5 TIMES TO SHOW -->
+    <div id="debugPanel" class="debug-panel">
+      <div class="debug-header">
+        <span><i class="fas fa-bug"></i> DEBUG CONSOLE</span>
+        <button onclick="document.getElementById('debugPanel').classList.remove('show')" style="background:none; border:none; color:#94a3b8; cursor:pointer;">✕</button>
+      </div>
+      <div id="debugLogs" class="debug-log">
+        <div>🔍 Debug mode enabled</div>
+      </div>
+    </div>
+
+    <div class="filter-tabs">
+      <span class="filter-tab active" data-filter="all">All</span>
+      <span class="filter-tab" data-filter="unread">Unread</span>
+      <span class="filter-tab" data-filter="friend_request">Friend Requests</span>
+      <span class="filter-tab" data-filter="friend_accepted">Accepted</span>
+      <span class="filter-tab" data-filter="price_negotiation">Negotiations</span>
+      <span class="filter-tab" data-filter="job">Jobs</span>
+    </div>
+
+    <div id="notificationsContainer" class="notifications-list">
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Loading notifications...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="notification.html" class="nav-item active">
+      <i class="fas fa-bell"></i>
+      <span>Alerts</span>
+    </a>
+  </nav>
+  
+  <div class="bottom-padding"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      getDoc,
+      doc,
+      updateDoc,
+      writeBatch,
+      serverTimestamp,
+      addDoc,
+      arrayUnion,
+      arrayRemove,
+      orderBy,
+      limit,
+      onSnapshot,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== DOM ==========
+    const authUI = document.getElementById('authUI');
+    const notificationsContainer = document.getElementById('notificationsContainer');
+    const markAllReadBtn = document.getElementById('markAllReadBtn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const unreadCountBadge = document.getElementById('unreadCountBadge');
+    const alertContainer = document.getElementById('alertContainer');
+    const debugPanel = document.getElementById('debugPanel');
+    const debugLogs = document.getElementById('debugLogs');
+
+    // ========== STATE ==========
+    let currentUser = null;
+    let allNotifications = [];
+    let currentFilter = 'all';
+    let unsubscribeNotifications = null;
+    let debugMode = false;
+
+    // ========== DEBUG FUNCTION ==========
+    function addDebugLog(message, type = 'info') {
+      const logEntry = document.createElement('div');
+      const time = new Date().toLocaleTimeString();
+      let icon = '🔍';
+      if (type === 'success') icon = '✅';
+      if (type === 'error') icon = '❌';
+      if (type === 'warning') icon = '⚠️';
+      if (type === 'notification') icon = '📨';
+      
+      logEntry.innerHTML = `<span style="color:#94a3b8;">[${time}]</span> ${icon} ${message}`;
+      debugLogs.appendChild(logEntry);
+      
+      // Keep only last 20 logs
+      while (debugLogs.children.length > 20) {
+        debugLogs.removeChild(debugLogs.children[0]);
+      }
+      
+      console.log(`[DEBUG] ${message}`);
+    }
+
+    // ========== ENABLE DEBUG MODE ==========
+    let logoClickCount = 0;
+    document.querySelector('.logo')?.addEventListener('click', (e) => {
+      logoClickCount++;
+      if (logoClickCount >= 5) {
+        debugPanel.classList.add('show');
+        addDebugLog('Debug mode activated');
+        logoClickCount = 0;
+      }
+      setTimeout(() => { logoClickCount = 0; }, 3000);
+    });
+
+    // ========== HELPERS ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+    }
+
+    function formatTimeAgo(date) {
+      if (!date) return 'Just now';
+      try {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days}d ago`;
+        return date.toLocaleDateString();
+      } catch {
+        return 'Just now';
+      }
+    }
+
+    function showAlert(message, type = 'success') {
+      const div = document.createElement('div');
+      div.className = `alert ${type}`;
+      div.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span style="flex:1;">${message}</span>
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem;">×</button>
+      `;
+      alertContainer.appendChild(div);
+      setTimeout(() => div.remove(), 4000);
+    }
+
+    // ========== AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        currentUser = user;
+        addDebugLog(`User logged in: ${user.email}`, 'success');
+        
+        // Ensure user doc exists
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            displayName: user.displayName || 'User',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            friends: [],
+            createdAt: serverTimestamp()
+          });
+          addDebugLog('Created new user document', 'success');
+        }
+
+        authUI.innerHTML = `
+          <div class="profile-container">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="user-info">
+                <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                <div class="user-email">${escapeHTML(user.email || '')}</div>
+              </div>
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+              <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+          </div>
+        `;
+
+        const avatar = document.getElementById('avatarTrigger');
+        const dropdown = document.getElementById('dropdownMenu');
+        
+        avatar?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown?.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+            dropdown?.classList.remove('show');
+          }
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+          await signOut(auth);
+          window.location.reload();
+        });
+
+        // Start real-time notifications listener
+        setupNotificationsListener();
+        
+      } else {
+        currentUser = null;
+        addDebugLog('No user logged in', 'warning');
+        
+        authUI.innerHTML = `
+          <a href="sign-in.html" class="btn-outline">Sign In</a>
+          <a href="sign-up.html" class="btn-primary">Sign Up</a>
+        `;
+        
+        if (unsubscribeNotifications) {
+          unsubscribeNotifications();
+          unsubscribeNotifications = null;
+        }
+        
+        notificationsContainer.innerHTML = `
+          <div class="empty-message">
+            <i class="fas fa-bell-slash"></i>
+            <h3>Please sign in</h3>
+            <p>Sign in to see your notifications</p>
+            <div style="margin-top: 1.5rem;">
+              <a href="sign-in.html" class="btn-primary" style="padding: 0.8rem 2rem; text-decoration: none;">Sign In</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // ========== REAL-TIME NOTIFICATIONS LISTENER ==========
+    function setupNotificationsListener() {
+      if (!currentUser) return;
+      
+      // Unsubscribe from previous listener
+      if (unsubscribeNotifications) {
+        unsubscribeNotifications();
+      }
+
+      addDebugLog(`Setting up notifications listener for: ${currentUser.uid}`, 'notification');
+
+      const notificationsRef = collection(db, 'notifications');
+      const q = query(
+        notificationsRef,
+        where('userId', '==', currentUser.uid),
+        orderBy('createdAt', 'desc'),
+        limit(50)
+      );
+
+      unsubscribeNotifications = onSnapshot(q, async (snapshot) => {
+        addDebugLog(`📨 Received ${snapshot.size} notifications`, 'notification');
+        
+        allNotifications = [];
+        
+        for (const docSnap of snapshot.docs) {
+          const notif = { id: docSnap.id, ...docSnap.data() };
+          
+          // Get sender info if exists
+          if (notif.fromUserId) {
+            try {
+              const senderSnap = await getDoc(doc(db, 'users', notif.fromUserId));
+              if (senderSnap.exists()) {
+                notif.sender = senderSnap.data();
+              }
+            } catch (e) {
+              console.error('Error loading sender:', e);
+            }
+          }
+          
+          allNotifications.push(notif);
+        }
+        
+        // Update UI
+        renderNotifications(allNotifications);
+        updateUnreadCount();
+        
+      }, (error) => {
+        console.error('❌ Notifications listener error:', error);
+        addDebugLog(`Listener error: ${error.message}`, 'error');
+        
+        // If index error, try without orderBy
+        if (error.message.includes('index')) {
+          addDebugLog('Index error - using fallback query', 'warning');
+          
+          const q2 = query(
+            notificationsRef,
+            where('userId', '==', currentUser.uid)
+          );
+          
+          onSnapshot(q2, async (snapshot) => {
+            allNotifications = [];
+            for (const docSnap of snapshot.docs) {
+              const notif = { id: docSnap.id, ...docSnap.data() };
+              if (notif.fromUserId) {
+                const senderSnap = await getDoc(doc(db, 'users', notif.fromUserId));
+                if (senderSnap.exists()) {
+                  notif.sender = senderSnap.data();
+                }
+              }
+              allNotifications.push(notif);
+            }
+            
+            // Sort manually
+            allNotifications.sort((a, b) => {
+              const dateA = a.createdAt?.toDate?.() || new Date(0);
+              const dateB = b.createdAt?.toDate?.() || new Date(0);
+              return dateB - dateA;
+            });
+            
+            renderNotifications(allNotifications);
+            updateUnreadCount();
+          });
+        }
+      });
+    }
+
+    // ========== UPDATE UNREAD COUNT ==========
+    function updateUnreadCount() {
+      const unreadCount = allNotifications.filter(n => !n.read).length;
+      
+      if (unreadCount > 0) {
+        unreadCountBadge.style.display = 'inline';
+        unreadCountBadge.textContent = unreadCount;
+        document.title = `(${unreadCount}) SewaLink · Notifications`;
+      } else {
+        unreadCountBadge.style.display = 'none';
+        document.title = 'SewaLink · Notifications';
+      }
+    }
+
+    // ========== ACCEPT FRIEND REQUEST ==========
+    window.acceptFriendRequest = async function(requestId, fromUserId) {
+      if (!currentUser) {
+        showAlert('Please login first', 'error');
+        return;
+      }
+
+      try {
+        addDebugLog(`Accepting friend request from: ${fromUserId}`, 'success');
+        
+        // 1. Update current user's friends array
+        const userRef = doc(db, 'users', currentUser.uid);
+        await updateDoc(userRef, {
+          friends: arrayUnion(fromUserId)
+        });
+        
+        // 2. Update other user's friends array
+        const friendRef = doc(db, 'users', fromUserId);
+        await updateDoc(friendRef, {
+          friends: arrayUnion(currentUser.uid)
+        });
+        
+        // 3. Update request status
+        if (requestId) {
+          const requestRef = doc(db, 'friendRequests', requestId);
+          await updateDoc(requestRef, { 
+            status: 'accepted',
+            respondedAt: serverTimestamp()
+          });
+        }
+        
+        // 4. Create notification for the sender
+        const notifRef = await addDoc(collection(db, 'notifications'), {
+          userId: fromUserId,
+          type: 'friend_accepted',
+          message: `${currentUser.displayName || 'Someone'} accepted your friend request`,
+          fromUserId: currentUser.uid,
+          fromUserName: currentUser.displayName || 'User',
+          read: false,
+          createdAt: serverTimestamp()
+        });
+        
+        addDebugLog(`Created friend_accepted notification: ${notifRef.id}`, 'success');
+        
+        // 5. Mark this notification as read
+        const notifQuery = query(
+          collection(db, 'notifications'),
+          where('userId', '==', currentUser.uid),
+          where('type', '==', 'friend_request'),
+          where('fromUserId', '==', fromUserId),
+          where('read', '==', false)
+        );
+        
+        const notifSnap = await getDocs(notifQuery);
+        const batch = writeBatch(db);
+        notifSnap.forEach(doc => {
+          batch.update(doc.ref, { read: true });
+        });
+        await batch.commit();
+        
+        showAlert('✅ Friend request accepted!', 'success');
+        addDebugLog('Friend request accepted successfully', 'success');
+        
+      } catch (error) {
+        console.error('Error accepting friend request:', error);
+        addDebugLog(`Error: ${error.message}`, 'error');
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    // ========== DECLINE FRIEND REQUEST ==========
+    window.declineFriendRequest = async function(requestId, fromUserId) {
+      try {
+        addDebugLog(`Declining friend request from: ${fromUserId}`, 'warning');
+        
+        // Update request status
+        if (requestId) {
+          const requestRef = doc(db, 'friendRequests', requestId);
+          await updateDoc(requestRef, { 
+            status: 'declined',
+            respondedAt: serverTimestamp()
+          });
+        }
+        
+        // Mark notifications as read
+        const notifQuery = query(
+          collection(db, 'notifications'),
+          where('userId', '==', currentUser.uid),
+          where('type', '==', 'friend_request'),
+          where('fromUserId', '==', fromUserId),
+          where('read', '==', false)
+        );
+        
+        const notifSnap = await getDocs(notifQuery);
+        const batch = writeBatch(db);
+        notifSnap.forEach(doc => {
+          batch.update(doc.ref, { read: true });
+        });
+        await batch.commit();
+        
+        showAlert('Friend request declined', 'success');
+        addDebugLog('Friend request declined', 'success');
+      } catch (error) {
+        console.error('Error declining friend request:', error);
+        addDebugLog(`Error: ${error.message}`, 'error');
+        showAlert('Failed to decline', 'error');
+      }
+    };
+
+    // ========== MARK NOTIFICATION AS READ ==========
+    window.markAsRead = async function(notificationId) {
+      try {
+        await updateDoc(doc(db, 'notifications', notificationId), {
+          read: true
+        });
+        addDebugLog(`Marked notification ${notificationId} as read`, 'success');
+      } catch (error) {
+        console.error('Error marking as read:', error);
+      }
+    };
+
+    // ========== RENDER NOTIFICATIONS ==========
+    function renderNotifications(notifications) {
+      if (!notifications || notifications.length === 0) {
+        notificationsContainer.innerHTML = `
+          <div class="empty-message">
+            <i class="fas fa-bell-slash"></i>
+            <h3>No notifications</h3>
+            <p>You're all caught up!</p>
+          </div>
+        `;
+        return;
+      }
+
+      addDebugLog(`Rendering ${notifications.length} notifications`, 'notification');
+
+      // Filter notifications
+      let filtered = notifications;
+      if (currentFilter === 'unread') {
+        filtered = notifications.filter(n => !n.read);
+      } else if (currentFilter === 'friend_request') {
+        filtered = notifications.filter(n => n.type === 'friend_request');
+      } else if (currentFilter === 'friend_accepted') {
+        filtered = notifications.filter(n => n.type === 'friend_accepted');
+      } else if (currentFilter === 'price_negotiation') {
+        filtered = notifications.filter(n => n.type === 'price_negotiation');
+      } else if (currentFilter === 'job') {
+        filtered = notifications.filter(n => n.type?.includes('job') || n.type?.includes('payment'));
+      }
+
+      if (filtered.length === 0) {
+        notificationsContainer.innerHTML = `
+          <div class="empty-message">
+            <i class="fas fa-filter"></i>
+            <h3>No ${currentFilter} notifications</h3>
+            <p>Check back later</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(notif => {
+        const timeAgo = formatTimeAgo(notif.createdAt?.toDate?.());
+        const senderName = notif.sender?.displayName || notif.fromUserName || 'Someone';
+        const senderPhoto = notif.sender?.photoURL;
+        const isUnread = !notif.read;
+        
+        // Friend Request Notification
+        if (notif.type === 'friend_request') {
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #dbeafe; color: #2563eb;">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Friend Request</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  <strong>${escapeHTML(senderName)}</strong> sent you a friend request
+                </div>
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                </div>
+                <div class="notification-actions">
+                  <button class="btn-accept" onclick="event.stopPropagation(); acceptFriendRequest('${notif.requestId || ''}', '${notif.fromUserId}')">
+                    <i class="fas fa-check"></i> Accept
+                  </button>
+                  <button class="btn-decline" onclick="event.stopPropagation(); declineFriendRequest('${notif.requestId || ''}', '${notif.fromUserId}')">
+                    <i class="fas fa-times"></i> Decline
+                  </button>
+                  <a href="viewer.html?id=${notif.fromUserId}" class="btn-view" onclick="event.stopPropagation();">
+                    <i class="fas fa-user"></i> Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Friend Accepted Notification
+        else if (notif.type === 'friend_accepted') {
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #dcfce7; color: #16a34a;">
+                <i class="fas fa-user-check"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Friend Accepted</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  <strong>${escapeHTML(senderName)}</strong> accepted your friend request
+                </div>
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                </div>
+                <div class="notification-actions">
+                  <a href="messages.html?user=${notif.fromUserId}" class="btn-message" onclick="event.stopPropagation();">
+                    <i class="fas fa-comment"></i> Message
+                  </a>
+                  <a href="viewer.html?id=${notif.fromUserId}" class="btn-view" onclick="event.stopPropagation();">
+                    <i class="fas fa-user"></i> Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // PRICE NEGOTIATION NOTIFICATION - FIXED
+        else if (notif.type === 'price_negotiation') {
+          const proposedPrice = notif.proposedPrice || notif.priceData?.proposedPrice || 0;
+          const formattedPrice = `रु ${Number(proposedPrice).toLocaleString()}`;
+          const jobTitle = notif.jobTitle || 'Job';
+          
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #fef9c3; color: #854d0e;">
+                <i class="fas fa-tag"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Price Negotiation</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  <strong>${escapeHTML(senderName)}</strong> proposed ${formattedPrice} for "${escapeHTML(jobTitle)}"
+                </div>
+                ${notif.negotiationMessage ? `<div style="font-size:0.8rem; color:#475569; margin-top:0.2rem;">"${escapeHTML(notif.negotiationMessage)}"</div>` : ''}
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                  <span>Original: रु ${Number(notif.originalPrice || 0).toLocaleString()}</span>
+                </div>
+                <div class="notification-actions">
+                  <a href="open.html?job=${notif.jobId}" class="btn-view" onclick="event.stopPropagation();">
+                    <i class="fas fa-eye"></i> View Job
+                  </a>
+                  <a href="messages.html?user=${notif.fromUserId}" class="btn-message" onclick="event.stopPropagation();">
+                    <i class="fas fa-comment"></i> Discuss
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Job Accepted Notification
+        else if (notif.type === 'job_accepted') {
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #fef9c3; color: #854d0e;">
+                <i class="fas fa-briefcase"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Job Accepted</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  <strong>${escapeHTML(senderName)}</strong> accepted your job: "${escapeHTML(notif.jobTitle || 'Job')}"
+                </div>
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                </div>
+                <div class="notification-actions">
+                  <a href="open.html?job=${notif.jobId}" class="btn-view" onclick="event.stopPropagation();">
+                    <i class="fas fa-eye"></i> View Job
+                  </a>
+                  <a href="messages.html?user=${notif.fromUserId}" class="btn-message" onclick="event.stopPropagation();">
+                    <i class="fas fa-comment"></i> Message
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Payment Notification
+        else if (notif.type === 'payment_released' || notif.type === 'payment_received') {
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #dcfce7; color: #166534;">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Payment</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  ${escapeHTML(notif.message || 'Payment processed')}
+                </div>
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                </div>
+                <div class="notification-actions">
+                  <a href="open.html?job=${notif.jobId}" class="btn-view" onclick="event.stopPropagation();">
+                    <i class="fas fa-eye"></i> View Job
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Default/Other Notifications
+        else {
+          html += `
+            <div class="notification-card ${isUnread ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon" style="background: #f1f5f9; color: #64748b;">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Notification</span>
+                  ${isUnread ? '<span class="notification-badge">New</span>' : ''}
+                </div>
+                <div class="notification-message">
+                  ${escapeHTML(notif.message || 'You have a new notification')}
+                </div>
+                <div class="notification-meta">
+                  <span><i class="far fa-clock"></i> ${timeAgo}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      notificationsContainer.innerHTML = html;
+    }
+
+    // ========== MARK ALL AS READ ==========
+    if (markAllReadBtn) {
+      markAllReadBtn.addEventListener('click', async () => {
+        if (!currentUser) return;
+        
+        try {
+          addDebugLog('Marking all notifications as read', 'success');
+          
+          const q = query(
+            collection(db, 'notifications'),
+            where('userId', '==', currentUser.uid),
+            where('read', '==', false)
+          );
+          
+          const snapshot = await getDocs(q);
+          const batch = writeBatch(db);
+          snapshot.forEach(doc => {
+            batch.update(doc.ref, { read: true });
+          });
+          await batch.commit();
+          
+          showAlert(`✅ Marked ${snapshot.size} notifications as read`, 'success');
+          addDebugLog(`Marked ${snapshot.size} notifications as read`, 'success');
+        } catch (error) {
+          console.error('Error marking all as read:', error);
+          addDebugLog(`Error: ${error.message}`, 'error');
+          showAlert('Failed to mark all as read', 'error');
+        }
+      });
+    }
+
+    // ========== FILTER TABS ==========
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        addDebugLog(`Filter changed to: ${currentFilter}`, 'info');
+        renderNotifications(allNotifications);
+      });
+    });
+
+    // ========== AUTH STATE LISTENER ==========
+    onAuthStateChanged(auth, renderAuthUI);
+
+    // ========== CLEANUP ==========
+    window.addEventListener('beforeunload', () => {
+      if (unsubscribeNotifications) {
+        unsubscribeNotifications();
+      }
+    });
+
+    // ========== EXPOSE GLOBALS ==========
+    window.acceptFriendRequest = acceptFriendRequest;
+    window.declineFriendRequest = declineFriendRequest;
+    window.markAsRead = markAsRead;
+  </script>
+</body>
+</html>

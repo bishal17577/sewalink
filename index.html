@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink – Hire Freelancers, Find Work</title>
+  <meta name="description" content="Connect with skilled freelancers for your projects. Post jobs, hire experts, and get work done securely.">
+  
+  <!-- PWA / App-like settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2563eb">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-outline {
+      padding: 0.4rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e293b;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      padding: 0.4rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== WELCOME BANNER ========== */
+    .welcome-banner {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      padding: 1.2rem 1rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    .welcome-banner h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .welcome-banner p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+    .banner-buttons {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .btn-white {
+      background: white;
+      color: #2563eb;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    /* ========== STATS CARDS ========== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      padding: 0.8rem 1rem;
+      background: white;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .stat-card {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2563eb;
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    /* ========== SEARCH BAR ========== */
+    .search-section {
+      padding: 1rem;
+    }
+    .search-container {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+    }
+    .search-box i {
+      color: #94a3b8;
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 0.9rem;
+    }
+    .search-box input:focus {
+      outline: none;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .filter-panel {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 20px;
+    }
+    .filter-panel.show {
+      display: block;
+    }
+    .filter-group {
+      margin-bottom: 1rem;
+    }
+    .filter-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.3rem;
+    }
+    .filter-group select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: white;
+      font-size: 0.85rem;
+    }
+    .filter-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .filter-actions button {
+      flex: 1;
+      padding: 0.6rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    /* ========== SECTION HEADER ========== */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1rem 0.5rem;
+    }
+    .section-header h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .view-all {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* ========== JOB CARDS (MOBILE OPTIMIZED) ========== */
+    .job-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      padding: 0 1rem 1rem;
+    }
+
+    .job-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .job-card:active {
+      background: #f8fafc;
+    }
+
+    .job-favorite {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      z-index: 2;
+      font-size: 1.1rem;
+    }
+    .job-favorite.active {
+      color: #eab308;
+    }
+
+    .job-status {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      background: #22c55e;
+      color: white;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+      padding-right: 2rem;
+    }
+
+    .job-description {
+      color: #475569;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .job-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .job-budget {
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 1.1rem;
+    }
+    .job-category {
+      background: #f1f5f9;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: #475569;
+    }
+
+    .job-client {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #f1f5f9;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .job-client a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .job-time {
+      margin-left: auto;
+      color: #94a3b8;
+    }
+
+    /* ========== CATEGORIES (HORIZONTAL SCROLL) ========== */
+    .categories-section {
+      padding: 1rem 0;
+    }
+    .categories-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.8rem;
+      padding: 0 1rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .categories-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .category-chip {
+      flex: 0 0 auto;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #334155;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .category-chip i {
+      color: #2563eb;
+      font-size: 0.9rem;
+    }
+    .category-chip.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    .category-chip.active i {
+      color: white;
+    }
+
+    /* ========== SKELETON LOADING ========== */
+    .skeleton-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+    }
+    .skeleton-line {
+      height: 16px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.medium { width: 70%; }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      background: white;
+      border-radius: 20px;
+      color: #64748b;
+    }
+    .empty-state i {
+      font-size: 2.5rem;
+      color: #cbd5e1;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ========== BOTTOM PADDING FOR FIXED NAV ========== */
+    .bottom-padding {
+      height: 70px;
+    }
+
+    /* ========== RESPONSIVE TWEAKS ========== */
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+      .welcome-banner {
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div id="authUI" class="auth-buttons"></div>
+  </header>
+
+  <!-- Welcome Banner -->
+  <section class="welcome-banner">
+    <h1>Find the right freelancer</h1>
+    <p>Connect with skilled professionals, get work done faster, and pay securely.</p>
+    <div class="banner-buttons">
+      <a href="post-job.html" class="btn-white">Post a Job</a>
+      <a href="freelancers.html" class="btn-outline-white">Find Freelancers</a>
+    </div>
+  </section>
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div id="totalUsersStat" class="stat-number">0</div>
+      <div class="stat-label">Users</div>
+    </div>
+    <div class="stat-card">
+      <div id="totalJobsStat" class="stat-number">0</div>
+      <div class="stat-label">Jobs</div>
+    </div>
+    <div class="stat-card">
+      <div id="totalFreelancersStat" class="stat-number">0</div>
+      <div class="stat-label">Freelancers</div>
+    </div>
+    <div class="stat-card">
+      <div id="totalCompletedStat" class="stat-number">0</div>
+      <div class="stat-label">Completed</div>
+    </div>
+  </div>
+
+  <!-- Search & Filter -->
+  <section class="search-section">
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search jobs...">
+      </div>
+      <button class="filter-btn" id="filterBtn">
+        <i class="fas fa-sliders-h"></i> Filter
+      </button>
+    </div>
+    
+    <div class="filter-panel" id="filterPanel">
+      <div class="filter-group">
+        <label>Category</label>
+        <select id="filterCategory">
+          <option value="">All Categories</option>
+          <option value="Driver / Labor">Driver / Labor</option>
+          <option value="Programmer / Developer">Programmer / Developer</option>
+          <option value="Designer">Designer</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Budget (NPR)</label>
+        <select id="filterBudget">
+          <option value="">Any Budget</option>
+          <option value="0-13350">Under रु 13,350</option>
+          <option value="13350-66750">रु 13,350 - रु 66,750</option>
+          <option value="66750-133500">रु 66,750 - रु 133,500</option>
+          <option value="133500-667500">रु 133,500 - रु 667,500</option>
+          <option value="667500+">रु 667,500+</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sort By</label>
+        <select id="filterSort">
+          <option value="newest">Newest First</option>
+          <option value="budget-high">Budget: High to Low</option>
+          <option value="budget-low">Budget: Low to High</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button class="btn-outline" id="clearFiltersBtn">Clear</button>
+        <button class="btn-primary" id="applyFiltersBtn">Apply</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Jobs -->
+  <div class="section-header">
+    <h2>Latest Jobs</h2>
+    <a href="jobs.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+  </div>
+  <div id="jobContainer" class="job-grid">
+    <!-- Skeleton loading -->
+    <div class="skeleton-card">
+      <div class="skeleton-line short"></div>
+      <div class="skeleton-line" style="height: 20px;"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line" style="width: 30%;"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-line short"></div>
+      <div class="skeleton-line" style="height: 20px;"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line" style="width: 30%;"></div>
+    </div>
+  </div>
+
+  <!-- Popular Categories -->
+  <div class="section-header">
+    <h2>Popular Categories</h2>
+    <a href="services.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+  </div>
+  <section class="categories-section">
+    <div id="categoriesContainer" class="categories-scroll">
+      <!-- Loaded dynamically -->
+    </div>
+  </section>
+
+  <!-- Bottom Padding for Fixed Nav -->
+  <div class="bottom-padding"></div>
+
+  <!-- Bottom Navigation (App Style) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="profile.html" class="nav-item" id="profileNavLink">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script type="module">
+    // ========== FIREBASE ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      getCountFromServer,
+      doc,
+      getDoc,
+      setDoc,
+      orderBy,
+      limit,
+      serverTimestamp,
+      arrayUnion,
+      arrayRemove
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== DOM ==========
+    const authUI = document.getElementById('authUI');
+    const jobContainer = document.getElementById('jobContainer');
+    const totalUsersEl = document.getElementById('totalUsersStat');
+    const totalJobsEl = document.getElementById('totalJobsStat');
+    const totalFreelancersEl = document.getElementById('totalFreelancersStat');
+    const totalCompletedEl = document.getElementById('totalCompletedStat');
+    const searchInput = document.getElementById('searchInput');
+    const filterBtn = document.getElementById('filterBtn');
+    const filterPanel = document.getElementById('filterPanel');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterBudget = document.getElementById('filterBudget');
+    const filterSort = document.getElementById('filterSort');
+    const profileNavLink = document.getElementById('profileNavLink');
+
+    // ========== STATE ==========
+    let allJobs = [];
+    let filteredJobs = [];
+    let currentUser = null;
+    let userFavorites = [];
+
+    // ========== CURRENCY FORMATTER ==========
+    function formatNPR(amount) {
+      if (!amount && amount !== 0) return 'रु 0';
+      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+    }
+
+    // ========== HELPERS ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' })[c]);
+    }
+
+    function formatTimeAgo(date) {
+      if (!date) return 'Just now';
+      const seconds = Math.floor((new Date() - date) / 1000);
+      if (seconds < 60) return 'Just now';
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h`;
+      const days = Math.floor(hours / 24);
+      return days === 1 ? '1d' : `${days}d`;
+    }
+
+    function debounce(fn, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    }
+
+    // ========== AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        currentUser = user;
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userSnap = await getDoc(userRef);
+          
+          if (userSnap.exists()) {
+            userFavorites = userSnap.data().favorites || [];
+          } else {
+            await setDoc(userRef, {
+              uid: user.uid,
+              displayName: user.displayName || '',
+              email: user.email || '',
+              role: 'freelancer',
+              createdAt: serverTimestamp()
+            });
+          }
+
+          authUI.innerHTML = `
+            <div class="profile-container">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-info">
+                  <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                  <div class="user-email">${escapeHTML(user.email || '')}</div>
+                </div>
+                <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+                <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+              </div>
+            </div>
+          `;
+
+          const avatar = document.getElementById('avatarTrigger');
+          const dropdown = document.getElementById('dropdownMenu');
+          
+          avatar?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown?.classList.toggle('show');
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+              dropdown?.classList.remove('show');
+            }
+          });
+
+          document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.reload();
+          });
+
+          if (profileNavLink) {
+            profileNavLink.href = 'profile.html';
+          }
+
+        } catch (error) {
+          console.error('Auth error:', error);
+        }
+      } else {
+        currentUser = null;
+        authUI.innerHTML = `
+          <a href="sign-in.html" class="btn-outline">Sign In</a>
+          <a href="sign-up.html" class="btn-primary">Sign Up</a>
+        `;
+        if (profileNavLink) {
+          profileNavLink.href = 'sign-in.html';
+        }
+      }
+    }
+
+    // ========== FAVORITES ==========
+    window.toggleFavorite = async function(jobId, e) {
+      e?.stopPropagation();
+      if (!currentUser) {
+        window.location.href = 'sign-in.html';
+        return;
+      }
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        if (userFavorites.includes(jobId)) {
+          await updateDoc(userRef, { favorites: arrayRemove(jobId) });
+          userFavorites = userFavorites.filter(id => id !== jobId);
+        } else {
+          await updateDoc(userRef, { favorites: arrayUnion(jobId) });
+          userFavorites.push(jobId);
+        }
+        renderJobs(filteredJobs);
+      } catch (error) {
+        console.error('Favorite error:', error);
+      }
+    };
+
+    // ========== RENDER JOBS ==========
+    function renderJobs(jobs) {
+      if (!jobs || jobs.length === 0) {
+        jobContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-briefcase"></i>
+            <h3 style="font-size: 1rem; margin-bottom: 0.3rem;">No jobs found</h3>
+            <p style="font-size: 0.8rem;">Try adjusting your filters</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      jobs.slice(0, 5).forEach(job => {
+        const timeAgo = formatTimeAgo(job.createdAt?.toDate?.());
+        const isFavorite = userFavorites.includes(job.id);
+        
+        html += `
+          <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
+            <div class="job-favorite ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${job.id}', event)">
+              <i class="fas fa-heart"></i>
+            </div>
+            <span class="job-status">Open</span>
+            <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
+            <p class="job-description">${escapeHTML(job.description || 'No description')}</p>
+            <div class="job-meta">
+              <span class="job-budget">${formatNPR(job.budget)}</span>
+              <span class="job-category">${escapeHTML(job.category || 'General')}</span>
+            </div>
+            <div class="job-client">
+              <i class="fas fa-user-circle"></i>
+              <a href="viewer.html?id=${job.clientId}" onclick="event.stopPropagation();">
+                ${escapeHTML(job.clientName || 'Anonymous')}
+              </a>
+              <span class="job-time">${timeAgo}</span>
+            </div>
+          </div>
+        `;
+      });
+      jobContainer.innerHTML = html;
+    }
+
+    // ========== LOAD JOBS ==========
+    async function loadJobs() {
+      try {
+        const q = query(
+          collection(db, 'jobs'),
+          where('status', '==', 'open'),
+          orderBy('createdAt', 'desc'),
+          limit(20)
+        );
+        const snapshot = await getDocs(q);
+        allJobs = [];
+        snapshot.forEach(doc => allJobs.push({ id: doc.id, ...doc.data() }));
+        filterJobs();
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+        try {
+          const q2 = query(collection(db, 'jobs'), limit(10));
+          const snapshot2 = await getDocs(q2);
+          allJobs = [];
+          snapshot2.forEach(doc => allJobs.push({ id: doc.id, ...doc.data() }));
+          
+          allJobs.sort((a, b) => {
+            const dateA = a.createdAt?.toDate?.() || new Date(0);
+            const dateB = b.createdAt?.toDate?.() || new Date(0);
+            return dateB - dateA;
+          });
+          
+          filterJobs();
+        } catch (e) {
+          console.error('Fallback failed:', e);
+          jobContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-briefcase"></i>
+              <h3>Ready for jobs</h3>
+              <p>Be the first to post a job</p>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // ========== FILTER JOBS ==========
+    function filterJobs() {
+      let filtered = [...allJobs];
+      
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      if (searchTerm) {
+        filtered = filtered.filter(j => 
+          j.title?.toLowerCase().includes(searchTerm) ||
+          j.description?.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      const category = filterCategory?.value;
+      if (category) filtered = filtered.filter(j => j.category === category);
+      
+      const budget = filterBudget?.value;
+      if (budget) {
+        if (budget === '0-13350') filtered = filtered.filter(j => j.budget < 13350);
+        else if (budget === '13350-66750') filtered = filtered.filter(j => j.budget >= 13350 && j.budget < 66750);
+        else if (budget === '66750-133500') filtered = filtered.filter(j => j.budget >= 66750 && j.budget < 133500);
+        else if (budget === '133500-667500') filtered = filtered.filter(j => j.budget >= 133500 && j.budget < 667500);
+        else if (budget === '667500+') filtered = filtered.filter(j => j.budget >= 667500);
+      }
+      
+      const sort = filterSort?.value;
+      if (sort === 'budget-high') filtered.sort((a,b) => (b.budget||0) - (a.budget||0));
+      else if (sort === 'budget-low') filtered.sort((a,b) => (a.budget||0) - (b.budget||0));
+      else filtered.sort((a,b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateB - dateA;
+      });
+      
+      filteredJobs = filtered;
+      renderJobs(filteredJobs);
+    }
+
+    // ========== LOAD STATS ==========
+    async function loadStats() {
+      try {
+        const usersSnap = await getCountFromServer(collection(db, 'users'));
+        totalUsersEl.textContent = usersSnap.data().count || 0;
+        
+        const jobsSnap = await getCountFromServer(query(collection(db, 'jobs'), where('status', '==', 'open')));
+        totalJobsEl.textContent = jobsSnap.data().count || 0;
+        
+        const freelancersSnap = await getCountFromServer(query(collection(db, 'users'), where('role', '==', 'freelancer')));
+        totalFreelancersEl.textContent = freelancersSnap.data().count || 0;
+        
+        const completedSnap = await getCountFromServer(query(collection(db, 'jobs'), where('status', '==', 'completed')));
+        totalCompletedEl.textContent = completedSnap.data().count || 0;
+      } catch (error) {
+        console.error('Stats error:', error);
+      }
+    }
+
+    // ========== LOAD CATEGORIES ==========
+    async function loadCategories() {
+      try {
+        const jobsRef = collection(db, 'jobs');
+        const q = query(jobsRef, where('status', '==', 'open'));
+        const snapshot = await getDocs(q);
+        
+        const counts = {
+          'Driver / Labor': 0,
+          'Programmer / Developer': 0,
+          'Designer': 0,
+          'Marketing / Sales': 0
+        };
+        
+        snapshot.forEach(doc => {
+          const cat = doc.data().category;
+          if (cat === 'Driver / Labor') counts['Driver / Labor']++;
+          else if (cat === 'Programmer / Developer') counts['Programmer / Developer']++;
+          else if (cat === 'Designer') counts['Designer']++;
+          else if (cat === 'Marketing / Sales') counts['Marketing / Sales']++;
+        });
+
+        const container = document.getElementById('categoriesContainer');
+        container.innerHTML = `
+          <a href="category.html?cat=programmer" class="category-chip">
+            <i class="fas fa-code"></i>
+            <span>Development (${counts['Programmer / Developer']})</span>
+          </a>
+          <a href="category.html?cat=designer" class="category-chip">
+            <i class="fas fa-pencil-ruler"></i>
+            <span>Design (${counts['Designer']})</span>
+          </a>
+          <a href="category.html?cat=marketing" class="category-chip">
+            <i class="fas fa-chart-line"></i>
+            <span>Marketing (${counts['Marketing / Sales']})</span>
+          </a>
+          <a href="category.html?cat=driver" class="category-chip">
+            <i class="fas fa-truck"></i>
+            <span>Driver (${counts['Driver / Labor']})</span>
+          </a>
+          <a href="services.html" class="category-chip">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>All Services</span>
+          </a>
+        `;
+      } catch (error) {
+        console.error('Categories error:', error);
+        const container = document.getElementById('categoriesContainer');
+        container.innerHTML = `
+          <a href="category.html?cat=programmer" class="category-chip">
+            <i class="fas fa-code"></i>
+            <span>Development</span>
+          </a>
+          <a href="category.html?cat=designer" class="category-chip">
+            <i class="fas fa-pencil-ruler"></i>
+            <span>Design</span>
+          </a>
+          <a href="category.html?cat=marketing" class="category-chip">
+            <i class="fas fa-chart-line"></i>
+            <span>Marketing</span>
+          </a>
+          <a href="services.html" class="category-chip">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>More</span>
+          </a>
+        `;
+      }
+    }
+
+    // ========== EVENT LISTENERS ==========
+    filterBtn?.addEventListener('click', () => filterPanel.classList.toggle('show'));
+    
+    applyFiltersBtn?.addEventListener('click', () => {
+      filterJobs();
+      filterPanel.classList.remove('show');
+    });
+    
+    clearFiltersBtn?.addEventListener('click', () => {
+      if (filterCategory) filterCategory.value = '';
+      if (filterBudget) filterBudget.value = '';
+      if (filterSort) filterSort.value = 'newest';
+      if (searchInput) searchInput.value = '';
+      filterJobs();
+    });
+    
+    searchInput?.addEventListener('input', debounce(filterJobs, 300));
+
+    // ========== INIT ==========
+    onAuthStateChanged(auth, renderAuthUI);
+    loadJobs();
+    loadStats();
+    loadCategories();
+  </script>
+</body>
+</html>

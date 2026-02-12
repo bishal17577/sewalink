@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Freelancers · SewaLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .header-icon {
+      color: #475569;
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.6rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 50px;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+      animation: slideIn 0.2s ease;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      transition: background 0.15s;
+    }
+    .dropdown-item i {
+      width: 18px;
+      color: #64748b;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .container {
+      padding: 1rem 1rem 80px;
+      max-width: 100%;
+    }
+
+    /* ========== PAGE HEADER ========== */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .page-header h1 i {
+      color: white;
+      background: #2563eb;
+      padding: 0.5rem;
+      border-radius: 14px;
+    }
+
+    .freelancer-count {
+      background: #eff6ff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ========== SEARCH & FILTER ========== */
+    .search-section {
+      background: white;
+      border-radius: 24px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border-radius: 50px;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+    }
+    .search-box:focus-within {
+      border-color: #2563eb;
+      background: white;
+    }
+    .search-box i {
+      color: #94a3b8;
+      margin-right: 0.5rem;
+    }
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+    }
+    .search-box input:focus {
+      outline: none;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 0.8rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      flex: 0 0 auto;
+      padding: 0.5rem 1.2rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 30px;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .filter-chip i {
+      font-size: 0.8rem;
+    }
+    .filter-chip.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    /* ========== FREELANCERS GRID ========== */
+    .freelancers-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .freelancer-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+      transition: all 0.2s;
+      display: flex;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .freelancer-card:active {
+      background: #f8fafc;
+    }
+    .freelancer-card:hover {
+      border-color: #2563eb;
+    }
+
+    .freelancer-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      flex-shrink: 0;
+    }
+
+    .freelancer-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .freelancer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.3rem;
+    }
+
+    .freelancer-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .freelancer-rate {
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 0.95rem;
+    }
+
+    .freelancer-location {
+      color: #64748b;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .freelancer-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.5rem 0;
+    }
+    .skill-badge {
+      background: #f1f5f9;
+      padding: 0.25rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .freelancer-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .job-count {
+      color: #2563eb;
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .rating-badge {
+      color: #64748b;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: white;
+      border-radius: 24px;
+      color: #64748b;
+      border: 1px solid #f1f5f9;
+    }
+    .empty-state i {
+      font-size: 3rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+    .empty-state h3 {
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+    .empty-state p {
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ========== LOADING ========== */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+    .loading-spinner {
+      font-size: 2rem;
+      color: #2563eb;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== DESKTOP OPTIMIZATION ========== */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+      .freelancers-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div class="header-actions">
+      <a href="notification.html" class="header-icon">
+        <i class="fas fa-bell"></i>
+        <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
+      </a>
+      <div id="authUI"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="fas fa-users"></i> Freelancers</h1>
+      <span id="freelancerCount" class="freelancer-count">
+        <i class="fas fa-user-check"></i> <span id="freelancerCountNumber">0</span> Available
+      </span>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="search-section">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchFreelancers" placeholder="Search by name, skills, or location...">
+      </div>
+      
+      <div class="filter-row" id="skillFilterContainer">
+        <span class="filter-chip active" data-skill="all">All Skills</span>
+        <!-- Skills will be loaded dynamically -->
+      </div>
+      
+      <div class="filter-row" id="rateFilterContainer">
+        <span class="filter-chip" data-rate="all">All Rates</span>
+        <span class="filter-chip" data-rate="0-500">रु 0 - 500</span>
+        <span class="filter-chip" data-rate="500-1000">रु 500 - 1,000</span>
+        <span class="filter-chip" data-rate="1000-2000">रु 1,000 - 2,000</span>
+        <span class="filter-chip" data-rate="2000+">रु 2,000+</span>
+      </div>
+    </div>
+
+    <!-- Freelancers Container -->
+    <div id="freelancersContainer">
+      <div class="loading-container">
+        <i class="fas fa-spinner fa-spin loading-spinner"></i>
+        <p style="color: #64748b;">Loading freelancers...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Padding for Fixed Nav -->
+  <div class="bottom-padding"></div>
+
+  <!-- Bottom Navigation (App Style) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="freelancers.html" class="nav-item active">
+      <i class="fas fa-users"></i>
+      <span>Freelancers</span>
+    </a>
+  </nav>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged,
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      getDoc,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    // ========== INITIALIZE FIREBASE ==========
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== DOM ELEMENTS ==========
+    const authUI = document.getElementById('authUI');
+    const freelancersContainer = document.getElementById('freelancersContainer');
+    const searchInput = document.getElementById('searchFreelancers');
+    const skillFilterContainer = document.getElementById('skillFilterContainer');
+    const rateFilterContainer = document.getElementById('rateFilterContainer');
+    const freelancerCountNumber = document.getElementById('freelancerCountNumber');
+    const notificationBadge = document.getElementById('notificationBadge');
+
+    // ========== STATE ==========
+    let currentUser = null;
+    let allFreelancers = [];
+    let filteredFreelancers = [];
+    let selectedSkill = 'all';
+    let selectedRate = 'all';
+    let unreadCount = 0;
+
+    // ========== CURRENCY FORMATTER ==========
+    function formatNPR(amount) {
+      if (!amount && amount !== 0) return 'रु 0';
+      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+    }
+
+    // ========== HELPER FUNCTIONS ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // ========== GET COMPLETED JOBS COUNT ==========
+    async function getCompletedJobsCount(userId) {
+      try {
+        const q = query(
+          collection(db, 'jobs'),
+          where('acceptedBy', '==', userId),
+          where('status', '==', 'completed')
+        );
+        const snapshot = await getDocs(q);
+        return snapshot.size;
+      } catch (error) {
+        console.error('Error getting completed jobs:', error);
+        return 0;
+      }
+    }
+
+    // ========== GET UNREAD NOTIFICATION COUNT ==========
+    async function getUnreadNotificationCount(userId) {
+      try {
+        const q = query(
+          collection(db, 'notifications'),
+          where('userId', '==', userId),
+          where('read', '==', false)
+        );
+        const snapshot = await getDocs(q);
+        return snapshot.size;
+      } catch (error) {
+        console.error('Error getting notification count:', error);
+        return 0;
+      }
+    }
+
+    // ========== RENDER AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userSnap = await getDoc(userRef);
+          
+          if (!userSnap.exists()) {
+            await setDoc(userRef, {
+              uid: user.uid,
+              displayName: user.displayName || '',
+              email: user.email || '',
+              photoURL: user.photoURL || '',
+              role: 'freelancer',
+              favoritePeople: [],
+              createdAt: serverTimestamp()
+            });
+          }
+
+          unreadCount = await getUnreadNotificationCount(user.uid);
+          if (notificationBadge) {
+            if (unreadCount > 0) {
+              notificationBadge.style.display = 'inline';
+              notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+            } else {
+              notificationBadge.style.display = 'none';
+            }
+          }
+
+          authUI.innerHTML = `
+            <div class="profile-container">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-info">
+                  <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                  <div class="user-email">${escapeHTML(user.email || '')}</div>
+                </div>
+                <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <a href="favorites.html" class="dropdown-item"><i class="fas fa-star"></i> Favorites</a>
+                <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+                <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+              </div>
+            </div>
+          `;
+
+          const avatar = document.getElementById('avatarTrigger');
+          const dropdown = document.getElementById('dropdownMenu');
+          
+          if (avatar && dropdown) {
+            avatar.addEventListener('click', (e) => {
+              e.stopPropagation();
+              dropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', (e) => {
+              if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+              }
+            });
+          }
+
+          document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'index.html';
+          });
+
+        } catch (error) {
+          console.error('Auth UI error:', error);
+        }
+      } else {
+        authUI.innerHTML = `
+          <a href="sign-in.html" style="color: #2563eb; font-size: 0.85rem; font-weight: 600;">Sign In</a>
+        `;
+      }
+    }
+
+    // ========== LOAD FREELANCERS - NO INDEX REQUIRED ==========
+    async function loadFreelancers() {
+      try {
+        const usersRef = collection(db, 'users');
+        
+        // SIMPLE QUERY - NO COMPOSITE INDEX NEEDED
+        // Get all users and filter in JavaScript
+        const snapshot = await getDocs(usersRef);
+        
+        allFreelancers = [];
+        const allSkills = new Set();
+        
+        for (const doc of snapshot.docs) {
+          const user = { id: doc.id, ...doc.data() };
+          
+          // Filter for freelancers in JavaScript
+          if (user.role === 'freelancer' || user.role === 'both') {
+            
+            // Get completed jobs count
+            const completedJobs = await getCompletedJobsCount(doc.id);
+            user.completedJobs = completedJobs;
+            
+            // Collect skills
+            if (user.skills && Array.isArray(user.skills)) {
+              user.skills.forEach(s => allSkills.add(s));
+            }
+            
+            allFreelancers.push(user);
+          }
+        }
+
+        // Update freelancer count
+        freelancerCountNumber.textContent = allFreelancers.length;
+
+        // Render skill filters
+        renderSkillFilters(allSkills);
+        
+        // Store filtered freelancers
+        filteredFreelancers = [...allFreelancers];
+        
+        // Render freelancers
+        renderFreelancers(filteredFreelancers);
+
+      } catch (error) {
+        console.error('Error loading freelancers:', error);
+        freelancersContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+            <h3>Error Loading Freelancers</h3>
+            <p style="color: #64748b;">${error.message}</p>
+            <button onclick="window.location.reload()" style="margin-top: 1rem; padding: 0.6rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 30px; font-size: 0.85rem;">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // ========== RENDER SKILL FILTERS ==========
+    function renderSkillFilters(skillsSet) {
+      const skills = Array.from(skillsSet).sort();
+      
+      let html = `<span class="filter-chip active" data-skill="all">All Skills</span>`;
+      
+      skills.slice(0, 10).forEach(skill => {
+        html += `<span class="filter-chip" data-skill="${escapeHTML(skill)}">${escapeHTML(skill)}</span>`;
+      });
+      
+      if (skills.length > 10) {
+        html += `<span class="filter-chip" data-skill="more">+${skills.length - 10} more</span>`;
+      }
+      
+      skillFilterContainer.innerHTML = html;
+      
+      // Add event listeners to skill chips
+      document.querySelectorAll('#skillFilterContainer .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          // Remove active class from all skill chips
+          document.querySelectorAll('#skillFilterContainer .filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          
+          // Update selected skill
+          selectedSkill = chip.dataset.skill;
+          filterFreelancers();
+        });
+      });
+    }
+
+    // ========== RENDER FREELANCERS ==========
+    function renderFreelancers(freelancers) {
+      if (!freelancers || freelancers.length === 0) {
+        freelancersContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>No freelancers found</h3>
+            <p>Try adjusting your search filters</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      freelancers.forEach(f => {
+        const hourlyRate = f.hourlyRate || 0;
+        
+        html += `
+          <a href="viewer.html?id=${f.id}" class="freelancer-card">
+            <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'Freelancer') + '&background=2563eb&color=fff&size=70'}" class="freelancer-avatar">
+            <div class="freelancer-info">
+              <div class="freelancer-header">
+                <span class="freelancer-name">${escapeHTML(f.displayName || 'Freelancer')}</span>
+                <span class="freelancer-rate">${hourlyRate ? formatNPR(hourlyRate) + '/hr' : ''}</span>
+              </div>
+              ${f.location ? `
+                <div class="freelancer-location">
+                  <i class="fas fa-map-marker-alt"></i> ${escapeHTML(f.location)}
+                </div>
+              ` : ''}
+              <div class="freelancer-skills">
+                ${(f.skills || []).slice(0, 3).map(s => `<span class="skill-badge">${escapeHTML(s)}</span>`).join('')}
+              </div>
+              <div class="freelancer-footer">
+                <span class="job-count">
+                  <i class="fas fa-check-circle"></i> ${f.completedJobs || 0} jobs
+                </span>
+                <span class="rating-badge">
+                  <i class="fas fa-star" style="color: #eab308;"></i> 
+                  ${(f.completedJobs || 0) > 5 ? 'Top Rated' : 'Rising Talent'}
+                </span>
+              </div>
+            </div>
+          </a>
+        `;
+      });
+      
+      freelancersContainer.innerHTML = html;
+    }
+
+    // ========== FILTER FREELANCERS ==========
+    function filterFreelancers() {
+      let filtered = [...allFreelancers];
+      
+      // Search filter
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      if (searchTerm) {
+        filtered = filtered.filter(f => 
+          (f.displayName && f.displayName.toLowerCase().includes(searchTerm)) ||
+          (f.location && f.location.toLowerCase().includes(searchTerm)) ||
+          (f.bio && f.bio.toLowerCase().includes(searchTerm)) ||
+          (f.skills && f.skills.some(s => s.toLowerCase().includes(searchTerm)))
+        );
+      }
+
+      // Skill filter
+      if (selectedSkill !== 'all' && selectedSkill !== 'more') {
+        filtered = filtered.filter(f => 
+          f.skills && f.skills.includes(selectedSkill)
+        );
+      }
+
+      // Rate filter
+      if (selectedRate !== 'all') {
+        filtered = filtered.filter(f => {
+          const rate = f.hourlyRate || 0;
+          if (selectedRate === '0-500') return rate > 0 && rate <= 500;
+          if (selectedRate === '500-1000') return rate > 500 && rate <= 1000;
+          if (selectedRate === '1000-2000') return rate > 1000 && rate <= 2000;
+          if (selectedRate === '2000+') return rate > 2000;
+          return true;
+        });
+      }
+
+      filteredFreelancers = filtered;
+      renderFreelancers(filteredFreelancers);
+    }
+
+    // ========== EVENT LISTENERS ==========
+    
+    // Search input
+    searchInput.addEventListener('input', filterFreelancers);
+
+    // Rate filter chips
+    document.querySelectorAll('#rateFilterContainer .filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('#rateFilterContainer .filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        selectedRate = chip.dataset.rate;
+        filterFreelancers();
+      });
+    });
+
+    // ========== AUTH STATE LISTENER ==========
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      await renderAuthUI(user);
+      await loadFreelancers();
+    });
+  </script>
+</body>
+</html>

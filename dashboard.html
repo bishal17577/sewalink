@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Dashboard · SewaLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ========== MOBILE-FIRST APP STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+    }
+    .nav-item.active {
+      color: #2563eb;
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .header-icon {
+      color: #475569;
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.6rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 50px;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 240px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #f1f5f9;
+    }
+    .dropdown-menu.show {
+      display: block;
+      animation: slideIn 0.2s ease;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .user-info {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      transition: background 0.15s;
+    }
+    .dropdown-item i {
+      width: 18px;
+      color: #64748b;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      color: #b91c1c;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .container {
+      padding: 1rem 1rem 80px;
+      max-width: 100%;
+    }
+
+    /* ========== WELCOME CARD ========== */
+    .welcome-card {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-radius: 24px;
+      padding: 1.5rem;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+    .welcome-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .welcome-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 1.2rem;
+    }
+    .welcome-stats {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .welcome-stat {
+      flex: 1;
+    }
+    .welcome-stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .welcome-stat-label {
+      font-size: 0.7rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+    }
+
+    /* ========== STATS CARDS ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-icon i {
+      font-size: 1.5rem;
+      color: #2563eb;
+    }
+    .stat-details {
+      flex: 1;
+    }
+    .stat-details h3 {
+      color: #64748b;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .stat-main {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+    .stat-sub {
+      color: #2563eb;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    /* ========== SECTION HEADER ========== */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      margin-top: 1rem;
+    }
+    .section-header h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .view-all {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    /* ========== CARD ========== */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== ACTIVITY LIST ========== */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2563eb;
+      flex-shrink: 0;
+    }
+    .activity-details {
+      flex: 1;
+      min-width: 0;
+    }
+    .activity-title {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.85rem;
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .activity-meta {
+      display: flex;
+      gap: 0.8rem;
+      color: #64748b;
+      font-size: 0.7rem;
+    }
+
+    /* ========== JOB ITEM ========== */
+    .job-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .job-item:last-child {
+      border-bottom: none;
+    }
+    .job-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .job-info h4 {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .job-meta {
+      display: flex;
+      gap: 0.8rem;
+      color: #64748b;
+      font-size: 0.7rem;
+    }
+    .job-status {
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-open {
+      background: #22c55e20;
+      color: #166534;
+    }
+    .status-accepted {
+      background: #3b82f620;
+      color: #1e40af;
+    }
+    .status-completed {
+      background: #8b5cf620;
+      color: #6d28d9;
+    }
+
+    /* ========== FRIENDS GRID ========== */
+    .friends-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.8rem;
+    }
+    .friend-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem;
+      background: #f8fafc;
+      border-radius: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .friend-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .friend-name {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 1.5rem;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+    .empty-state i {
+      font-size: 2rem;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== PLATFORM STATS ========== */
+    .platform-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .platform-stat {
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 16px;
+    }
+    .platform-stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 0.2rem;
+    }
+    .platform-stat-label {
+      color: #64748b;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    /* ========== LOADING ========== */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+    .loading-spinner {
+      font-size: 2rem;
+      color: #2563eb;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== BOTTOM PADDING ========== */
+    .bottom-padding {
+      height: 20px;
+    }
+
+    /* ========== DESKTOP OPTIMIZATION ========== */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <div class="header-actions">
+      <a href="notification.html" class="header-icon">
+        <i class="fas fa-bell"></i>
+        <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
+      </a>
+      <div id="authUI"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div id="dashboardContent">
+      <div class="loading-container">
+        <i class="fas fa-spinner fa-spin loading-spinner"></i>
+        <p style="color: #64748b;">Loading your dashboard...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Padding for Fixed Nav -->
+  <div class="bottom-padding"></div>
+
+  <!-- Bottom Navigation (App Style) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+    </a>
+    <a href="dashboard.html" class="nav-item active">
+      <i class="fas fa-chart-pie"></i>
+      <span>Dashboard</span>
+    </a>
+  </nav>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged,
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      getDoc,
+      doc,
+      updateDoc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    // ========== INITIALIZE FIREBASE ==========
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const dashboardContent = document.getElementById('dashboardContent');
+    const authUI = document.getElementById('authUI');
+    const notificationBadge = document.getElementById('notificationBadge');
+
+    let currentUser = null;
+    let unreadCount = 0;
+
+    // ========== CURRENCY FORMATTER ==========
+    function formatNPR(amount) {
+      if (!amount && amount !== 0) return 'रु 0';
+      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+    }
+
+    // ========== HELPER FUNCTIONS ==========
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' })[c]);
+    }
+
+    function formatTimeAgo(date) {
+      if (!date) return 'Just now';
+      const seconds = Math.floor((new Date() - date) / 1000);
+      if (seconds < 60) return 'Just now';
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h`;
+      const days = Math.floor(hours / 24);
+      if (days === 1) return 'Yesterday';
+      if (days < 7) return `${days}d`;
+      return date.toLocaleDateString();
+    }
+
+    // ========== GET UNREAD NOTIFICATION COUNT ==========
+    async function getUnreadNotificationCount(userId) {
+      try {
+        const q = query(
+          collection(db, 'notifications'),
+          where('userId', '==', userId),
+          where('read', '==', false)
+        );
+        const snapshot = await getDocs(q);
+        return snapshot.size;
+      } catch (error) {
+        console.error('Error getting notification count:', error);
+        return 0;
+      }
+    }
+
+    // ========== RENDER AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userSnap = await getDoc(userRef);
+          
+          if (!userSnap.exists()) {
+            await setDoc(userRef, {
+              uid: user.uid,
+              displayName: user.displayName || '',
+              email: user.email || '',
+              photoURL: user.photoURL || '',
+              role: 'freelancer',
+              createdAt: serverTimestamp()
+            });
+          }
+
+          unreadCount = await getUnreadNotificationCount(user.uid);
+          if (notificationBadge) {
+            if (unreadCount > 0) {
+              notificationBadge.style.display = 'inline';
+              notificationBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+            } else {
+              notificationBadge.style.display = 'none';
+            }
+          }
+
+          authUI.innerHTML = `
+            <div class="profile-container">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-info">
+                  <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                  <div class="user-email">${escapeHTML(user.email || '')}</div>
+                </div>
+                <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+                <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+                <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+              </div>
+            </div>
+          `;
+
+          const avatar = document.getElementById('avatarTrigger');
+          const dropdown = document.getElementById('dropdownMenu');
+          
+          if (avatar && dropdown) {
+            avatar.addEventListener('click', (e) => {
+              e.stopPropagation();
+              dropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', (e) => {
+              if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+              }
+            });
+          }
+
+          document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'index.html';
+          });
+
+        } catch (error) {
+          console.error('Auth UI error:', error);
+        }
+      } else {
+        authUI.innerHTML = `
+          <a href="sign-in.html" style="color: #2563eb; font-size: 0.85rem; font-weight: 600;">Sign In</a>
+        `;
+      }
+    }
+
+    // ========== LOAD DASHBOARD ==========
+    async function loadDashboard(user) {
+      try {
+        console.log('Loading dashboard for user:', user.uid);
+        
+        // ===== GET USER DATA =====
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        let userData = {};
+        
+        if (userSnap.exists()) {
+          userData = userSnap.data();
+        }
+
+        // ===== GET USER'S POSTED JOBS =====
+        const jobsRef = collection(db, 'jobs');
+        const postedJobsQuery = query(jobsRef, where('clientId', '==', user.uid));
+        const postedJobsSnap = await getDocs(postedJobsQuery);
+        let postedJobs = [];
+        postedJobsSnap.forEach(doc => postedJobs.push({ id: doc.id, ...doc.data() }));
+        
+        postedJobs.sort((a, b) => {
+          const dateA = a.createdAt?.toDate?.() || new Date(0);
+          const dateB = b.createdAt?.toDate?.() || new Date(0);
+          return dateB - dateA;
+        });
+        postedJobs = postedJobs.slice(0, 3);
+
+        // ===== GET JOBS USER ACCEPTED =====
+        const acceptedJobsQuery = query(jobsRef, where('acceptedBy', '==', user.uid));
+        const acceptedJobsSnap = await getDocs(acceptedJobsQuery);
+        let acceptedJobs = [];
+        acceptedJobsSnap.forEach(doc => acceptedJobs.push({ id: doc.id, ...doc.data() }));
+        
+        acceptedJobs.sort((a, b) => {
+          const dateA = a.acceptedAt?.toDate?.() || new Date(0);
+          const dateB = b.acceptedAt?.toDate?.() || new Date(0);
+          return dateB - dateA;
+        });
+        acceptedJobs = acceptedJobs.slice(0, 3);
+
+        // ===== GET FRIENDS =====
+        const friendIds = userData.friends || [];
+        const friends = [];
+        for (const id of friendIds.slice(0, 4)) {
+          try {
+            const friendRef = doc(db, 'users', id);
+            const friendSnap = await getDoc(friendRef);
+            if (friendSnap.exists()) {
+              friends.push({ id, ...friendSnap.data() });
+            }
+          } catch (e) {
+            console.error('Error loading friend:', e);
+          }
+        }
+
+        // ===== GET NOTIFICATIONS =====
+        let notifications = [];
+        try {
+          const notificationsQuery = query(collection(db, 'notifications'), where('userId', '==', user.uid));
+          const notificationsSnap = await getDocs(notificationsQuery);
+          notificationsSnap.forEach(doc => notifications.push({ id: doc.id, ...doc.data() }));
+          
+          notifications.sort((a, b) => {
+            const dateA = a.createdAt?.toDate?.() || new Date(0);
+            const dateB = b.createdAt?.toDate?.() || new Date(0);
+            return dateB - dateA;
+          });
+          notifications = notifications.slice(0, 3);
+        } catch (e) {
+          console.error('Error loading notifications:', e);
+        }
+
+        // ===== CALCULATE STATS =====
+        const totalPosted = postedJobs.length;
+        const totalAccepted = acceptedJobs.length;
+        
+        let completedPosted = 0;
+        postedJobs.forEach(job => { if (job.status === 'completed') completedPosted++; });
+        
+        let completedAccepted = 0;
+        let totalEarnings = 0;
+        acceptedJobs.forEach(job => {
+          if (job.status === 'completed') {
+            completedAccepted++;
+            totalEarnings += job.budget || 0;
+          }
+        });
+        
+        const totalCompleted = completedPosted + completedAccepted;
+        const totalSpent = postedJobs.filter(j => j.status === 'completed').reduce((sum, j) => sum + (j.budget || 0), 0);
+
+        // ===== GET PLATFORM STATS =====
+        let platformUsers = 0, platformJobs = 0, platformCompleted = 0, platformVolume = 0;
+        try {
+          const usersSnap = await getDocs(collection(db, 'users'));
+          platformUsers = usersSnap.size;
+          const jobsSnap = await getDocs(collection(db, 'jobs'));
+          platformJobs = jobsSnap.size;
+          jobsSnap.forEach(doc => {
+            const job = doc.data();
+            if (job.status === 'completed') {
+              platformCompleted++;
+              platformVolume += job.budget || 0;
+            }
+          });
+        } catch (e) {
+          console.error('Error loading platform stats:', e);
+        }
+
+        // ===== RENDER DASHBOARD =====
+        dashboardContent.innerHTML = `
+          <!-- Welcome Card -->
+          <div class="welcome-card">
+            <div class="welcome-title">Welcome back, ${escapeHTML(userData.displayName || user.displayName || 'User')}! 👋</div>
+            <div class="welcome-subtitle">Here's what's happening with your account</div>
+            <div class="welcome-stats">
+              <div class="welcome-stat">
+                <div class="welcome-stat-number">${totalPosted + totalAccepted}</div>
+                <div class="welcome-stat-label">Total Jobs</div>
+              </div>
+              <div class="welcome-stat">
+                <div class="welcome-stat-number">${totalCompleted}</div>
+                <div class="welcome-stat-label">Completed</div>
+              </div>
+              <div class="welcome-stat">
+                <div class="welcome-stat-number">${friends.length}</div>
+                <div class="welcome-stat-label">Friends</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-briefcase"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Jobs Posted</h3>
+                <div class="stat-main">${totalPosted}</div>
+                <div class="stat-sub">${postedJobs.filter(j => j.status === 'open').length} active</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Accepted</h3>
+                <div class="stat-main">${totalAccepted}</div>
+                <div class="stat-sub">${acceptedJobs.filter(j => j.status === 'accepted').length} in progress</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Completed</h3>
+                <div class="stat-main">${totalCompleted}</div>
+                <div class="stat-sub">${totalPosted + totalAccepted > 0 ? Math.round((totalCompleted / (totalPosted + totalAccepted)) * 100) : 0}% success</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Earnings</h3>
+                <div class="stat-main">${formatNPR(totalEarnings)}</div>
+                <div class="stat-sub">${formatNPR(totalSpent)} spent</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="section-header">
+            <h2><i class="fas fa-history" style="color: #2563eb;"></i> Recent Activity</h2>
+            <a href="notification.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="card">
+            <div class="activity-list">
+              ${notifications.length > 0 ? notifications.map(n => `
+                <div class="activity-item">
+                  <div class="activity-icon">
+                    <i class="fas ${n.type === 'friend_request' ? 'fa-user-plus' : n.type === 'job_accepted' ? 'fa-check-circle' : 'fa-bell'}"></i>
+                  </div>
+                  <div class="activity-details">
+                    <div class="activity-title">${escapeHTML(n.message || 'New notification')}</div>
+                    <div class="activity-meta">
+                      <span><i class="far fa-clock"></i> ${formatTimeAgo(n.createdAt?.toDate?.())}</span>
+                    </div>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state">
+                  <i class="fas fa-bell-slash"></i>
+                  <p>No recent activity</p>
+                </div>
+              `}
+            </div>
+          </div>
+
+          <!-- Your Jobs -->
+          <div class="section-header">
+            <h2><i class="fas fa-briefcase" style="color: #2563eb;"></i> Your Jobs</h2>
+            <a href="jobs.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="card">
+            ${postedJobs.length > 0 ? postedJobs.map(job => `
+              <div class="job-item">
+                <div class="job-info">
+                  <h4>${escapeHTML(job.title || 'Untitled')}</h4>
+                  <div class="job-meta">
+                    <span>${formatNPR(job.budget)}</span>
+                    <span>•</span>
+                    <span>${escapeHTML(job.category || 'General')}</span>
+                  </div>
+                </div>
+                <span class="job-status status-${job.status || 'open'}">${job.status || 'open'}</span>
+              </div>
+            `).join('') : `
+              <div class="empty-state">
+                <i class="fas fa-briefcase"></i>
+                <p>You haven't posted any jobs yet</p>
+                <a href="post-job.html" style="color: #2563eb; text-decoration: none; font-size: 0.8rem; font-weight: 600; display: inline-block; margin-top: 0.5rem;">Post a job →</a>
+              </div>
+            `}
+          </div>
+
+          <!-- Accepted Jobs -->
+          <div class="section-header">
+            <h2><i class="fas fa-clipboard-check" style="color: #2563eb;"></i> Accepted Jobs</h2>
+            <a href="jobs.html?status=accepted" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="card">
+            ${acceptedJobs.length > 0 ? acceptedJobs.map(job => `
+              <div class="job-item">
+                <div class="job-info">
+                  <h4>${escapeHTML(job.title || 'Untitled')}</h4>
+                  <div class="job-meta">
+                    <span>${formatNPR(job.budget)}</span>
+                    <span>•</span>
+                    <span>${escapeHTML(job.clientName || 'Client')}</span>
+                  </div>
+                </div>
+                <span class="job-status status-${job.status || 'accepted'}">${job.status || 'accepted'}</span>
+              </div>
+            `).join('') : `
+              <div class="empty-state">
+                <i class="fas fa-clipboard-check"></i>
+                <p>You haven't accepted any jobs yet</p>
+              </div>
+            `}
+          </div>
+
+          <!-- Friends -->
+          <div class="section-header">
+            <h2><i class="fas fa-user-friends" style="color: #2563eb;"></i> Friends (${friends.length})</h2>
+            <a href="messages.html?tab=friends" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="card">
+            <div class="friends-grid">
+              ${friends.length > 0 ? friends.map(f => `
+                <a href="viewer.html?id=${f.id}" class="friend-card">
+                  <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'Friend') + '&background=2563eb&color=fff&size=40'}" class="friend-avatar">
+                  <span class="friend-name">${escapeHTML(f.displayName || 'Friend')}</span>
+                </a>
+              `).join('') : `
+                <div class="empty-state" style="grid-column: 1/-1;">
+                  <i class="fas fa-user-friends"></i>
+                  <p>No friends yet</p>
+                </div>
+              `}
+            </div>
+          </div>
+
+          <!-- Platform Stats -->
+          <div class="section-header">
+            <h2><i class="fas fa-globe" style="color: #2563eb;"></i> SewaLink Platform</h2>
+          </div>
+          <div class="card">
+            <div class="platform-stats">
+              <div class="platform-stat">
+                <div class="platform-stat-value">${platformUsers}</div>
+                <div class="platform-stat-label">Total Users</div>
+              </div>
+              <div class="platform-stat">
+                <div class="platform-stat-value">${platformJobs}</div>
+                <div class="platform-stat-label">Jobs Posted</div>
+              </div>
+              <div class="platform-stat">
+                <div class="platform-stat-value">${platformCompleted}</div>
+                <div class="platform-stat-label">Completed</div>
+              </div>
+              <div class="platform-stat">
+                <div class="platform-stat-value">${formatNPR(platformVolume)}</div>
+                <div class="platform-stat-label">Total Volume</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        dashboardContent.innerHTML = `
+          <div class="card" style="text-align: center; padding: 2rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #ef4444; margin-bottom: 1rem;"></i>
+            <h3 style="color: #0f172a; margin-bottom: 0.5rem;">Error Loading Dashboard</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">${error.message}</p>
+            <button onclick="window.location.reload()" style="padding: 0.6rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 30px; font-size: 0.85rem; font-weight: 600;">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // ========== AUTH STATE LISTENER ==========
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'sign-in.html';
+        return;
+      }
+      
+      currentUser = user;
+      await renderAuthUI(user);
+      await loadDashboard(user);
+    });
+  </script>
+</body>
+</html>
