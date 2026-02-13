@@ -4,19 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <title>SewaLink – Hire Freelancers, Find Work</title>
+  <title>SEWALINK – Hire Freelancers, Find Work</title>
   <meta name="description" content="Connect with skilled freelancers for your projects. Post jobs, hire experts, and get work done securely.">
   
   <!-- PWA / App-like settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#0f172a">
   
-  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230f172a'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%230f172a'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%230f172a'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
-    /* ========== MOBILE-FIRST APP STYLES ========== */
+    /* ========== PROFESSIONAL DESIGN SYSTEM ========== */
     * {
       margin: 0;
       padding: 0;
@@ -26,13 +27,408 @@
     }
 
     body {
-      background: #ffffff;
+      background: #f8fafc;
       color: #0f172a;
       line-height: 1.5;
-      padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    /* ========== TOP HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #2563eb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn-outline {
+      padding: 0.4rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: #475569;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      padding: 0.4rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #2563eb;
+      object-fit: cover;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 260px;
+      padding: 0.5rem;
+      display: none;
+      z-index: 101;
+      border: 1px solid #e2e8f0;
+    }
+    .dropdown-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .user-info {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: #475569;
+      font-size: 0.9rem;
+      border-radius: 10px;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: #ef4444;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+      padding-bottom: 80px;
+    }
+
+    /* ========== SEARCH SECTION ========== */
+    .search-section {
+      margin-bottom: 1.5rem;
+    }
+    .search-label {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+      display: block;
+      font-weight: 500;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 40px;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .search-box i {
+      color: #94a3b8;
+      margin-right: 0.5rem;
+      font-size: 1rem;
+    }
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+    }
+    .search-box input:focus {
+      outline: none;
+    }
+
+    /* ========== JOB INDICATOR ========== */
+    .job-indicator {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== WELCOME BANNER ========== */
+    .welcome-banner {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      padding: 1.5rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+    .welcome-banner h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .welcome-banner p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+    .earn-link {
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .banner-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn-white {
+      background: white;
+      color: #0f172a;
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    /* ========== POST INDICATOR ========== */
+    .post-indicator {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== SECTION HEADER ========== */
+    .section-header {
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* ========== FREELANCER CARD ========== */
+    .freelancer-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .freelancer-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .freelancer-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #2563eb;
+    }
+    .freelancer-info {
+      flex: 1;
+    }
+    .freelancer-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: #0f172a;
+    }
+    .freelancer-email {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-bottom: 0.3rem;
+    }
+    .freelancer-badge {
+      font-size: 0.7rem;
+      color: #2563eb;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .freelancer-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.7rem;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-value {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .stat-label {
+      color: #64748b;
+    }
+
+    /* ========== JOB CARD ========== */
+    .job-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .job-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+    }
+    .job-poster {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .job-poster i {
+      color: #64748b;
+    }
+    .job-time {
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .job-featured {
+      background: #fef9c3;
+      color: #854d0e;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    .job-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .job-description {
+      font-size: 0.85rem;
+      color: #475569;
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
+    }
+    .job-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.7rem;
+    }
+    .job-detail-item {
+      background: #f1f5f9;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      color: #475569;
+    }
+    .job-apply {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    /* ========== BOTTOM NAVIGATION ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -44,8 +440,8 @@
       align-items: center;
       padding: 0.5rem 1rem;
       padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-      border-top: 1px solid #f1f5f9;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      border-top: 1px solid #e2e8f0;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
       z-index: 1000;
     }
 
@@ -54,12 +450,11 @@
       flex-direction: column;
       align-items: center;
       text-decoration: none;
-      color: #64748b;
+      color: #94a3b8;
       font-size: 0.7rem;
       gap: 0.2rem;
       padding: 0.3rem 0.5rem;
       border-radius: 8px;
-      transition: all 0.2s;
       position: relative;
     }
     .nav-item i {
@@ -92,605 +487,13 @@
       border: 2px solid white;
     }
 
-    /* ========== TOP HEADER ========== */
-    .app-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      background: white;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #0f172a;
-      text-decoration: none;
-    }
-    .logo span {
-      color: #2563eb;
-    }
-
-    .auth-buttons {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .btn-outline {
-      padding: 0.4rem 1rem;
-      border: 1px solid #e2e8f0;
-      background: white;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: #1e293b;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      padding: 0.4rem 1rem;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-decoration: none;
-    }
-
-    /* ========== PROFILE DROPDOWN ========== */
-    .profile-container {
-      position: relative;
-      display: inline-block;
-    }
-    .profile-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      object-fit: cover;
-    }
-    .dropdown-menu {
-      position: absolute;
-      top: 45px;
-      right: 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      width: 240px;
-      padding: 0.5rem;
-      display: none;
-      z-index: 101;
-      border: 1px solid #f1f5f9;
-    }
-    .dropdown-menu.show {
-      display: block;
-    }
-    .user-info {
-      padding: 0.8rem;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .user-name {
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 0.9rem;
-    }
-    .user-email {
-      font-size: 0.75rem;
-      color: #64748b;
-    }
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.6rem 0.8rem;
-      text-decoration: none;
-      color: #1e293b;
-      font-size: 0.85rem;
-      border-radius: 10px;
-    }
-    .dropdown-item:hover {
-      background: #f8fafc;
-    }
-    .logout-btn {
-      width: 100%;
-      background: none;
-      border: none;
-      text-align: left;
-      padding: 0.6rem 0.8rem;
-      color: #b91c1c;
-      border-top: 1px solid #f1f5f9;
-      margin-top: 0.25rem;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-    }
-
-    /* ========== WELCOME BANNER ========== */
-    .welcome-banner {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      padding: 1.2rem 1rem;
-      color: white;
-      margin-bottom: 1rem;
-    }
-    .welcome-banner h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-    }
-    .welcome-banner p {
-      font-size: 0.85rem;
-      opacity: 0.9;
-      margin-bottom: 1rem;
-    }
-    .banner-buttons {
-      display: flex;
-      gap: 0.8rem;
-    }
-    .btn-white {
-      background: white;
-      color: #2563eb;
-      padding: 0.5rem 1.2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-    }
-    .btn-outline-white {
-      background: transparent;
-      color: white;
-      border: 1px solid white;
-      padding: 0.5rem 1.2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-    }
-
-    /* ========== STATS CARDS ========== */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      padding: 0.8rem 1rem;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .stat-card {
-      text-align: center;
-    }
-    .stat-number {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #2563eb;
-    }
-    .stat-label {
-      color: #64748b;
-      font-size: 0.65rem;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    /* ========== SEARCH BAR ========== */
-    .search-section {
-      padding: 1rem;
-    }
-    .search-container {
-      display: flex;
-      gap: 0.6rem;
-      align-items: center;
-    }
-    .search-box {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 40px;
-      padding: 0.5rem 1rem;
-    }
-    .search-box i {
-      color: #94a3b8;
-      margin-right: 0.5rem;
-      font-size: 0.9rem;
-    }
-    .search-box input {
-      width: 100%;
-      border: none;
-      background: transparent;
-      font-size: 0.9rem;
-    }
-    .search-box input:focus {
-      outline: none;
-    }
-    .filter-btn {
-      padding: 0.5rem 1.2rem;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 40px;
-      font-weight: 600;
-      color: #334155;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .filter-panel {
-      display: none;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #f8fafc;
-      border-radius: 20px;
-    }
-    .filter-panel.show {
-      display: block;
-    }
-    .filter-group {
-      margin-bottom: 1rem;
-    }
-    .filter-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 0.3rem;
-    }
-    .filter-group select {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      background: white;
-      font-size: 0.85rem;
-    }
-    .filter-actions {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 0.5rem;
-    }
-    .filter-actions button {
-      flex: 1;
-      padding: 0.6rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    /* ========== QUICK ACTIONS ========== */
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      padding: 1rem;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .quick-action {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #334155;
-    }
-    .quick-action i {
-      font-size: 1.3rem;
-      color: #2563eb;
-      background: #eff6ff;
-      padding: 0.7rem;
-      border-radius: 16px;
-      margin-bottom: 0.3rem;
-    }
-    .quick-action span {
-      font-size: 0.7rem;
-      font-weight: 500;
-    }
-
-    /* ========== SECTION HEADER ========== */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1rem 0.5rem;
-    }
-    .section-header h2 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #0f172a;
-    }
-    .view-all {
-      color: #2563eb;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    /* ========== JOB CARDS ========== */
-    .job-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      padding: 0 1rem 1rem;
-    }
-
-    .job-card {
-      background: white;
-      border-radius: 20px;
-      padding: 1.2rem;
-      border: 1px solid #f1f5f9;
-      position: relative;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .job-card:active {
-      background: #f8fafc;
-    }
-
-    .job-favorite {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      color: #cbd5e1;
-      cursor: pointer;
-      z-index: 2;
-      font-size: 1.1rem;
-    }
-    .job-favorite.active {
-      color: #eab308;
-    }
-
-    .job-status {
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      background: #22c55e;
-      color: white;
-      border-radius: 50px;
-      font-size: 0.65rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .job-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 0.3rem;
-      padding-right: 2rem;
-    }
-
-    .job-description {
-      color: #475569;
-      font-size: 0.8rem;
-      margin-bottom: 0.8rem;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .job-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.8rem;
-    }
-    .job-budget {
-      font-weight: 700;
-      color: #2563eb;
-      font-size: 1.1rem;
-    }
-    .job-category {
-      background: #f1f5f9;
-      padding: 0.2rem 0.8rem;
-      border-radius: 50px;
-      font-size: 0.7rem;
-      color: #475569;
-    }
-
-    .job-client {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding-top: 0.8rem;
-      border-top: 1px solid #f1f5f9;
-      font-size: 0.75rem;
-      color: #64748b;
-    }
-    .job-client a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .job-time {
-      margin-left: auto;
-      color: #94a3b8;
-    }
-
-    /* ========== CATEGORIES (HORIZONTAL SCROLL) ========== */
-    .categories-section {
-      padding: 1rem 0;
-    }
-    .categories-scroll {
-      display: flex;
-      overflow-x: auto;
-      gap: 0.8rem;
-      padding: 0 1rem;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .categories-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .category-chip {
-      flex: 0 0 auto;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 40px;
-      padding: 0.5rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: #334155;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-    .category-chip i {
-      color: #2563eb;
-      font-size: 0.9rem;
-    }
-    .category-chip.active {
-      background: #2563eb;
-      color: white;
-      border-color: #2563eb;
-    }
-    .category-chip.active i {
-      color: white;
-    }
-
-    /* ========== FEATURED FREELANCERS ========== */
-    .freelancers-scroll {
-      display: flex;
-      overflow-x: auto;
-      gap: 1rem;
-      padding: 0 1rem 1rem;
-      scrollbar-width: none;
-    }
-    .freelancers-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .freelancer-card {
-      flex: 0 0 160px;
-      background: white;
-      border-radius: 20px;
-      padding: 1rem;
-      border: 1px solid #f1f5f9;
-      text-decoration: none;
-      color: #0f172a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .freelancer-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 0.5rem;
-    }
-    .freelancer-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.2rem;
-    }
-    .freelancer-role {
-      color: #64748b;
-      font-size: 0.7rem;
-      margin-bottom: 0.3rem;
-    }
-    .freelancer-rating {
-      color: #eab308;
-      font-size: 0.7rem;
-    }
-
-    /* ========== TESTIMONIALS ========== */
-    .testimonials-section {
-      padding: 1rem;
-      background: #f8fafc;
-      margin-top: 1rem;
-    }
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-    .testimonial-card {
-      background: white;
-      border-radius: 20px;
-      padding: 1.2rem;
-      border: 1px solid #f1f5f9;
-    }
-    .testimonial-header {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-    }
-    .testimonial-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .testimonial-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .testimonial-role {
-      color: #64748b;
-      font-size: 0.7rem;
-    }
-    .testimonial-text {
-      color: #475569;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      font-style: italic;
-    }
-    .testimonial-stars {
-      color: #eab308;
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-    }
-
-    /* ========== CTA BANNER ========== */
-    .cta-banner {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      padding: 1.5rem 1rem;
-      color: white;
-      text-align: center;
-      margin-top: 1rem;
-      border-radius: 0;
-    }
-    .cta-banner h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-    .cta-banner p {
-      opacity: 0.9;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-    }
-    .btn-cta {
-      display: inline-block;
-      background: #2563eb;
-      color: white;
-      padding: 0.7rem 2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    /* ========== SKELETON LOADING ========== */
+    /* ========== LOADING SKELETON ========== */
     .skeleton-card {
       background: white;
-      border-radius: 20px;
-      padding: 1.2rem;
-      border: 1px solid #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1rem;
     }
     .skeleton-line {
       height: 16px;
@@ -705,19 +508,27 @@
     }
     .skeleton-line.short { width: 40%; }
     .skeleton-line.medium { width: 70%; }
+    .skeleton-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      animation: pulse 1.5s infinite;
+    }
 
     /* ========== EMPTY STATE ========== */
     .empty-state {
       text-align: center;
-      padding: 2.5rem 1rem;
-      background: white;
-      border-radius: 20px;
+      padding: 2rem;
       color: #64748b;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
     }
     .empty-state i {
       font-size: 2.5rem;
       color: #cbd5e1;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
     }
 
     /* ========== BOTTOM PADDING ========== */
@@ -732,220 +543,65 @@
         transform: translateX(-50%);
         border-radius: 30px 30px 0 0;
       }
-      .container {
-        max-width: 500px;
-        margin: 0 auto;
-      }
     }
   </style>
 </head>
 <body>
   <!-- App Header -->
   <header class="app-header">
-    <a href="index.html" class="logo">Sewa<span>Link</span></a>
+    <a href="index.html" class="logo">SEWA<span>Link</span></a>
     <div id="authUI" class="auth-buttons"></div>
   </header>
 
-  <!-- Welcome Banner -->
-  <section class="welcome-banner">
-    <h1 id="welcomeMessage">Find the right freelancer</h1>
-    <p id="welcomeSubtext">Connect with skilled professionals, get work done faster, and pay securely.</p>
-    <div class="banner-buttons">
-      <a href="post-job.html" class="btn-white">Post a Job</a>
-      <a href="freelancers.html" class="btn-outline-white">Find Freelancers</a>
-    </div>
-  </section>
-
-  <!-- Stats Row -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div id="totalUsersStat" class="stat-number">0</div>
-      <div class="stat-label">Users</div>
-    </div>
-    <div class="stat-card">
-      <div id="totalJobsStat" class="stat-number">0</div>
-      <div class="stat-label">Jobs</div>
-    </div>
-    <div class="stat-card">
-      <div id="totalFreelancersStat" class="stat-number">0</div>
-      <div class="stat-label">Freelancers</div>
-    </div>
-    <div class="stat-card">
-      <div id="totalCompletedStat" class="stat-number">0</div>
-      <div class="stat-label">Completed</div>
-    </div>
-  </div>
-
-  <!-- Quick Actions -->
-  <div class="quick-actions">
-    <a href="post-job.html" class="quick-action">
-      <i class="fas fa-briefcase"></i>
-      <span>Post Job</span>
-    </a>
-    <a href="services.html" class="quick-action">
-      <i class="fas fa-cogs"></i>
-      <span>Services</span>
-    </a>
-    <a href="messages.html" class="quick-action">
-      <i class="fas fa-comment"></i>
-      <span>Messages</span>
-      <span id="messageBadge" class="notification-badge" style="display: none;">0</span>
-    </a>
-    <a href="notification.html" class="quick-action">
-      <i class="fas fa-bell"></i>
-      <span>Alerts</span>
-      <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
-    </a>
-  </div>
-
-  <!-- Search & Filter -->
-  <section class="search-section">
-    <div class="search-container">
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-label">search freelancer</div>
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search jobs...">
-      </div>
-      <button class="filter-btn" id="filterBtn">
-        <i class="fas fa-sliders-h"></i> Filter
-      </button>
-    </div>
-    
-    <div class="filter-panel" id="filterPanel">
-      <div class="filter-group">
-        <label>Category</label>
-        <select id="filterCategory">
-          <option value="">All Categories</option>
-          <option value="Driver / Labor">Driver / Labor</option>
-          <option value="Programmer / Developer">Programmer / Developer</option>
-          <option value="Teacher / Tutor">Teacher / Tutor</option>
-          <option value="Electrician">Electrician</option>
-          <option value="Plumber">Plumber</option>
-          <option value="Carpenter">Carpenter</option>
-          <option value="Designer">Designer</option>
-          <option value="Marketing / Sales">Marketing / Sales</option>
-          <option value="Nurse / Health Worker">Nurse / Health Worker</option>
-          <option value="Photographer">Photographer</option>
-          <option value="Other Services">Other Services</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label>Budget (NPR)</label>
-        <select id="filterBudget">
-          <option value="">Any Budget</option>
-          <option value="0-5000">Under रु 5,000</option>
-          <option value="5000-10000">रु 5,000 - रु 10,000</option>
-          <option value="10000-25000">रु 10,000 - रु 25,000</option>
-          <option value="25000-50000">रु 25,000 - रु 50,000</option>
-          <option value="50000+">रु 50,000+</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label>Sort By</label>
-        <select id="filterSort">
-          <option value="newest">Newest First</option>
-          <option value="budget-high">Budget: High to Low</option>
-          <option value="budget-low">Budget: Low to High</option>
-        </select>
-      </div>
-      <div class="filter-actions">
-        <button class="btn-outline" id="clearFiltersBtn">Clear</button>
-        <button class="btn-primary" id="applyFiltersBtn">Apply</button>
+        <input type="text" id="searchInput" placeholder="Search by name, skills, location...">
       </div>
     </div>
-  </section>
 
-  <!-- Latest Jobs -->
-  <div class="section-header">
-    <h2>🔥 Latest Jobs</h2>
-    <a href="jobs.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
-  </div>
-  <div id="jobContainer" class="job-grid">
-    <!-- Skeleton loading -->
-    <div class="skeleton-card">
-      <div class="skeleton-line short"></div>
-      <div class="skeleton-line" style="height: 20px;"></div>
-      <div class="skeleton-line medium"></div>
-      <div class="skeleton-line" style="width: 30%;"></div>
+    <!-- JOB Indicator -->
+    <div class="job-indicator">JOB</div>
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <h1 id="welcomeMessage">Welcome to SEWALINK!</h1>
+      <p>Find the perfect freelancer for your project.</p>
+      <a href="games.html" class="earn-link">Earn from here. →</a>
+      <div class="banner-buttons">
+        <a href="post-job.html" class="btn-white">Post a Job</a>
+        <a href="find-freelancers.html" class="btn-outline-white">Find freelancers</a>
+      </div>
     </div>
-    <div class="skeleton-card">
-      <div class="skeleton-line short"></div>
-      <div class="skeleton-line" style="height: 20px;"></div>
-      <div class="skeleton-line medium"></div>
-      <div class="skeleton-line" style="width: 30%;"></div>
+
+    <!-- POST Indicator -->
+    <div class="post-indicator">POST</div>
+
+    <!-- Search available Job -->
+    <div class="section-header">
+      <h2>Search available Job by name, price</h2>
     </div>
+
+    <!-- Top freelancer -->
+    <div class="section-header">
+      <h2>Top freelancer</h2>
+    </div>
+
+    <!-- Freelancers Container -->
+    <div id="freelancersContainer"></div>
+
+    <!-- Jobs Container -->
+    <div id="jobsContainer"></div>
   </div>
 
-  <!-- Popular Categories -->
-  <div class="section-header">
-    <h2>📂 Popular Categories</h2>
-    <a href="services.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
-  </div>
-  <section class="categories-section">
-    <div id="categoriesContainer" class="categories-scroll">
-      <!-- Loaded dynamically -->
-    </div>
-  </section>
-
-  <!-- Featured Freelancers -->
-  <div class="section-header">
-    <h2>⭐ Featured Freelancers</h2>
-    <a href="freelancers.html" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
-  </div>
-  <div id="featuredFreelancersContainer" class="freelancers-scroll">
-    <!-- Loaded dynamically -->
-  </div>
-
-  <!-- How It Works -->
-  <div class="testimonials-section">
-    <div class="section-header" style="padding: 0 0 1rem 0;">
-      <h2>📋 How It Works</h2>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; text-align: center;">
-      <div>
-        <div style="background: #eff6ff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem;">
-          <i class="fas fa-pen" style="color: #2563eb; font-size: 1.2rem;"></i>
-        </div>
-        <h4 style="font-size: 0.9rem; margin-bottom: 0.2rem;">Post a Job</h4>
-        <p style="font-size: 0.7rem; color: #64748b;">Describe your project</p>
-      </div>
-      <div>
-        <div style="background: #eff6ff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem;">
-          <i class="fas fa-user-check" style="color: #2563eb; font-size: 1.2rem;"></i>
-        </div>
-        <h4 style="font-size: 0.9rem; margin-bottom: 0.2rem;">Choose Freelancer</h4>
-        <p style="font-size: 0.7rem; color: #64748b;">Review proposals</p>
-      </div>
-      <div>
-        <div style="background: #eff6ff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem;">
-          <i class="fas fa-credit-card" style="color: #2563eb; font-size: 1.2rem;"></i>
-        </div>
-        <h4 style="font-size: 0.9rem; margin-bottom: 0.2rem;">Pay Securely</h4>
-        <p style="font-size: 0.7rem; color: #64748b;">Release payment when done</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Testimonials -->
-  <div class="testimonials-section">
-    <div class="section-header" style="padding: 0 0 1rem 0;">
-      <h2>💬 What Our Users Say</h2>
-    </div>
-    <div id="testimonialsContainer" class="testimonials-grid">
-      <!-- Loaded dynamically -->
-    </div>
-  </div>
-
-  <!-- CTA Banner -->
-  <div class="cta-banner">
-    <h3>Ready to start your project?</h3>
-    <p>Join thousands of satisfied clients and freelancers</p>
-    <a href="post-job.html" class="btn-cta">Post a Job for Free</a>
-  </div>
-
-  <!-- Bottom Padding for Fixed Nav -->
+  <!-- Bottom Padding -->
   <div class="bottom-padding"></div>
 
-  <!-- Bottom Navigation (App Style) -->
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item active">
       <i class="fas fa-home"></i>
@@ -959,20 +615,32 @@
       <i class="fas fa-briefcase"></i>
       <span>Jobs</span>
     </a>
-    <a href="messages.html" class="nav-item" id="messagesNavItem">
+    <a href="shopping.html" class="nav-item">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Shop</span>
+    </a>
+    <a href="messages.html" class="nav-item">
       <i class="fas fa-comment"></i>
       <span>Chat</span>
       <span id="messagesNavBadge" class="notification-badge" style="display: none;">0</span>
     </a>
-    <a href="notification.html" class="nav-item" id="notificationsNavItem">
+    <a href="notification.html" class="nav-item">
       <i class="fas fa-bell"></i>
       <span>Alerts</span>
       <span id="notificationsNavBadge" class="notification-badge" style="display: none;">0</span>
     </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
+    </a>
   </nav>
 
   <script type="module">
-    // ========== FIREBASE ==========
+    // ========== FIREBASE CONFIGURATION ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { 
       getAuth, 
@@ -984,18 +652,14 @@
       collection,
       query,
       where,
-      getDocs,
-      getCountFromServer,
-      doc,
-      getDoc,
-      setDoc,
-      updateDoc,
       orderBy,
       limit,
-      serverTimestamp,
-      arrayUnion,
-      arrayRemove,
-      onSnapshot
+      getDocs,
+      getDoc,
+      doc,
+      setDoc,
+      onSnapshot,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1007,50 +671,30 @@
       appId: "1:682952754486:web:c0bba16496d78234aa1f97"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ========== DOM ==========
+    // ========== DOM ELEMENTS ==========
     const authUI = document.getElementById('authUI');
-    const jobContainer = document.getElementById('jobContainer');
-    const totalUsersEl = document.getElementById('totalUsersStat');
-    const totalJobsEl = document.getElementById('totalJobsStat');
-    const totalFreelancersEl = document.getElementById('totalFreelancersStat');
-    const totalCompletedEl = document.getElementById('totalCompletedStat');
-    const searchInput = document.getElementById('searchInput');
-    const filterBtn = document.getElementById('filterBtn');
-    const filterPanel = document.getElementById('filterPanel');
-    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
-    const filterCategory = document.getElementById('filterCategory');
-    const filterBudget = document.getElementById('filterBudget');
-    const filterSort = document.getElementById('filterSort');
-    const profileNavLink = document.getElementById('profileNavLink');
     const welcomeMessage = document.getElementById('welcomeMessage');
-    const welcomeSubtext = document.getElementById('welcomeSubtext');
-    const messageBadge = document.getElementById('messageBadge');
-    const notificationBadge = document.getElementById('notificationBadge');
+    const freelancersContainer = document.getElementById('freelancersContainer');
+    const jobsContainer = document.getElementById('jobsContainer');
+    const searchInput = document.getElementById('searchInput');
     const messagesNavBadge = document.getElementById('messagesNavBadge');
     const notificationsNavBadge = document.getElementById('notificationsNavBadge');
-    const featuredFreelancersContainer = document.getElementById('featuredFreelancersContainer');
-    const testimonialsContainer = document.getElementById('testimonialsContainer');
 
     // ========== STATE ==========
-    let allJobs = [];
-    let filteredJobs = [];
     let currentUser = null;
-    let userFavorites = [];
-    let unsubscribeNotifications = null;
-    let unsubscribeMessages = null;
+    let allJobs = [];
 
-    // ========== CURRENCY FORMATTER ==========
+    // ========== HELPER FUNCTIONS ==========
     function formatNPR(amount) {
-      if (!amount && amount !== 0) return 'रु 0';
-      return `रु ${Number(amount).toLocaleString('ne-NP')}`;
+      if (!amount && amount !== 0) return 'Rs 0';
+      return `Rs ${Number(amount).toLocaleString('en-IN')}`;
     }
 
-    // ========== HELPERS ==========
     function escapeHTML(str) {
       if (!str) return '';
       return str.replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' })[c]);
@@ -1058,22 +702,23 @@
 
     function formatTimeAgo(date) {
       if (!date) return 'Just now';
-      const seconds = Math.floor((new Date() - date) / 1000);
-      if (seconds < 60) return 'Just now';
-      const minutes = Math.floor(seconds / 60);
-      if (minutes < 60) return `${minutes}m ago`;
-      const hours = Math.floor(minutes / 60);
-      if (hours < 24) return `${hours}h ago`;
-      const days = Math.floor(hours / 24);
-      return days === 1 ? '1d ago' : `${days}d ago`;
+      try {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        return days === 1 ? '1d ago' : `${days}d ago`;
+      } catch {
+        return 'Just now';
+      }
     }
 
-    function debounce(fn, wait) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => fn.apply(this, args), wait);
-      };
+    function debounce(fn, ms) {
+      let t;
+      return function() { clearTimeout(t); t = setTimeout(() => fn(), ms); };
     }
 
     // ========== AUTH UI ==========
@@ -1084,27 +729,31 @@
           const userRef = doc(db, 'users', user.uid);
           const userSnap = await getDoc(userRef);
           
-          if (userSnap.exists()) {
-            userFavorites = userSnap.data().favorites || [];
-          } else {
+          if (!userSnap.exists()) {
             await setDoc(userRef, {
               uid: user.uid,
-              displayName: user.displayName || '',
+              displayName: user.displayName || 'User',
               email: user.email || '',
+              photoURL: user.photoURL || '',
               role: 'freelancer',
               createdAt: serverTimestamp()
             });
           }
 
-          // Update welcome message with user's name
+          // Update welcome message
           if (user.displayName) {
             welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-            welcomeSubtext.textContent = 'Find the perfect freelancer for your project.';
+          } else {
+            const userData = userSnap.data();
+            if (userData?.displayName) {
+              welcomeMessage.textContent = `Welcome back, ${userData.displayName.split(' ')[0]}!`;
+            }
           }
 
+          // Profile dropdown
           authUI.innerHTML = `
             <div class="profile-container">
-              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=40'}" class="profile-avatar" id="avatarTrigger">
               <div class="dropdown-menu" id="dropdownMenu">
                 <div class="user-info">
                   <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
@@ -1120,6 +769,7 @@
             </div>
           `;
 
+          // Dropdown toggle
           const avatar = document.getElementById('avatarTrigger');
           const dropdown = document.getElementById('dropdownMenu');
           
@@ -1134,116 +784,46 @@
             }
           });
 
+          // Logout
           document.getElementById('logoutBtn')?.addEventListener('click', async () => {
             await signOut(auth);
             window.location.reload();
           });
 
-          if (profileNavLink) {
-            profileNavLink.href = 'profile.html';
-          }
-
-          // Start listening for notifications
-          setupNotificationListener();
-          setupMessagesListener();
+          // Setup message badge
+          setupMessagesListener(user.uid);
 
         } catch (error) {
           console.error('Auth error:', error);
         }
       } else {
-        currentUser = null;
-        welcomeMessage.textContent = 'Find the right freelancer';
-        welcomeSubtext.textContent = 'Connect with skilled professionals, get work done faster, and pay securely.';
-        
+        welcomeMessage.textContent = 'Welcome to SEWALINK!';
         authUI.innerHTML = `
           <a href="sign-in.html" class="btn-outline">Sign In</a>
           <a href="sign-up.html" class="btn-primary">Sign Up</a>
         `;
-        if (profileNavLink) {
-          profileNavLink.href = 'sign-in.html';
-        }
-        
-        // Clear badges
-        if (messageBadge) messageBadge.style.display = 'none';
-        if (notificationBadge) notificationBadge.style.display = 'none';
-        if (messagesNavBadge) messagesNavBadge.style.display = 'none';
-        if (notificationsNavBadge) notificationsNavBadge.style.display = 'none';
       }
     }
 
-    // ========== NOTIFICATION LISTENER ==========
-    function setupNotificationListener() {
-      if (!currentUser) return;
-      
-      if (unsubscribeNotifications) {
-        unsubscribeNotifications();
-      }
-
-      const q = query(
-        collection(db, 'notifications'),
-        where('userId', '==', currentUser.uid),
-        where('read', '==', false)
-      );
-
-      unsubscribeNotifications = onSnapshot(q, (snapshot) => {
-        const count = snapshot.size;
-        
-        // Update badges
-        if (notificationBadge) {
-          if (count > 0) {
-            notificationBadge.textContent = count > 9 ? '9+' : count;
-            notificationBadge.style.display = 'flex';
-          } else {
-            notificationBadge.style.display = 'none';
-          }
-        }
-        
-        if (notificationsNavBadge) {
-          if (count > 0) {
-            notificationsNavBadge.textContent = count > 9 ? '9+' : count;
-            notificationsNavBadge.style.display = 'flex';
-          } else {
-            notificationsNavBadge.style.display = 'none';
-          }
-        }
-      });
-    }
-
-    // ========== MESSAGES LISTENER ==========
-    function setupMessagesListener() {
-      if (!currentUser) return;
-      
-      if (unsubscribeMessages) {
-        unsubscribeMessages();
-      }
-
+    // ========== MESSAGES BADGE ==========
+    function setupMessagesListener(userId) {
       const q = query(
         collection(db, 'chats'),
-        where('participants', 'array-contains', currentUser.uid)
+        where('participants', 'array-contains', userId)
       );
 
-      unsubscribeMessages = onSnapshot(q, async (snapshot) => {
+      onSnapshot(q, async (snapshot) => {
         let unreadCount = 0;
         
         for (const doc of snapshot.docs) {
           const messagesRef = collection(db, 'chats', doc.id, 'messages');
           const messagesQuery = query(
             messagesRef,
-            where('senderId', '!=', currentUser.uid),
+            where('senderId', '!=', userId),
             where('read', '==', false)
           );
           const messagesSnap = await getDocs(messagesQuery);
           unreadCount += messagesSnap.size;
-        }
-        
-        // Update badges
-        if (messageBadge) {
-          if (unreadCount > 0) {
-            messageBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
-            messageBadge.style.display = 'flex';
-          } else {
-            messageBadge.style.display = 'none';
-          }
         }
         
         if (messagesNavBadge) {
@@ -1255,369 +835,346 @@
           }
         }
       });
+
+      // Notifications badge
+      const notifQuery = query(
+        collection(db, 'notifications'),
+        where('userId', '==', userId),
+        where('read', '==', false)
+      );
+      
+      onSnapshot(notifQuery, (snapshot) => {
+        const count = snapshot.size;
+        if (notificationsNavBadge) {
+          if (count > 0) {
+            notificationsNavBadge.textContent = count > 9 ? '9+' : count;
+            notificationsNavBadge.style.display = 'flex';
+          } else {
+            notificationsNavBadge.style.display = 'none';
+          }
+        }
+      });
     }
 
-    // ========== FAVORITES ==========
-    window.toggleFavorite = async function(jobId, e) {
-      e?.stopPropagation();
-      if (!currentUser) {
-        window.location.href = 'sign-in.html';
-        return;
-      }
+    // ========== LOAD FREELANCERS ==========
+    async function loadFreelancers() {
       try {
-        const userRef = doc(db, 'users', currentUser.uid);
-        if (userFavorites.includes(jobId)) {
-          await updateDoc(userRef, { favorites: arrayRemove(jobId) });
-          userFavorites = userFavorites.filter(id => id !== jobId);
-        } else {
-          await updateDoc(userRef, { favorites: arrayUnion(jobId) });
-          userFavorites.push(jobId);
-        }
-        renderJobs(filteredJobs);
-      } catch (error) {
-        console.error('Favorite error:', error);
-      }
-    };
-
-    // ========== RENDER JOBS ==========
-    function renderJobs(jobs) {
-      if (!jobs || jobs.length === 0) {
-        jobContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-briefcase"></i>
-            <h3 style="font-size: 1rem; margin-bottom: 0.3rem;">No jobs found</h3>
-            <p style="font-size: 0.8rem;">Try adjusting your filters or <a href="post-job.html" style="color: #2563eb;">post a job</a></p>
+        // Show skeletons
+        freelancersContainer.innerHTML = `
+          <div class="skeleton-card">
+            <div style="display: flex; gap: 1rem;">
+              <div class="skeleton-avatar"></div>
+              <div style="flex: 1;">
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line medium"></div>
+              </div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div style="display: flex; gap: 1rem;">
+              <div class="skeleton-avatar"></div>
+              <div style="flex: 1;">
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line medium"></div>
+              </div>
+            </div>
           </div>
         `;
-        return;
-      }
 
-      let html = '';
-      jobs.slice(0, 5).forEach(job => {
-        const timeAgo = formatTimeAgo(job.createdAt?.toDate?.());
-        const isFavorite = userFavorites.includes(job.id);
+        const usersRef = collection(db, 'users');
+        const q = query(
+          usersRef,
+          where('role', 'in', ['freelancer', 'both']),
+          limit(5)
+        );
+        const snapshot = await getDocs(q);
         
-        html += `
-          <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
-            <div class="job-favorite ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${job.id}', event)">
-              <i class="fas fa-heart"></i>
+        if (snapshot.empty) {
+          freelancersContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user"></i><p>No freelancers yet</p></div>';
+          return;
+        }
+
+        let html = '';
+        for (const doc of snapshot.docs) {
+          const freelancer = doc.data();
+          
+          // Get real stats
+          let completedJobs = 0;
+          let workingJobs = 0;
+          let totalEarned = 0;
+          
+          try {
+            const jobsRef = collection(db, 'jobs');
+            const completedQuery = query(
+              jobsRef,
+              where('acceptedBy', '==', doc.id),
+              where('status', '==', 'completed')
+            );
+            const completedSnap = await getDocs(completedQuery);
+            completedJobs = completedSnap.size;
+            
+            const workingQuery = query(
+              jobsRef,
+              where('acceptedBy', '==', doc.id),
+              where('status', '==', 'accepted')
+            );
+            const workingSnap = await getDocs(workingQuery);
+            workingJobs = workingSnap.size;
+            
+            completedSnap.forEach(jobDoc => {
+              totalEarned += jobDoc.data().budget || 0;
+            });
+          } catch (e) {}
+          
+          html += `
+            <div class="freelancer-card" onclick="window.location.href='viewer.html?id=${doc.id}'">
+              <img src="${freelancer.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(freelancer.displayName || 'User') + '&background=2563eb&color=fff&size=60'}" class="freelancer-avatar">
+              <div class="freelancer-info">
+                <h3>${escapeHTML(freelancer.displayName || 'User')}</h3>
+                <div class="freelancer-email">${escapeHTML(freelancer.email || '')}</div>
+                <div class="freelancer-badge">Freelancer</div>
+                <div class="freelancer-stats">
+                  <div class="stat">
+                    <span class="stat-value">${completedJobs}</span>
+                    <span class="stat-label">Complete</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">${workingJobs}</span>
+                    <span class="stat-label">Working</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">${formatNPR(totalEarned)}</span>
+                    <span class="stat-label">Earning</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span class="job-status">${job.status || 'Open'}</span>
-            <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
-            <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
-            <div class="job-meta">
-              <span class="job-budget">${formatNPR(job.budget)}</span>
-              <span class="job-category">${escapeHTML(job.category || 'General')}</span>
-            </div>
-            <div class="job-client">
-              <i class="fas fa-user-circle"></i>
-              <a href="viewer.html?id=${job.clientId}" onclick="event.stopPropagation();">
-                ${escapeHTML(job.clientName || 'Anonymous')}
-              </a>
-              <span class="job-time">${timeAgo}</span>
-            </div>
-          </div>
-        `;
-      });
-      jobContainer.innerHTML = html;
+          `;
+        }
+        freelancersContainer.innerHTML = html;
+      } catch (error) {
+        console.error('Error loading freelancers:', error);
+        freelancersContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load freelancers</p></div>';
+      }
     }
 
     // ========== LOAD JOBS ==========
     async function loadJobs() {
       try {
+        // Show skeleton
+        jobsContainer.innerHTML = `
+          <div class="skeleton-card">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line" style="height: 20px;"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line" style="width: 30%;"></div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line" style="height: 20px;"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line" style="width: 30%;"></div>
+          </div>
+        `;
+
+        const jobsRef = collection(db, 'jobs');
         const q = query(
-          collection(db, 'jobs'),
+          jobsRef,
           where('status', '==', 'open'),
           orderBy('createdAt', 'desc'),
-          limit(20)
+          limit(5)
         );
         const snapshot = await getDocs(q);
-        allJobs = [];
-        snapshot.forEach(doc => allJobs.push({ id: doc.id, ...doc.data() }));
-        filterJobs();
+        
+        if (snapshot.empty) {
+          jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase"></i><p>No jobs available</p></div>';
+          return;
+        }
+
+        let html = '';
+        for (const doc of snapshot.docs) {
+          const job = doc.data();
+          const createdAt = job.createdAt?.toDate?.();
+          const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
+          
+          // Get client info
+          let clientName = 'Anonymous';
+          if (job.clientId) {
+            try {
+              const clientSnap = await getDoc(doc(db, 'users', job.clientId));
+              if (clientSnap.exists()) {
+                clientName = clientSnap.data().displayName || 'Anonymous';
+              }
+            } catch (e) {}
+          }
+          
+          html += `
+            <div class="job-card" onclick="window.location.href='open.html?job=${doc.id}'">
+              <div class="job-header">
+                <div class="job-poster">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Posted by ${escapeHTML(clientName)}</span>
+                </div>
+                <div class="job-time">
+                  <i class="far fa-clock"></i> ${timeAgo}
+                </div>
+              </div>
+              <div class="job-featured">Featured</div>
+              <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
+              <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
+              <div class="job-details">
+                <span class="job-detail-item">${formatNPR(job.budget)} - Fixed Price</span>
+                <span class="job-detail-item">${job.experience || 'Intermediate'}</span>
+                <span class="job-detail-item">${job.location || 'Remote'}</span>
+                <span class="job-detail-item">Posted ${timeAgo}</span>
+              </div>
+              <a href="open.html?job=${doc.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now</a>
+            </div>
+          `;
+        }
+        jobsContainer.innerHTML = html;
+        allJobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       } catch (error) {
         console.error('Error loading jobs:', error);
+        // Fallback without orderBy
         try {
-          const q2 = query(collection(db, 'jobs'), limit(10));
-          const snapshot2 = await getDocs(q2);
-          allJobs = [];
-          snapshot2.forEach(doc => allJobs.push({ id: doc.id, ...doc.data() }));
+          const jobsRef = collection(db, 'jobs');
+          const q = query(jobsRef, limit(5));
+          const snapshot = await getDocs(q);
           
-          allJobs.sort((a, b) => {
+          if (snapshot.empty) {
+            jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase"></i><p>No jobs available</p></div>';
+            return;
+          }
+
+          let html = '';
+          const jobs = [];
+          snapshot.forEach(doc => jobs.push({ id: doc.id, ...doc.data() }));
+          
+          // Sort manually
+          jobs.sort((a, b) => {
             const dateA = a.createdAt?.toDate?.() || new Date(0);
             const dateB = b.createdAt?.toDate?.() || new Date(0);
             return dateB - dateA;
           });
           
-          filterJobs();
-        } catch (e) {
-          console.error('Fallback failed:', e);
-          jobContainer.innerHTML = `
-            <div class="empty-state">
-              <i class="fas fa-briefcase"></i>
-              <h3>Ready for jobs</h3>
-              <p>Be the first to <a href="post-job.html" style="color: #2563eb;">post a job</a></p>
-            </div>
-          `;
-        }
-      }
-    }
-
-    // ========== FILTER JOBS ==========
-    function filterJobs() {
-      let filtered = [...allJobs];
-      
-      const searchTerm = searchInput?.value.toLowerCase() || '';
-      if (searchTerm) {
-        filtered = filtered.filter(j => 
-          j.title?.toLowerCase().includes(searchTerm) ||
-          j.description?.toLowerCase().includes(searchTerm)
-        );
-      }
-      
-      const category = filterCategory?.value;
-      if (category) filtered = filtered.filter(j => j.category === category);
-      
-      const budget = filterBudget?.value;
-      if (budget) {
-        if (budget === '0-5000') filtered = filtered.filter(j => j.budget < 5000);
-        else if (budget === '5000-10000') filtered = filtered.filter(j => j.budget >= 5000 && j.budget < 10000);
-        else if (budget === '10000-25000') filtered = filtered.filter(j => j.budget >= 10000 && j.budget < 25000);
-        else if (budget === '25000-50000') filtered = filtered.filter(j => j.budget >= 25000 && j.budget < 50000);
-        else if (budget === '50000+') filtered = filtered.filter(j => j.budget >= 50000);
-      }
-      
-      const sort = filterSort?.value;
-      if (sort === 'budget-high') filtered.sort((a,b) => (b.budget||0) - (a.budget||0));
-      else if (sort === 'budget-low') filtered.sort((a,b) => (a.budget||0) - (b.budget||0));
-      else filtered.sort((a,b) => {
-        const dateA = a.createdAt?.toDate?.() || new Date(0);
-        const dateB = b.createdAt?.toDate?.() || new Date(0);
-        return dateB - dateA;
-      });
-      
-      filteredJobs = filtered;
-      renderJobs(filteredJobs);
-    }
-
-    // ========== LOAD STATS ==========
-    async function loadStats() {
-      try {
-        const usersSnap = await getCountFromServer(collection(db, 'users'));
-        totalUsersEl.textContent = usersSnap.data().count || 0;
-        
-        const jobsSnap = await getCountFromServer(query(collection(db, 'jobs'), where('status', '==', 'open')));
-        totalJobsEl.textContent = jobsSnap.data().count || 0;
-        
-        const freelancersSnap = await getCountFromServer(query(collection(db, 'users'), where('role', '==', 'freelancer')));
-        totalFreelancersEl.textContent = freelancersSnap.data().count || 0;
-        
-        const completedSnap = await getCountFromServer(query(collection(db, 'jobs'), where('status', '==', 'completed')));
-        totalCompletedEl.textContent = completedSnap.data().count || 0;
-      } catch (error) {
-        console.error('Stats error:', error);
-      }
-    }
-
-    // ========== LOAD CATEGORIES ==========
-    async function loadCategories() {
-      try {
-        const jobsRef = collection(db, 'jobs');
-        const q = query(jobsRef, where('status', '==', 'open'));
-        const snapshot = await getDocs(q);
-        
-        const counts = {
-          'Driver / Labor': 0,
-          'Programmer / Developer': 0,
-          'Designer': 0,
-          'Marketing / Sales': 0,
-          'Teacher / Tutor': 0,
-          'Electrician': 0,
-          'Plumber': 0,
-          'Carpenter': 0,
-          'Nurse / Health Worker': 0,
-          'Photographer': 0
-        };
-        
-        snapshot.forEach(doc => {
-          const cat = doc.data().category;
-          if (counts.hasOwnProperty(cat)) {
-            counts[cat]++;
+          for (const job of jobs.slice(0, 5)) {
+            const createdAt = job.createdAt?.toDate?.();
+            const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
+            
+            let clientName = 'Anonymous';
+            if (job.clientId) {
+              try {
+                const clientSnap = await getDoc(doc(db, 'users', job.clientId));
+                if (clientSnap.exists()) {
+                  clientName = clientSnap.data().displayName || 'Anonymous';
+                }
+              } catch (e) {}
+            }
+            
+            html += `
+              <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
+                <div class="job-header">
+                  <div class="job-poster">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Posted by ${escapeHTML(clientName)}</span>
+                  </div>
+                  <div class="job-time">
+                    <i class="far fa-clock"></i> ${timeAgo}
+                  </div>
+                </div>
+                <div class="job-featured">Featured</div>
+                <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
+                <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
+                <div class="job-details">
+                  <span class="job-detail-item">${formatNPR(job.budget)} - Fixed Price</span>
+                  <span class="job-detail-item">${job.experience || 'Intermediate'}</span>
+                  <span class="job-detail-item">${job.location || 'Remote'}</span>
+                  <span class="job-detail-item">Posted ${timeAgo}</span>
+                </div>
+                <a href="open.html?job=${job.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now</a>
+              </div>
+            `;
           }
-        });
-
-        const container = document.getElementById('categoriesContainer');
-        container.innerHTML = `
-          <a href="category.html?cat=programmer" class="category-chip">
-            <i class="fas fa-code"></i>
-            <span>Development (${counts['Programmer / Developer']})</span>
-          </a>
-          <a href="category.html?cat=designer" class="category-chip">
-            <i class="fas fa-pencil-ruler"></i>
-            <span>Design (${counts['Designer']})</span>
-          </a>
-          <a href="category.html?cat=marketing" class="category-chip">
-            <i class="fas fa-chart-line"></i>
-            <span>Marketing (${counts['Marketing / Sales']})</span>
-          </a>
-          <a href="category.html?cat=driver" class="category-chip">
-            <i class="fas fa-truck"></i>
-            <span>Driver (${counts['Driver / Labor']})</span>
-          </a>
-          <a href="category.html?cat=teacher" class="category-chip">
-            <i class="fas fa-chalkboard-teacher"></i>
-            <span>Teacher (${counts['Teacher / Tutor']})</span>
-          </a>
-          <a href="category.html?cat=electrician" class="category-chip">
-            <i class="fas fa-bolt"></i>
-            <span>Electrician (${counts['Electrician']})</span>
-          </a>
-          <a href="services.html" class="category-chip">
-            <i class="fas fa-ellipsis-h"></i>
-            <span>All Services</span>
-          </a>
-        `;
-      } catch (error) {
-        console.error('Categories error:', error);
-        const container = document.getElementById('categoriesContainer');
-        container.innerHTML = `
-          <a href="services.html" class="category-chip active">
-            <i class="fas fa-th-large"></i>
-            <span>All Services</span>
-          </a>
-          <a href="category.html?cat=programmer" class="category-chip">
-            <i class="fas fa-code"></i>
-            <span>Development</span>
-          </a>
-          <a href="category.html?cat=designer" class="category-chip">
-            <i class="fas fa-pencil-ruler"></i>
-            <span>Design</span>
-          </a>
-          <a href="category.html?cat=marketing" class="category-chip">
-            <i class="fas fa-chart-line"></i>
-            <span>Marketing</span>
-          </a>
-        `;
+          jobsContainer.innerHTML = html;
+          allJobs = jobs;
+        } catch (e) {
+          jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load jobs</p></div>';
+        }
       }
     }
 
-    // ========== LOAD FEATURED FREELANCERS ==========
-    async function loadFeaturedFreelancers() {
-      try {
-        const usersRef = collection(db, 'users');
-        const q = query(
-          usersRef,
-          where('role', 'in', ['freelancer', 'both']),
-          limit(6)
-        );
-        const snapshot = await getDocs(q);
-        
-        if (snapshot.empty) {
-          featuredFreelancersContainer.innerHTML = '<div style="color: #64748b; padding: 1rem;">No freelancers yet</div>';
-          return;
-        }
-
-        let html = '';
-        snapshot.forEach(doc => {
-          const freelancer = doc.data();
-          const rating = (Math.random() * 0.5 + 4.5).toFixed(1);
-          
-          html += `
-            <a href="viewer.html?id=${doc.id}" class="freelancer-card">
-              <img src="${freelancer.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(freelancer.displayName || 'Freelancer') + '&background=2563eb&color=fff&size=64'}" class="freelancer-avatar">
-              <div class="freelancer-name">${escapeHTML(freelancer.displayName || 'Freelancer')}</div>
-              <div class="freelancer-role">${escapeHTML(freelancer.skills?.[0] || 'Freelancer')}</div>
-              <div class="freelancer-rating">
-                <i class="fas fa-star"></i> ${rating}
-              </div>
-            </a>
-          `;
-        });
-        featuredFreelancersContainer.innerHTML = html;
-      } catch (error) {
-        console.error('Error loading featured freelancers:', error);
-        featuredFreelancersContainer.innerHTML = '<div style="color: #64748b; padding: 1rem;">Failed to load freelancers</div>';
+    // ========== SEARCH FUNCTION ==========
+    function filterJobs() {
+      if (!allJobs.length) return;
+      
+      const term = searchInput.value.toLowerCase().trim();
+      
+      if (!term) {
+        loadJobs();
+        return;
       }
-    }
-
-    // ========== LOAD TESTIMONIALS ==========
-    function loadTestimonials() {
-      const testimonials = [
-        {
-          name: 'Ram Sharma',
-          role: 'Client',
-          avatar: 'https://ui-avatars.com/api/?name=Ram+Sharma&background=2563eb&color=fff',
-          text: 'Found an excellent plumber within hours. The work was professional and reasonably priced. Highly recommend SewaLink!',
-          rating: 5
-        },
-        {
-          name: 'Sita Gurung',
-          role: 'Freelancer',
-          avatar: 'https://ui-avatars.com/api/?name=Sita+Gurung&background=2563eb&color=fff',
-          text: 'As a freelance teacher, this platform helped me connect with students who need my skills. Payment is secure and on time.',
-          rating: 5
-        },
-        {
-          name: 'Bikram Thapa',
-          role: 'Client',
-          avatar: 'https://ui-avatars.com/api/?name=Bikram+Thapa&background=2563eb&color=fff',
-          text: 'The developer I hired completed my website perfectly and even provided support after. Great experience!',
-          rating: 5
-        }
-      ];
-
+      
+      const filtered = allJobs.filter(job => 
+        job.title?.toLowerCase().includes(term) ||
+        job.description?.toLowerCase().includes(term) ||
+        job.category?.toLowerCase().includes(term) ||
+        job.location?.toLowerCase().includes(term)
+      );
+      
+      if (filtered.length === 0) {
+        jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><p>No jobs match your search</p></div>';
+        return;
+      }
+      
       let html = '';
-      testimonials.forEach(t => {
+      filtered.slice(0, 5).forEach(job => {
+        const createdAt = job.createdAt?.toDate?.();
+        const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
+        
+        let clientName = 'Anonymous';
+        if (job.clientId) {
+          getDoc(doc(db, 'users', job.clientId)).then(snap => {
+            if (snap.exists()) clientName = snap.data().displayName || 'Anonymous';
+          }).catch(() => {});
+        }
+        
         html += `
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <img src="${t.avatar}" class="testimonial-avatar">
-              <div>
-                <div class="testimonial-name">${t.name}</div>
-                <div class="testimonial-role">${t.role}</div>
+          <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
+            <div class="job-header">
+              <div class="job-poster">
+                <i class="fas fa-user-circle"></i>
+                <span>Posted by ${escapeHTML(clientName)}</span>
+              </div>
+              <div class="job-time">
+                <i class="far fa-clock"></i> ${timeAgo}
               </div>
             </div>
-            <div class="testimonial-text">"${t.text}"</div>
-            <div class="testimonial-stars">
-              ${Array(t.rating).fill('<i class="fas fa-star"></i>').join('')}
+            <div class="job-featured">Featured</div>
+            <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
+            <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
+            <div class="job-details">
+              <span class="job-detail-item">${formatNPR(job.budget)} - Fixed Price</span>
+              <span class="job-detail-item">${job.experience || 'Intermediate'}</span>
+              <span class="job-detail-item">${job.location || 'Remote'}</span>
+              <span class="job-detail-item">Posted ${timeAgo}</span>
             </div>
+            <a href="open.html?job=${job.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now</a>
           </div>
         `;
       });
-      testimonialsContainer.innerHTML = html;
+      jobsContainer.innerHTML = html;
     }
 
     // ========== EVENT LISTENERS ==========
-    filterBtn?.addEventListener('click', () => filterPanel.classList.toggle('show'));
-    
-    applyFiltersBtn?.addEventListener('click', () => {
-      filterJobs();
-      filterPanel.classList.remove('show');
-    });
-    
-    clearFiltersBtn?.addEventListener('click', () => {
-      if (filterCategory) filterCategory.value = '';
-      if (filterBudget) filterBudget.value = '';
-      if (filterSort) filterSort.value = 'newest';
-      if (searchInput) searchInput.value = '';
-      filterJobs();
-    });
-    
     searchInput?.addEventListener('input', debounce(filterJobs, 300));
 
     // ========== INIT ==========
     onAuthStateChanged(auth, renderAuthUI);
+    loadFreelancers();
     loadJobs();
-    loadStats();
-    loadCategories();
-    loadFeaturedFreelancers();
-    loadTestimonials();
-
-    // ========== CLEANUP ==========
-    window.addEventListener('beforeunload', () => {
-      if (unsubscribeNotifications) unsubscribeNotifications();
-      if (unsubscribeMessages) unsubscribeMessages();
-    });
   </script>
 </body>
 </html>
