@@ -332,6 +332,24 @@
       padding: 0.5rem;
     }
 
+    /* ========== FAVORITES SECTION ========== */
+    .favorites-section {
+      margin-bottom: 1rem;
+    }
+    .favorites-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      color: #eab308;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .favorites-header i {
+      font-size: 0.9rem;
+    }
+
     /* ========== PINNED SECTION ========== */
     .pinned-section {
       margin-bottom: 1rem;
@@ -371,6 +389,9 @@
     .chat-item.pinned {
       background: #fef9c3;
     }
+    .chat-item.favorite {
+      background: #fff7e6;
+    }
 
     .chat-avatar {
       position: relative;
@@ -409,6 +430,10 @@
       font-size: 1rem;
     }
     .pin-badge {
+      color: #eab308;
+      font-size: 0.8rem;
+    }
+    .fav-badge {
       color: #eab308;
       font-size: 0.8rem;
     }
@@ -851,7 +876,8 @@
       serverTimestamp,
       writeBatch,
       arrayUnion,
-      arrayRemove
+      arrayRemove,
+      limit
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -873,15 +899,13 @@
     let conversations = [];
     let allUsers = [];
     let pinnedChats = new Set();
-    let pinnedUserIds = new Set(); // Store pinned user IDs for permanent display
-    let favoriteUsers = new Set(); // Users marked as favorite without chat
+    let pinnedUserIds = new Set();
+    let favoriteUsers = new Set();
     let activeTab = 'sewa';
     let isSearching = false;
     let messagesUnsub = null;
     let chatsUnsub = null;
     let typingTimeouts = new Map();
-    let lastMessageTime = 0;
-    const MESSAGE_DELAY = 500;
 
     // ========== DOM ==========
     const authUI = document.getElementById('authUI');
@@ -976,19 +1000,6 @@
           const data = userSnap.data();
           if (data.pinnedChats) {
             pinnedChats = new Set(data.pinnedChats);
-            
-            // Load pinned user IDs from pinned chats
-            const chatsRef = collection(db, 'chats');
-            for (const chatId of pinnedChats) {
-              const chatSnap = await getDoc(doc(db, 'chats', chatId));
-              if (chatSnap.exists()) {
-                const chat = chatSnap.data();
-                const otherId = chat.participants.find(id => id !== currentUser.uid);
-                if (otherId) {
-                  pinnedUserIds.add(otherId);
-                }
-              }
-            }
           }
           
           // Load favorite users
@@ -1108,7 +1119,8 @@
             const unreadQuery = query(
               messagesRef,
               where('senderId', '==', otherId),
-              where('read', '==', false)
+              where('read', '==', false),
+              limit(100)
             );
             const unreadSnap = await getDocs(unreadQuery);
             unreadCount = unreadSnap.size;
@@ -1146,7 +1158,7 @@
       });
     }
 
-    // ========== TOGGLE FAVORITE (PIN WITHOUT CHAT) ==========
+    // ========== TOGGLE FAVORITE ==========
     window.toggleFavorite = async function(userId, e) {
       e.stopPropagation();
       if (!currentUser || !userId) return;
@@ -1173,6 +1185,8 @@
           await performSearch(searchInput.value);
         } else if (activeTab === 'sewa') {
           renderSewaList();
+        } else if (activeTab === 'users') {
+          showAllUsers();
         }
       } catch (error) {
         console.error('Favorite error:', error);
@@ -1190,14 +1204,12 @@
         
         if (pinnedChats.has(chatId)) {
           pinnedChats.delete(chatId);
-          pinnedUserIds.delete(userId);
           await updateDoc(userRef, {
             pinnedChats: arrayRemove(chatId)
           });
           showAlert('Chat unpinned');
         } else {
           pinnedChats.add(chatId);
-          pinnedUserIds.add(userId);
           await updateDoc(userRef, {
             pinnedChats: arrayUnion(chatId)
           });
@@ -1350,7 +1362,7 @@
       chatListEl.innerHTML = html;
     }
 
-    // ========== START CHAT ==========
+    // ========== START CHAT - OPTIMIZED ==========
     window.startChat = async function(userId) {
       if (!currentUser || userId === currentUser.uid) return;
       
@@ -1380,7 +1392,8 @@
           chatId = newChat.id;
         }
         
-        await markMessagesAsRead(chatId, userId);
+        // Mark messages as read (don't await - do it in background)
+        markMessagesAsRead(chatId, userId).catch(console.error);
         
         const userSnap = await getDoc(doc(db, 'users', userId));
         const userData = userSnap.data() || {};
@@ -1396,7 +1409,7 @@
         if (messagesUnsub) messagesUnsub();
         
         const messagesRef = collection(db, 'chats', chatId, 'messages');
-        const q2 = query(messagesRef, orderBy('timestamp', 'asc'));
+        const q2 = query(messagesRef, orderBy('timestamp', 'asc'), limit(50));
         
         messagesUnsub = onSnapshot(q2, (snap) => {
           const msgs = [];
@@ -1420,22 +1433,41 @@
       }
     };
 
-    // ========== SEND MESSAGE ==========
+    // ========== SEND MESSAGE - OPTIMIZED (NO DELAY) ==========
     window.sendMessage = async function() {
       const input = document.getElementById('messageInput');
       if (!input || !input.value.trim() || !currentChat) return;
       
-      const now = Date.now();
-      if (now - lastMessageTime < MESSAGE_DELAY) {
-        showAlert('Please wait a moment', 'error');
-        return;
+      const messageText = input.value.trim();
+      const tempMessage = {
+        text: messageText,
+        senderId: currentUser.uid,
+        timestamp: new Date(),
+        read: false,
+        temp: true
+      };
+      
+      // Clear input immediately for better UX
+      input.value = '';
+      input.style.height = 'auto';
+      
+      // Add to UI immediately (optimistic update)
+      const messagesContainer = document.getElementById('messagesContainer');
+      if (messagesContainer) {
+        const tempMsgDiv = document.createElement('div');
+        tempMsgDiv.className = 'message sent';
+        tempMsgDiv.innerHTML = `
+          <div>
+            <div class="message-bubble" style="opacity: 0.7;">${escapeHTML(messageText)}</div>
+            <div class="message-time">now <span class="message-status"><i class="fas fa-clock"></i></span></div>
+          </div>
+        `;
+        messagesContainer.appendChild(tempMsgDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
       
-      const messageText = input.value.trim();
-      
       try {
-        lastMessageTime = now;
-        
+        // Send to Firebase
         await addDoc(collection(db, 'chats', currentChat.id, 'messages'), {
           text: messageText,
           senderId: currentUser.uid,
@@ -1448,13 +1480,12 @@
           lastMessageTime: serverTimestamp()
         });
         
-        input.value = '';
-        input.style.height = 'auto';
-        
+        // Remove typing indicator
         setTyping(false);
         
       } catch (error) {
         console.error('Send message error:', error);
+        showAlert('Failed to send message', 'error');
       }
     };
 
@@ -1491,7 +1522,7 @@
       if (indicator) indicator.style.display = 'none';
     }
 
-    // ========== MARK MESSAGES AS READ ==========
+    // ========== MARK MESSAGES AS READ - OPTIMIZED ==========
     async function markMessagesAsRead(chatId, otherId) {
       if (!currentUser) return;
       try {
@@ -1499,12 +1530,18 @@
         const q = query(
           messagesRef,
           where('senderId', '==', otherId),
-          where('read', '==', false)
+          where('read', '==', false),
+          limit(50)
         );
         const snap = await getDocs(q);
+        
+        if (snap.empty) return;
+        
         const batch = writeBatch(db);
         snap.forEach(d => batch.update(d.ref, { read: true }));
         await batch.commit();
+        
+        console.log(`Marked ${snap.size} messages as read`);
       } catch (error) {
         console.error('Error marking messages as read:', error);
       }
@@ -1549,29 +1586,37 @@
       favoriteUsers.forEach(userId => {
         const user = allUsers.find(u => u.id === userId);
         if (user) {
+          // Check if there's an existing chat with this user
+          const existingChat = conversations.find(c => c.other.id === userId);
           favoriteUsersList.push({
             id: userId,
             ...user,
-            isFavorite: true
+            isFavorite: true,
+            unread: existingChat ? existingChat.unread : 0,
+            lastMessage: existingChat ? existingChat.lastMessage : '',
+            lastMessageTime: existingChat?.lastMessageTime
           });
         }
       });
 
-      // Get regular conversations
+      // Get pinned chats
+      const pinned = conversations.filter(chat => pinnedChats.has(chat.id));
+      
+      // Get regular chats (not pinned)
       const regularChats = conversations.filter(chat => !pinnedChats.has(chat.id));
 
       let html = '';
 
-      // FAVORITE USERS SECTION (pinned without chat)
+      // FAVORITES SECTION
       if (favoriteUsersList.length > 0) {
-        html += '<div class="pinned-section">';
-        html += '<div class="pinned-header"><i class="fas fa-star" style="color: #eab308;"></i> FAVORITES</div>';
+        html += '<div class="favorites-section">';
+        html += '<div class="favorites-header"><i class="fas fa-star"></i> FAVORITES</div>';
         favoriteUsersList.forEach(user => {
-          const existingChat = conversations.find(c => c.other.id === user.id);
-          const time = existingChat?.lastMessageTime?.toDate?.();
+          const time = user.lastMessageTime?.toDate?.();
+          const unreadCount = user.unread || 0;
           
           html += `
-            <div class="chat-item pinned" onclick="startChat('${user.id}')">
+            <div class="chat-item favorite" onclick="startChat('${user.id}')">
               <div class="chat-avatar">
                 <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}">
                 ${user.online ? '<span class="online-dot"></span>' : ''}
@@ -1582,10 +1627,11 @@
                   <i class="fas fa-star" style="color: #eab308; font-size: 0.9rem;"></i>
                 </div>
                 <div class="chat-preview-row">
-                  <span class="chat-preview">${existingChat ? (escapeHTML(existingChat.lastMessage) || 'Click to chat') : 'Click to start conversation'}</span>
+                  <span class="chat-preview">${user.lastMessage ? escapeHTML(user.lastMessage) : 'Click to start conversation'}</span>
                   ${time ? `<span class="chat-time">${timeAgo(time)}</span>` : ''}
                 </div>
               </div>
+              ${unreadCount > 0 ? `<span class="chat-badge">${unreadCount}</span>` : ''}
               <button class="fav-btn active" onclick="toggleFavorite('${user.id}', event)">
                 <i class="fas fa-star"></i>
               </button>
@@ -1595,8 +1641,7 @@
         html += '</div>';
       }
 
-      // PINNED CHATS SECTION
-      const pinned = conversations.filter(chat => pinnedChats.has(chat.id));
+      // PINNED SECTION
       if (pinned.length > 0) {
         html += '<div class="pinned-section">';
         html += '<div class="pinned-header"><i class="fas fa-thumbtack"></i> PINNED</div>';
