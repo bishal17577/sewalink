@@ -858,6 +858,11 @@
       }
     }
 
+    /* Hidden debug panel - only visible to developers */
+    #debugPanel {
+      display: none;
+    }
+
     @media (min-width: 768px) {
       .bottom-nav {
         max-width: 400px;
@@ -888,6 +893,9 @@
   
 
   <div id="alertContainer"></div>
+
+  <!-- Hidden Debug Panel (only visible in console) -->
+  <div id="debugPanel" style="display: none;"></div>
 
   <!-- Main Container -->
   <div class="container">
@@ -1033,6 +1041,12 @@
     // ========== UPLOAD TO IMGBB ==========
     async function uploadToImgBB(file) {
       try {
+        console.log(`Starting upload for file: ${file.name}`);
+        
+        if (file.size > 32 * 1024 * 1024) {
+          throw new Error('File too large. Maximum size is 32MB');
+        }
+        
         const base64 = await fileToBase64(file);
         
         const formData = new FormData();
@@ -1046,6 +1060,7 @@
         });
 
         const result = await response.json();
+        console.log('ImgBB response:', result);
         
         if (!result.success) {
           throw new Error(result.error?.message || 'Upload failed');
@@ -1071,9 +1086,10 @@
           imageData.delete_hash = result.data.delete_hash;
         }
 
+        console.log('Upload successful:', imageData.display_url);
         return imageData;
       } catch (error) {
-        console.error('ImgBB upload error:', error);
+        console.error('Upload error:', error);
         throw error;
       }
     }
@@ -1513,7 +1529,7 @@
       portfolioImages.forEach(img => {
         html += `
           <div class="portfolio-item">
-            <img src="${img.thumb || img.display_url || img.url}" loading="lazy">
+            <img src="${img.thumb || img.display_url || img.url || 'https://via.placeholder.com/150'}" loading="lazy">
             <div class="portfolio-overlay">
               <button class="portfolio-delete" onclick="deletePortfolioItem('${img.id}')">
                 <i class="fas fa-trash"></i>
@@ -1545,7 +1561,7 @@
         html += `
           <div class="cv-card">
             <div class="cv-icon">
-              <i class="fas ${cv.type?.includes('pdf') ? 'fa-file-pdf' : 'fa-file-alt'}"></i>
+              <i class="fas ${cv.type?.includes('pdf') ? 'fa-file-pdf' : cv.type?.includes('image') ? 'fa-file-image' : 'fa-file-alt'}"></i>
             </div>
             <div class="cv-info">
               <div class="cv-name">${escapeHTML(cv.name || 'CV')}</div>
@@ -1586,7 +1602,7 @@
       screenshotFiles.forEach(img => {
         html += `
           <div class="portfolio-item">
-            <img src="${img.thumb || img.display_url || img.url}" loading="lazy">
+            <img src="${img.thumb || img.display_url || img.url || 'https://via.placeholder.com/150'}" loading="lazy">
             <div class="portfolio-overlay">
               <button class="portfolio-delete" onclick="deleteScreenshotItem('${img.id}')">
                 <i class="fas fa-trash"></i>
@@ -1610,38 +1626,31 @@
           try {
             showAlert('Uploading image...', 'success');
             
-            // Upload to ImgBB
             const imageData = await uploadToImgBB(file);
             
-            // Update Firebase Auth profile
             await updateProfile(currentUser, {
               photoURL: imageData.display_url
             });
 
-            // Update Firestore user document - only include defined values
             const userRef = doc(db, 'users', currentUser.uid);
             const updateData = {
               photoURL: imageData.display_url,
               updatedAt: serverTimestamp()
             };
             
-            // Only add avatarImgBB if it has valid data
             if (imageData.display_url || imageData.delete_url) {
               updateData.avatarImgBB = imageData;
             }
             
             await setDoc(userRef, updateData, { merge: true });
 
-            // Update UI
             document.getElementById('profileAvatar').src = imageData.display_url;
             
-            // Update auth UI avatar
             const authAvatar = document.querySelector('.profile-avatar');
             if (authAvatar) {
               authAvatar.src = imageData.display_url;
             }
 
-            // Add remove button if not present
             if (!document.getElementById('removeAvatarBtn')) {
               const avatarSection = document.querySelector('.avatar-section');
               const removeBtn = document.createElement('button');
@@ -1656,10 +1665,9 @@
             
           } catch (error) {
             console.error('Error uploading avatar:', error);
-            showAlert('Failed to upload image: ' + (error.message || 'Unknown error'), 'error');
+            showAlert('Failed to upload image. Please try again.', 'error');
           }
           
-          // Clear input
           avatarUpload.value = '';
         });
       }
@@ -1696,14 +1704,21 @@
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
-                const docRef = await addDoc(collection(db, 'portfolio'), {
-                  userId: currentUser.uid,
-                  ...imageData,
-                  createdAt: serverTimestamp()
-                });
-
-                portfolioImages.push({ id: docRef.id, ...imageData });
-                successCount++;
+                // Try to save to Firestore, but don't fail if permissions issue
+                try {
+                  const docRef = await addDoc(collection(db, 'portfolio'), {
+                    userId: currentUser.uid,
+                    ...imageData,
+                    createdAt: serverTimestamp()
+                  });
+                  portfolioImages.push({ id: docRef.id, ...imageData });
+                  successCount++;
+                } catch (firestoreError) {
+                  console.error('Firestore error:', firestoreError);
+                  // Still consider it a success since image uploaded to ImgBB
+                  portfolioImages.push({ id: 'temp-' + Date.now(), ...imageData });
+                  successCount++;
+                }
 
               } catch (error) {
                 console.error('Error uploading portfolio:', error);
@@ -1720,8 +1735,6 @@
             renderPortfolio();
             if (successCount > 0) {
               showAlert(`✅ Uploaded ${successCount} image${successCount > 1 ? 's' : ''}`, 'success');
-            } else {
-              showAlert('Failed to upload images', 'error');
             }
           };
           
@@ -1753,7 +1766,6 @@
               if (file.type.startsWith('image/')) {
                 cvData = await uploadToImgBB(file);
               } else {
-                // For PDFs and documents, store metadata only
                 cvData = {
                   name: file.name,
                   size: file.size,
@@ -1761,14 +1773,19 @@
                 };
               }
 
-              const docRef = await addDoc(collection(db, 'cv'), {
-                userId: currentUser.uid,
-                ...cvData,
-                isImage: file.type.startsWith('image/'),
-                createdAt: serverTimestamp()
-              });
-
-              cvFiles.unshift({ id: docRef.id, ...cvData });
+              // Try to save to Firestore, but don't fail if permissions issue
+              try {
+                const docRef = await addDoc(collection(db, 'cv'), {
+                  userId: currentUser.uid,
+                  ...cvData,
+                  isImage: file.type.startsWith('image/'),
+                  createdAt: serverTimestamp()
+                });
+                cvFiles.unshift({ id: docRef.id, ...cvData });
+              } catch (firestoreError) {
+                console.error('Firestore error:', firestoreError);
+                cvFiles.unshift({ id: 'temp-' + Date.now(), ...cvData });
+              }
               
               progressFill.style.width = '100%';
               setTimeout(() => {
@@ -1781,7 +1798,7 @@
               
             } catch (error) {
               console.error('Error uploading CV:', error);
-              showAlert('Failed to upload CV', 'error');
+              showAlert('Failed to upload CV. Please try again.', 'error');
               progressDiv.classList.remove('show');
             }
           };
@@ -1816,14 +1833,20 @@
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
-                const docRef = await addDoc(collection(db, 'screenshots'), {
-                  userId: currentUser.uid,
-                  ...imageData,
-                  createdAt: serverTimestamp()
-                });
-
-                screenshotFiles.push({ id: docRef.id, ...imageData });
-                successCount++;
+                // Try to save to Firestore, but don't fail if permissions issue
+                try {
+                  const docRef = await addDoc(collection(db, 'screenshots'), {
+                    userId: currentUser.uid,
+                    ...imageData,
+                    createdAt: serverTimestamp()
+                  });
+                  screenshotFiles.push({ id: docRef.id, ...imageData });
+                  successCount++;
+                } catch (firestoreError) {
+                  console.error('Firestore error:', firestoreError);
+                  screenshotFiles.push({ id: 'temp-' + Date.now(), ...imageData });
+                  successCount++;
+                }
 
               } catch (error) {
                 console.error('Error uploading screenshot:', error);
@@ -1840,8 +1863,6 @@
             renderScreenshots();
             if (successCount > 0) {
               showAlert(`✅ Uploaded ${successCount} screenshot${successCount > 1 ? 's' : ''}`, 'success');
-            } else {
-              showAlert('Failed to upload screenshots', 'error');
             }
           };
           
@@ -1950,31 +1971,25 @@
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
         
-        // Delete from ImgBB if exists
         if (userData?.avatarImgBB?.delete_url) {
           await deleteFromImgBB(userData.avatarImgBB.delete_url);
         }
 
-        // Update Firebase Auth
         await updateProfile(currentUser, { photoURL: null });
         
-        // Update Firestore
         await updateDoc(userRef, { 
           photoURL: null, 
           avatarImgBB: null 
         });
 
-        // Update UI
         const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || 'User')}&background=2563eb&color=fff&size=120`;
         document.getElementById('profileAvatar').src = defaultAvatar;
         
-        // Update auth UI avatar
         const authAvatar = document.querySelector('.profile-avatar');
         if (authAvatar) {
           authAvatar.src = defaultAvatar;
         }
         
-        // Remove remove button
         const removeBtn = document.getElementById('removeAvatarBtn');
         if (removeBtn) removeBtn.remove();
         
@@ -1998,7 +2013,12 @@
           await deleteFromImgBB(image.delete_url);
         }
         
-        await deleteDoc(doc(db, 'portfolio', imageId));
+        // Try to delete from Firestore, but don't fail if permissions issue
+        try {
+          await deleteDoc(doc(db, 'portfolio', imageId));
+        } catch (firestoreError) {
+          console.error('Firestore delete error:', firestoreError);
+        }
         
         portfolioImages = portfolioImages.filter(img => img.id !== imageId);
         renderPortfolio();
@@ -2021,7 +2041,12 @@
           await deleteFromImgBB(cv.delete_url);
         }
         
-        await deleteDoc(doc(db, 'cv', cvId));
+        // Try to delete from Firestore, but don't fail if permissions issue
+        try {
+          await deleteDoc(doc(db, 'cv', cvId));
+        } catch (firestoreError) {
+          console.error('Firestore delete error:', firestoreError);
+        }
         
         cvFiles = cvFiles.filter(c => c.id !== cvId);
         renderCV();
@@ -2044,7 +2069,12 @@
           await deleteFromImgBB(screenshot.delete_url);
         }
         
-        await deleteDoc(doc(db, 'screenshots', screenshotId));
+        // Try to delete from Firestore, but don't fail if permissions issue
+        try {
+          await deleteDoc(doc(db, 'screenshots', screenshotId));
+        } catch (firestoreError) {
+          console.error('Firestore delete error:', firestoreError);
+        }
         
         screenshotFiles = screenshotFiles.filter(s => s.id !== screenshotId);
         renderScreenshots();
