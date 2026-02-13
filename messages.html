@@ -16,36 +16,39 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <style>
-    /* ========== MOBILE-FIRST APP STYLES - SAME AS INDEX.HTML ========== */
+    /* ========== WHATSAPP-STYLE DESIGN ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: #ffffff;
-      color: #0f172a;
-      line-height: 1.5;
-      padding-bottom: env(safe-area-inset-bottom);
+      background: #e5ddd5;
+      background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
+      height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
     }
 
-    /* ========== BOTTOM NAVIGATION (APP STYLE) ========== */
+    /* ========== BOTTOM NAVIGATION ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: white;
+      background: #ffffff;
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding: 0.5rem 1rem;
       padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-      border-top: 1px solid #f1f5f9;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      border-top: 1px solid #e0e0e0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
       z-index: 1000;
     }
 
@@ -54,7 +57,7 @@
       flex-direction: column;
       align-items: center;
       text-decoration: none;
-      color: #64748b;
+      color: #999;
       font-size: 0.7rem;
       gap: 0.2rem;
       padding: 0.3rem 0.5rem;
@@ -63,22 +66,20 @@
       position: relative;
     }
     .nav-item i {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
     .nav-item.active {
-      color: #2563eb;
+      color: #075e54;
     }
     .nav-item span {
       font-size: 0.65rem;
       font-weight: 500;
     }
-
-    /* ========== NOTIFICATION BADGE ========== */
-    .notification-badge {
+    .nav-badge {
       position: absolute;
       top: -2px;
       right: -2px;
-      background: #ef4444;
+      background: #25d366;
       color: white;
       font-size: 0.6rem;
       font-weight: 600;
@@ -98,21 +99,22 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
+      background: #075e54;
+      color: white;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
+      height: 60px;
     }
 
     .logo {
       font-size: 1.4rem;
       font-weight: 700;
-      color: #0f172a;
+      color: white;
       text-decoration: none;
     }
     .logo span {
-      color: #2563eb;
+      color: #25d366;
     }
 
     .auth-buttons {
@@ -120,27 +122,14 @@
       gap: 0.5rem;
       align-items: center;
     }
-
-    .btn-outline {
-      padding: 0.4rem 1rem;
-      border: 1px solid #e2e8f0;
-      background: white;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: #1e293b;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      padding: 0.4rem 1rem;
-      background: #2563eb;
+    .auth-buttons .btn-outline {
+      border: 1px solid rgba(255,255,255,0.3);
       color: white;
-      border: none;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-decoration: none;
+      background: transparent;
+    }
+    .auth-buttons .btn-primary {
+      background: #25d366;
+      color: #075e54;
     }
 
     /* ========== PROFILE DROPDOWN ========== */
@@ -153,8 +142,7 @@
       height: 36px;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 2px solid #25d366;
       object-fit: cover;
     }
     .dropdown-menu {
@@ -162,29 +150,34 @@
       top: 45px;
       right: 0;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       width: 240px;
       padding: 0.5rem;
       display: none;
       z-index: 101;
-      border: 1px solid #f1f5f9;
+      border: 1px solid #e0e0e0;
     }
     .dropdown-menu.show {
       display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .user-info {
       padding: 0.8rem;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f0f0f0;
     }
     .user-name {
       font-weight: 600;
-      color: #0f172a;
+      color: #075e54;
       font-size: 0.9rem;
     }
     .user-email {
       font-size: 0.75rem;
-      color: #64748b;
+      color: #999;
     }
     .dropdown-item {
       display: flex;
@@ -192,12 +185,12 @@
       gap: 0.75rem;
       padding: 0.6rem 0.8rem;
       text-decoration: none;
-      color: #1e293b;
+      color: #333;
       font-size: 0.85rem;
-      border-radius: 10px;
+      border-radius: 8px;
     }
     .dropdown-item:hover {
-      background: #f8fafc;
+      background: #f5f5f5;
     }
     .logout-btn {
       width: 100%;
@@ -205,10 +198,10 @@
       border: none;
       text-align: left;
       padding: 0.6rem 0.8rem;
-      color: #b91c1c;
-      border-top: 1px solid #f1f5f9;
+      color: #d32f2f;
+      border-top: 1px solid #f0f0f0;
       margin-top: 0.25rem;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -220,8 +213,8 @@
     .messenger {
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 60px - 70px);
-      background: white;
+      height: calc(100vh - 60px - 60px);
+      background: #ffffff;
       margin: 0;
       overflow: hidden;
     }
@@ -241,6 +234,8 @@
 
     .sidebar-header {
       padding: 1rem;
+      background: #f8f8f8;
+      border-bottom: 1px solid #e0e0e0;
     }
 
     .logo-small {
@@ -249,24 +244,21 @@
       gap: 0.5rem;
       font-size: 1.2rem;
       font-weight: 700;
-      color: #0f172a;
+      color: #075e54;
       margin-bottom: 1rem;
-    }
-    .logo-small span {
-      color: #2563eb;
     }
 
     .search-box {
       display: flex;
       align-items: center;
-      background: #f8fafc;
-      border-radius: 40px;
+      background: white;
+      border-radius: 24px;
       padding: 0.5rem 1rem;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 1rem;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .search-box i {
-      color: #94a3b8;
+      color: #999;
       margin-right: 0.5rem;
       font-size: 0.9rem;
     }
@@ -282,10 +274,10 @@
 
     .tabs {
       display: flex;
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       gap: 0.5rem;
       background: white;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #e0e0e0;
     }
     .tab {
       flex: 1;
@@ -293,27 +285,28 @@
       text-align: center;
       font-weight: 600;
       font-size: 0.8rem;
-      color: #64748b;
+      color: #999;
       cursor: pointer;
-      border-radius: 30px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.3rem;
       position: relative;
+      transition: all 0.2s;
     }
     .tab i {
       font-size: 0.9rem;
     }
     .tab.active {
-      background: #2563eb;
-      color: white;
+      background: #25d366;
+      color: #075e54;
     }
     .tab-badge {
       position: absolute;
       top: -5px;
       right: 5px;
-      background: #ef4444;
+      background: #d32f2f;
       color: white;
       font-size: 0.6rem;
       min-width: 18px;
@@ -329,44 +322,42 @@
     .chat-list {
       flex: 1;
       overflow-y: auto;
-      padding: 0.5rem;
+      background: white;
     }
 
     .chat-item {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 0.8rem;
-      border-radius: 16px;
+      padding: 0.8rem 1rem;
       cursor: pointer;
-      margin-bottom: 0.2rem;
       transition: background 0.2s;
+      border-bottom: 1px solid #f0f0f0;
     }
     .chat-item:hover {
-      background: #f8fafc;
+      background: #f5f5f5;
     }
     .chat-item.active {
-      background: #eff6ff;
+      background: #e8f5e9;
     }
 
     .chat-avatar {
       position: relative;
     }
     .chat-avatar img {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 2px solid #25d366;
     }
     .online-dot {
       position: absolute;
       bottom: 2px;
       right: 2px;
-      width: 10px;
-      height: 10px;
-      background: #22c55e;
+      width: 12px;
+      height: 12px;
+      background: #25d366;
       border: 2px solid white;
       border-radius: 50%;
     }
@@ -377,20 +368,20 @@
     }
     .chat-name {
       font-weight: 600;
-      color: #0f172a;
-      font-size: 0.95rem;
+      color: #075e54;
+      font-size: 1rem;
       margin-bottom: 0.2rem;
       display: flex;
       align-items: center;
       gap: 0.3rem;
     }
     .friend-badge {
-      color: #22c55e;
-      font-size: 0.7rem;
+      color: #25d366;
+      font-size: 0.8rem;
     }
     .chat-preview {
-      font-size: 0.8rem;
-      color: #64748b;
+      font-size: 0.85rem;
+      color: #999;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -403,12 +394,13 @@
     }
     .chat-time {
       font-size: 0.65rem;
-      color: #94a3b8;
+      color: #999;
     }
     .unread-badge {
-      background: #2563eb;
-      color: white;
+      background: #25d366;
+      color: #075e54;
       font-size: 0.6rem;
+      font-weight: 600;
       min-width: 18px;
       height: 18px;
       border-radius: 9px;
@@ -422,7 +414,9 @@
     .chat-area {
       display: none;
       flex-direction: column;
-      background: #ffffff;
+      background: #e5ddd5;
+      background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.2) 0%, transparent 20%),
+                        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 20%);
       height: 100%;
     }
     .chat-area.active {
@@ -434,8 +428,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
+      background: #075e54;
+      color: white;
       height: 60px;
     }
 
@@ -450,23 +444,21 @@
       height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 2px solid #25d366;
     }
     .chat-user-info h3 {
       font-size: 1rem;
       font-weight: 600;
-      color: #0f172a;
       margin-bottom: 0.2rem;
     }
     .user-status {
       font-size: 0.7rem;
-      color: #64748b;
+      color: rgba(255,255,255,0.8);
     }
     .back-btn {
       display: block;
       font-size: 1.2rem;
-      color: #2563eb;
+      color: white;
       cursor: pointer;
       margin-right: 0.5rem;
     }
@@ -478,7 +470,6 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      background: #f8fafc;
     }
 
     .message {
@@ -487,10 +478,6 @@
       gap: 0.5rem;
       max-width: 80%;
       animation: fadeIn 0.2s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .message.sent {
       align-self: flex-end;
@@ -505,58 +492,55 @@
     }
     .message-bubble {
       padding: 0.7rem 1rem;
-      border-radius: 18px;
+      border-radius: 12px;
       font-size: 0.9rem;
       line-height: 1.4;
       word-break: break-word;
       white-space: pre-wrap;
+      position: relative;
     }
     .message.sent .message-bubble {
-      background: #2563eb;
-      color: white;
+      background: #dcf8c6;
+      color: #075e54;
       border-bottom-right-radius: 4px;
     }
     .message.received .message-bubble {
       background: white;
-      color: #0f172a;
-      border: 1px solid #e2e8f0;
+      color: #333;
       border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     .message-time {
       font-size: 0.6rem;
-      color: #94a3b8;
+      color: #999;
       margin-top: 0.2rem;
       text-align: right;
     }
 
     .message-input-area {
       padding: 0.8rem 1rem;
-      background: white;
-      border-top: 1px solid #f1f5f9;
+      background: #f0f0f0;
       display: flex;
       gap: 0.5rem;
       align-items: center;
     }
     .message-input {
       flex: 1;
-      background: #f8fafc;
+      background: white;
       border-radius: 24px;
       padding: 0.7rem 1rem;
-      border: 1px solid #e2e8f0;
+      border: none;
       font-size: 0.95rem;
       resize: none;
       max-height: 100px;
       outline: none;
       font-family: inherit;
-    }
-    .message-input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     .send-btn {
       width: 44px;
       height: 44px;
-      background: #2563eb;
+      background: #25d366;
       color: white;
       border: none;
       border-radius: 50%;
@@ -565,21 +549,18 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     .send-btn:active {
-      background: #1d4ed8;
-      transform: scale(0.95);
-    }
-    .send-btn:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
+      transform: scale(0.9);
     }
 
     /* ========== DISCOVER GRID ========== */
     .discover-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 0.5rem;
+      padding: 0.5rem;
     }
     .discover-card {
       display: flex;
@@ -587,23 +568,23 @@
       gap: 1rem;
       padding: 1rem;
       background: white;
-      border-radius: 16px;
-      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .discover-avatar {
       width: 56px;
       height: 56px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 2px solid #25d366;
     }
     .discover-info {
       flex: 1;
     }
     .discover-name {
       font-weight: 600;
-      color: #0f172a;
+      color: #075e54;
       font-size: 1rem;
       margin-bottom: 0.2rem;
     }
@@ -613,7 +594,7 @@
     }
     .btn-sm {
       padding: 0.5rem 1rem;
-      border-radius: 30px;
+      border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
@@ -623,28 +604,28 @@
       gap: 0.3rem;
     }
     .btn-add {
-      background: #2563eb;
-      color: white;
+      background: #25d366;
+      color: #075e54;
     }
     .btn-msg {
       background: white;
-      color: #2563eb;
-      border: 1px solid #2563eb;
+      color: #075e54;
+      border: 1px solid #25d366;
     }
 
     /* ========== EMPTY STATES ========== */
     .empty-state {
       text-align: center;
       padding: 3rem 1rem;
-      color: #64748b;
+      color: #999;
     }
     .empty-state i {
       font-size: 3rem;
-      color: #cbd5e1;
+      color: #ddd;
       margin-bottom: 1rem;
     }
     .empty-state h4 {
-      color: #334155;
+      color: #075e54;
       margin-bottom: 0.3rem;
     }
 
@@ -652,7 +633,7 @@
     .loading {
       text-align: center;
       padding: 2rem;
-      color: #64748b;
+      color: #999;
     }
 
     /* ========== ALERTS ========== */
@@ -662,28 +643,28 @@
       left: 20px;
       right: 20px;
       background: white;
-      border-left: 4px solid #22c55e;
-      border-radius: 12px;
+      border-left: 4px solid #25d366;
+      border-radius: 8px;
       padding: 1rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
       gap: 1rem;
       z-index: 9999;
       font-size: 0.9rem;
-      animation: slideIn 0.2s ease;
+      animation: slideDown 0.2s ease;
     }
     .alert.error {
-      border-left-color: #ef4444;
+      border-left-color: #d32f2f;
     }
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     /* ========== BOTTOM PADDING ========== */
     .bottom-padding {
-      height: 70px;
+      height: 60px;
     }
 
     @media (min-width: 768px) {
@@ -696,7 +677,6 @@
       .messenger {
         max-width: 500px;
         margin: 0 auto;
-        height: calc(100vh - 60px - 70px);
       }
     }
   </style>
@@ -716,7 +696,7 @@
     <div id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small">
-          <i class="fas fa-comment-dots" style="color: #2563eb;"></i>
+          <i class="fas fa-comment-dots" style="color: #25d366;"></i>
           <span>Messages</span>
         </div>
         <div class="search-box">
@@ -741,22 +721,11 @@
         </div>
       </div>
 
-      <div id="chatList" class="chat-list">
-        <div class="loading">
-          <i class="fas fa-spinner fa-pulse"></i>
-          <p>Loading chats...</p>
-        </div>
-      </div>
+      <div id="chatList" class="chat-list"></div>
     </div>
 
     <!-- Chat Area -->
-    <div id="chatArea" class="chat-area">
-      <div class="empty-state">
-        <i class="fas fa-comments"></i>
-        <h4>Select a chat</h4>
-        <p>Choose a conversation to start messaging</p>
-      </div>
-    </div>
+    <div id="chatArea" class="chat-area"></div>
   </div>
 
   <!-- Bottom Navigation (Mobile) -->
@@ -776,7 +745,7 @@
     <a href="messenger.html" class="nav-item active">
       <i class="fas fa-comment"></i>
       <span>Chat</span>
-      <span id="navMessagesBadge" class="notification-badge" style="display: none;">0</span>
+      <span id="navMessagesBadge" class="nav-badge" style="display: none;">0</span>
     </a>
     <a href="profile.html" class="nav-item" id="profileNavLink">
       <i class="fas fa-user"></i>
@@ -787,13 +756,8 @@
   <div class="bottom-padding"></div>
 
   <script type="module">
-    // ========== FIREBASE IMPORTS ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      onAuthStateChanged, 
-      signOut 
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       getFirestore,
       collection,
@@ -870,9 +834,9 @@
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
 
-        if (days > 0) return days === 1 ? '1d' : `${days}d`;
-        if (hours > 0) return hours === 1 ? '1h' : `${hours}h`;
-        if (minutes > 0) return minutes === 1 ? '1m' : `${minutes}m`;
+        if (days > 0) return days === 1 ? 'yesterday' : `${days}d ago`;
+        if (hours > 0) return hours === 1 ? '1h' : `${hours}h ago`;
+        if (minutes > 0) return minutes === 1 ? '1m' : `${minutes}m ago`;
         return 'now';
       } catch {
         return '';
@@ -882,18 +846,9 @@
     function showAlert(msg, type = 'success') {
       const div = document.createElement('div');
       div.className = `alert ${type}`;
-      div.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-        <span style="flex:1;">${msg}</span>
-        <button onclick="this.parentElement.remove()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem;">×</button>
-      `;
+      div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${msg}</span>`;
       alertContainer.appendChild(div);
-      setTimeout(() => div.remove(), 4000);
-    }
-
-    function debounce(fn, ms) {
-      let t;
-      return function() { clearTimeout(t); t = setTimeout(() => fn(), ms); };
+      setTimeout(() => div.remove(), 3000);
     }
 
     // ========== AUTH UI ==========
@@ -916,15 +871,12 @@
             createdAt: serverTimestamp()
           });
         } else {
-          await updateDoc(userRef, {
-            online: true,
-            lastSeen: serverTimestamp()
-          });
+          await updateDoc(userRef, { online: true, lastSeen: serverTimestamp() });
         }
 
         authUI.innerHTML = `
           <div class="profile-container">
-            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=25d366&color=075e54&size=36'}" class="profile-avatar" id="avatarTrigger">
             <div class="dropdown-menu" id="dropdownMenu">
               <div class="user-info">
                 <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
@@ -940,31 +892,28 @@
           </div>
         `;
 
-        const avatar = document.getElementById('avatarTrigger');
-        const dropdown = document.getElementById('dropdownMenu');
-        
-        avatar?.addEventListener('click', (e) => {
+        document.getElementById('avatarTrigger')?.addEventListener('click', (e) => {
           e.stopPropagation();
-          dropdown?.classList.toggle('show');
+          document.getElementById('dropdownMenu')?.classList.toggle('show');
         });
 
         document.addEventListener('click', (e) => {
+          const avatar = document.getElementById('avatarTrigger');
+          const dropdown = document.getElementById('dropdownMenu');
           if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
             dropdown?.classList.remove('show');
           }
         });
 
         document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-          await updateDoc(doc(db, 'users', user.uid), {
-            online: false,
-            lastSeen: serverTimestamp()
-          });
+          await updateDoc(doc(db, 'users', user.uid), { online: false, lastSeen: serverTimestamp() });
           await signOut(auth);
           window.location.href = 'index.html';
         });
 
         if (profileNavLink) profileNavLink.href = 'profile.html';
 
+        // Load all data
         await loadFriends();
         setupRequestsListener();
         setupChatsListener();
@@ -985,9 +934,6 @@
             <i class="fas fa-user-lock"></i>
             <h4>Please sign in</h4>
             <p>Sign in to access messages</p>
-            <div style="margin-top: 1rem;">
-              <a href="sign-in.html" class="btn-primary" style="padding: 0.8rem 2rem; text-decoration: none;">Sign In</a>
-            </div>
           </div>
         `;
       }
@@ -996,23 +942,17 @@
     // ========== LOAD FRIENDS ==========
     async function loadFriends() {
       if (!currentUser) return;
-      
       try {
         const userRef = doc(db, 'users', currentUser.uid);
         const userSnap = await getDoc(userRef);
-        const userData = userSnap.data() || {};
-        const friendArray = userData.friends || [];
-        
+        const friendArray = userSnap.data()?.friends || [];
         friendIds = new Set(friendArray);
-        friends = [];
         
+        friends = [];
         for (const id of friendArray) {
           const snap = await getDoc(doc(db, 'users', id));
-          if (snap.exists()) {
-            friends.push({ id, ...snap.data() });
-          }
+          if (snap.exists()) friends.push({ id, ...snap.data() });
         }
-        
         if (activeTab === 'friends') renderFriends();
       } catch (error) {
         console.error('Load friends error:', error);
@@ -1022,7 +962,6 @@
     // ========== FRIEND REQUESTS LISTENER ==========
     function setupRequestsListener() {
       if (!currentUser) return;
-      
       if (requestsUnsub) requestsUnsub();
       
       const q = query(
@@ -1033,30 +972,20 @@
       
       requestsUnsub = onSnapshot(q, async (snap) => {
         requests = [];
-        
         for (const d of snap.docs) {
           const req = d.data();
           const userSnap = await getDoc(doc(db, 'users', req.from));
           const user = userSnap.data() || {};
-          
           requests.push({
             id: d.id,
             ...req,
-            fromUser: { 
-              id: req.from, 
-              name: user.displayName || 'User', 
-              photo: user.photoURL 
-            }
+            fromUser: { id: req.from, name: user.displayName || 'User', photo: user.photoURL }
           });
         }
         
         if (requestsTabBadge) {
-          if (requests.length > 0) {
-            requestsTabBadge.textContent = requests.length > 9 ? '9+' : requests.length;
-            requestsTabBadge.style.display = 'flex';
-          } else {
-            requestsTabBadge.style.display = 'none';
-          }
+          requestsTabBadge.style.display = requests.length ? 'flex' : 'none';
+          if (requests.length) requestsTabBadge.textContent = requests.length > 9 ? '9+' : requests.length;
         }
         
         if (activeTab === 'requests') renderRequests();
@@ -1064,10 +993,9 @@
       });
     }
 
-    // ========== CHATS LISTENER ==========
+    // ========== CHATS LISTENER - FAST AND OPTIMIZED ==========
     function setupChatsListener() {
       if (!currentUser) return;
-      
       if (chatsUnsub) chatsUnsub();
       
       const q = query(
@@ -1085,6 +1013,7 @@
           const otherId = chat.participants.find(id => id !== currentUser.uid);
           if (!otherId) continue;
           
+          // Quick unread count
           let unreadCount = 0;
           try {
             const messagesRef = collection(db, 'chats', d.id, 'messages');
@@ -1098,6 +1027,7 @@
             totalUnread += unreadCount;
           } catch (e) {}
           
+          // Get user data (cached if possible)
           const userSnap = await getDoc(doc(db, 'users', otherId));
           const user = userSnap.data() || {};
           
@@ -1114,45 +1044,23 @@
           });
         }
         
-        conversations.sort((a, b) => {
-          const timeA = a.lastMessageTime?.toDate?.() || new Date(0);
-          const timeB = b.lastMessageTime?.toDate?.() || new Date(0);
-          return timeB - timeA;
-        });
+        // Update badges
+        navMessagesBadge.style.display = totalUnread ? 'flex' : 'none';
+        if (totalUnread) navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         
-        if (navMessagesBadge) {
-          if (totalUnread > 0) {
-            navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
-            navMessagesBadge.style.display = 'flex';
-          } else {
-            navMessagesBadge.style.display = 'none';
-          }
-        }
-        
-        if (chatsTabBadge) {
-          if (totalUnread > 0) {
-            chatsTabBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
-            chatsTabBadge.style.display = 'flex';
-          } else {
-            chatsTabBadge.style.display = 'none';
-          }
-        }
+        chatsTabBadge.style.display = totalUnread ? 'flex' : 'none';
+        if (totalUnread) chatsTabBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         
         if (activeTab === 'chats') renderChatList();
       });
     }
 
-    // ========== SEND FRIEND REQUEST ==========
+    // ========== FRIEND REQUEST FUNCTIONS ==========
     window.sendFriendRequest = async function(userId) {
-      if (!currentUser) { window.location.href = 'sign-in.html'; return; }
-      if (userId === currentUser.uid) { showAlert('Cannot add yourself', 'error'); return; }
+      if (!currentUser || userId === currentUser.uid) return;
+      if (friendIds.has(userId)) { showAlert('Already friends', 'error'); return; }
       
       try {
-        if (friendIds.has(userId)) {
-          showAlert('Already friends', 'error');
-          return;
-        }
-        
         const q1 = query(
           collection(db, 'friendRequests'),
           where('from', '==', currentUser.uid),
@@ -1160,10 +1068,7 @@
           where('status', '==', 'pending')
         );
         const snap1 = await getDocs(q1);
-        if (!snap1.empty) {
-          showAlert('Request already sent', 'error');
-          return;
-        }
+        if (!snap1.empty) { showAlert('Request already sent', 'error'); return; }
         
         const q2 = query(
           collection(db, 'friendRequests'),
@@ -1189,111 +1094,52 @@
         if (activeTab === 'discover') loadDiscover();
       } catch (error) {
         console.error('Send error:', error);
-        showAlert('Failed to send request', 'error');
       }
     };
 
-    // ========== ACCEPT FRIEND REQUEST - FIXED ==========
     window.acceptFriendRequest = async function(requestId, fromId) {
       if (!currentUser) return;
-      
       try {
-        showAlert('Processing...', 'success');
-        
-        // 1. Update request status
-        await updateDoc(doc(db, 'friendRequests', requestId), {
-          status: 'accepted',
-          respondedAt: serverTimestamp()
-        });
-        
-        // 2. Update current user's friends array
-        const userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, {
-          friends: arrayUnion(fromId)
-        });
-        
-        // 3. Update other user's friends array
-        const otherRef = doc(db, 'users', fromId);
-        await updateDoc(otherRef, {
-          friends: arrayUnion(currentUser.uid)
-        });
-        
+        await updateDoc(doc(db, 'friendRequests', requestId), { status: 'accepted' });
+        await updateDoc(doc(db, 'users', currentUser.uid), { friends: arrayUnion(fromId) });
+        await updateDoc(doc(db, 'users', fromId), { friends: arrayUnion(currentUser.uid) });
         showAlert('✅ Friend request accepted!');
-        
         await loadFriends();
-        
         if (activeTab === 'friends') renderFriends();
         if (activeTab === 'requests') renderRequests();
         if (activeTab === 'discover') loadDiscover();
-        
       } catch (error) {
         console.error('Accept error:', error);
-        showAlert('Failed to accept: ' + error.message, 'error');
+        showAlert('Failed to accept', 'error');
       }
     };
 
-    // ========== DECLINE FRIEND REQUEST ==========
     window.declineFriendRequest = async function(requestId) {
       try {
-        await updateDoc(doc(db, 'friendRequests', requestId), {
-          status: 'declined',
-          respondedAt: serverTimestamp()
-        });
+        await updateDoc(doc(db, 'friendRequests', requestId), { status: 'declined' });
         showAlert('Request declined');
       } catch (error) {
         console.error('Decline error:', error);
-        showAlert('Failed to decline request', 'error');
       }
     };
 
-    // ========== MARK MESSAGES AS READ ==========
-    async function markMessagesAsRead(chatId, otherId) {
-      if (!currentUser) return;
-      
-      try {
-        const messagesRef = collection(db, 'chats', chatId, 'messages');
-        const q = query(
-          messagesRef,
-          where('senderId', '==', otherId),
-          where('read', '==', false)
-        );
-        const snap = await getDocs(q);
-        
-        const batch = writeBatch(db);
-        snap.forEach(doc => {
-          batch.update(doc.ref, { read: true });
-        });
-        await batch.commit();
-      } catch (error) {
-        console.error('Error marking messages as read:', error);
-      }
-    }
-
     // ========== START CHAT ==========
     window.startChat = async function(userId) {
-      if (!currentUser || userId === currentUser.uid) {
-        showAlert('Cannot chat with yourself', 'error');
-        return;
-      }
+      if (!currentUser || userId === currentUser.uid) return;
       
       try {
-        chatAreaEl.innerHTML = `
-          <div class="loading">
-            <i class="fas fa-spinner fa-pulse"></i>
-            <p>Opening chat...</p>
-          </div>
-        `;
+        chatAreaEl.innerHTML = `<div class="loading"><i class="fas fa-spinner fa-pulse"></i><p>Opening chat...</p></div>`;
         chatAreaEl.classList.add('active');
         sidebarEl.style.display = 'none';
         
+        // Find or create chat
         const chatsRef = collection(db, 'chats');
         const q = query(chatsRef, where('participants', 'array-contains', currentUser.uid));
         const snap = await getDocs(q);
         
         let chatId = null;
         snap.forEach(doc => {
-          const data = doc.data();
-          if (data.participants.includes(userId)) chatId = doc.id;
+          if (doc.data().participants.includes(userId)) chatId = doc.id;
         });
         
         if (!chatId) {
@@ -1306,7 +1152,15 @@
           chatId = newChat.id;
         }
         
-        await markMessagesAsRead(chatId, userId);
+        // Mark messages as read
+        try {
+          const messagesRef = collection(db, 'chats', chatId, 'messages');
+          const unreadQuery = query(messagesRef, where('senderId', '==', userId), where('read', '==', false));
+          const unreadSnap = await getDocs(unreadQuery);
+          const batch = writeBatch(db);
+          unreadSnap.forEach(d => batch.update(d.ref, { read: true }));
+          await batch.commit();
+        } catch (e) {}
         
         const userSnap = await getDoc(doc(db, 'users', userId));
         const userData = userSnap.data() || {};
@@ -1333,7 +1187,6 @@
         
       } catch (error) {
         console.error('Start chat error:', error);
-        showAlert('Failed to open chat', 'error');
         backToSidebar();
       }
     };
@@ -1341,19 +1194,16 @@
     // ========== SEND MESSAGE ==========
     window.sendMessage = async function() {
       const input = document.getElementById('messageInput');
-      if (!input) return;
-      
-      const messageText = input.value.trim();
-      if (!messageText || !currentChat) {
-        showAlert('Cannot send empty message', 'error');
-        return;
-      }
+      if (!input || !input.value.trim() || !currentChat) return;
       
       const now = Date.now();
       if (now - lastMessageTime < MESSAGE_DELAY) {
-        showAlert('Please wait a moment', 'error');
+        showAlert('Please wait', 'error');
         return;
       }
+      
+      const messageText = input.value.trim();
+      if (!messageText) return;
       
       try {
         lastMessageTime = now;
@@ -1375,7 +1225,6 @@
         
       } catch (error) {
         console.error('Send message error:', error);
-        showAlert('Failed to send message', 'error');
       }
     };
 
@@ -1412,46 +1261,31 @@
     // ========== LOAD DISCOVER ==========
     async function loadDiscover() {
       if (!currentUser) return;
-      
       try {
         const usersSnap = await getDocs(collection(db, 'users'));
         discover = [];
-        
         usersSnap.forEach(doc => {
-          if (doc.id !== currentUser.uid) {
-            const isFriend = friendIds.has(doc.id);
-            const hasPendingFromMe = requests.some(r => r.fromUser?.id === doc.id);
-            
-            if (!isFriend && !hasPendingFromMe) {
-              discover.push({ id: doc.id, ...doc.data() });
-            }
+          if (doc.id !== currentUser.uid && !friendIds.has(doc.id) && !requests.some(r => r.fromUser?.id === doc.id)) {
+            discover.push({ id: doc.id, ...doc.data() });
           }
         });
         
         const term = searchInput?.value.toLowerCase() || '';
         if (term) {
           discover = discover.filter(u => 
-            u.displayName?.toLowerCase().includes(term) || 
-            u.email?.toLowerCase().includes(term)
+            u.displayName?.toLowerCase().includes(term) || u.email?.toLowerCase().includes(term)
           );
         }
-        
         renderDiscover();
       } catch (error) {
         console.error('Load discover error:', error);
       }
     }
 
-    // ========== RENDER CHAT LIST ==========
+    // ========== RENDER FUNCTIONS ==========
     function renderChatList() {
-      if (conversations.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-comments"></i>
-            <h4>No chats yet</h4>
-            <p>Go to Discover to start a conversation</p>
-          </div>
-        `;
+      if (!conversations.length) {
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-comments"></i><h4>No chats yet</h4><p>Start a conversation</p></div>`;
         return;
       }
       
@@ -1459,14 +1293,12 @@
       conversations.forEach(chat => {
         const time = chat.lastMessageTime?.toDate?.();
         const isFriend = friendIds.has(chat.other.id);
-        
-        const statusDot = chat.other.online ? 
-          '<span class="online-dot"></span>' : '';
+        const statusDot = chat.other.online ? '<span class="online-dot"></span>' : '';
         
         html += `
-          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="startChat('${chat.other.id}')">
+          <div class="chat-item" onclick="startChat('${chat.other.id}')">
             <div class="chat-avatar">
-              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=48'}">
+              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=25d366&color=075e54&size=50'}">
               ${statusDot}
             </div>
             <div class="chat-info">
@@ -1486,28 +1318,19 @@
       chatListEl.innerHTML = html;
     }
 
-    // ========== RENDER FRIENDS ==========
     function renderFriends() {
-      if (friends.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-user-friends"></i>
-            <h4>No friends yet</h4>
-            <p>Add people from Discover</p>
-          </div>
-        `;
+      if (!friends.length) {
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-user-friends"></i><h4>No friends yet</h4><p>Add people from Discover</p></div>`;
         return;
       }
       
       let html = '';
       friends.forEach(f => {
-        const statusDot = f.online ? 
-          '<span class="online-dot"></span>' : '';
-        
+        const statusDot = f.online ? '<span class="online-dot"></span>' : '';
         html += `
           <div class="chat-item" onclick="startChat('${f.id}')">
             <div class="chat-avatar">
-              <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'User') + '&background=2563eb&color=fff&size=48'}">
+              <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'User') + '&background=25d366&color=075e54&size=50'}">
               ${statusDot}
             </div>
             <div class="chat-info">
@@ -1523,15 +1346,9 @@
       chatListEl.innerHTML = html;
     }
 
-    // ========== RENDER REQUESTS ==========
     function renderRequests() {
-      if (requests.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-user-plus"></i>
-            <h4>No pending requests</h4>
-          </div>
-        `;
+      if (!requests.length) {
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-user-plus"></i><h4>No pending requests</h4></div>`;
         return;
       }
       
@@ -1539,14 +1356,14 @@
       requests.forEach(r => {
         html += `
           <div class="discover-card">
-            <img src="${r.fromUser.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(r.fromUser.name) + '&background=2563eb&color=fff&size=56'}" class="discover-avatar">
+            <img src="${r.fromUser.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(r.fromUser.name) + '&background=25d366&color=075e54&size=56'}" class="discover-avatar">
             <div class="discover-info">
               <div class="discover-name">${escapeHTML(r.fromUser.name)}</div>
               <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
                 <button class="btn-sm btn-add" onclick="acceptFriendRequest('${r.id}','${r.fromUser.id}')">
                   <i class="fas fa-check"></i> Accept
                 </button>
-                <button class="btn-sm" style="background:#ef4444; color:white;" onclick="declineFriendRequest('${r.id}')">
+                <button class="btn-sm" style="background:#d32f2f; color:white;" onclick="declineFriendRequest('${r.id}')">
                   <i class="fas fa-times"></i> Decline
                 </button>
                 <button class="btn-sm btn-msg" onclick="startChat('${r.fromUser.id}')">
@@ -1561,16 +1378,9 @@
       chatListEl.innerHTML = html;
     }
 
-    // ========== RENDER DISCOVER ==========
     function renderDiscover() {
-      if (discover.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-search"></i>
-            <h4>No users found</h4>
-            <p>Try a different search</p>
-          </div>
-        `;
+      if (!discover.length) {
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h4>No users found</h4><p>Try a different search</p></div>`;
         return;
       }
       
@@ -1578,10 +1388,10 @@
       discover.forEach(u => {
         html += `
           <div class="discover-card">
-            <img src="${u.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.displayName || 'User') + '&background=2563eb&color=fff&size=56'}" class="discover-avatar" onclick="viewProfile('${u.id}')" style="cursor:pointer;">
+            <img src="${u.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.displayName || 'User') + '&background=25d366&color=075e54&size=56'}" class="discover-avatar" onclick="viewProfile('${u.id}')" style="cursor:pointer;">
             <div class="discover-info">
               <div class="discover-name" onclick="viewProfile('${u.id}')" style="cursor:pointer;">${escapeHTML(u.displayName || 'User')}</div>
-              <div style="font-size:0.75rem; color:#64748b;">${escapeHTML(u.email || '')}</div>
+              <div style="font-size:0.75rem; color:#999;">${escapeHTML(u.email || '')}</div>
             </div>
             <div class="discover-actions">
               <button class="btn-sm btn-add" onclick="sendFriendRequest('${u.id}')">
@@ -1598,7 +1408,6 @@
       chatListEl.innerHTML = html;
     }
 
-    // ========== RENDER CHAT ==========
     function renderChat(messages) {
       if (!currentChat) return;
       
@@ -1610,7 +1419,7 @@
         const time = m.timestamp?.toDate?.();
         msgs += `
           <div class="message ${sent ? 'sent' : 'received'}">
-            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=28'}" class="message-avatar" onclick="viewProfile('${currentChat.userId}')" style="cursor:pointer;">` : ''}
+            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=25d366&color=075e54&size=28'}" class="message-avatar" onclick="viewProfile('${currentChat.userId}')">` : ''}
             <div>
               <div class="message-bubble">${escapeHTML(m.text).replace(/\n/g, '<br>')}</div>
               <div class="message-time">${time ? timeAgo(time) : ''}</div>
@@ -1624,35 +1433,35 @@
           <div style="display:flex; align-items:center; gap:0.5rem;">
             <i class="fas fa-arrow-left back-btn" onclick="backToSidebar()"></i>
             <div class="chat-user" onclick="viewProfile('${currentChat.userId}')">
-              <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=40'}" alt="${escapeHTML(currentChat.name)}">
+              <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=25d366&color=075e54&size=40'}">
               <div class="chat-user-info">
                 <h3>${escapeHTML(currentChat.name)}</h3>
                 <div class="user-status">
-                  ${currentChat.online ? '<span style="color:#22c55e;"><i class="fas fa-circle"></i> Online</span>' : '<span style="color:#64748b;"><i class="fas fa-circle"></i> Offline</span>'}
-                  ${isFriend ? '<span style="color:#22c55e; margin-left:0.5rem;"><i class="fas fa-check-circle"></i> Friend</span>' : ''}
+                  ${currentChat.online ? 'Online' : 'Offline'}
+                  ${isFriend ? ' · Friend' : ''}
                 </div>
               </div>
             </div>
           </div>
           ${!isFriend ? 
             `<button class="btn-sm btn-add" onclick="sendFriendRequest('${currentChat.userId}')">
-              <i class="fas fa-user-plus"></i> Add Friend
+              <i class="fas fa-user-plus"></i> Add
             </button>` : ''
           }
         </div>
         <div class="messages" id="messagesContainer">
-          ${msgs || '<div style="text-align:center; color:#64748b; padding:2rem;">No messages yet. Say hello! 👋</div>'}
+          ${msgs || '<div style="text-align:center; color:#999; padding:2rem;">Say hello! 👋</div>'}
         </div>
         <div class="message-input-area">
           <textarea 
             id="messageInput" 
             class="message-input" 
-            placeholder="Type a message..." 
+            placeholder="Type a message" 
             onkeydown="handleMessageKey(event)"
             oninput="resizeTextarea(this)"
             rows="1"
           ></textarea>
-          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <button class="send-btn" onclick="sendMessage()">
             <i class="fas fa-paper-plane"></i>
           </button>
         </div>
@@ -1679,9 +1488,9 @@
     });
 
     // ========== SEARCH ==========
-    searchInput?.addEventListener('input', debounce(() => {
+    searchInput?.addEventListener('input', () => {
       if (activeTab === 'discover') loadDiscover();
-    }, 300));
+    });
 
     // ========== AUTH STATE ==========
     onAuthStateChanged(auth, renderAuthUI);
@@ -1691,12 +1500,8 @@
       if (chatsUnsub) chatsUnsub();
       if (requestsUnsub) requestsUnsub();
       if (messagesUnsub) messagesUnsub();
-      
       if (currentUser) {
-        updateDoc(doc(db, 'users', currentUser.uid), {
-          online: false,
-          lastSeen: serverTimestamp()
-        }).catch(() => {});
+        updateDoc(doc(db, 'users', currentUser.uid), { online: false, lastSeen: serverTimestamp() }).catch(() => {});
       }
     });
 
