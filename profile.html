@@ -814,6 +814,50 @@
       height: 70px;
     }
 
+    /* ========== ALERTS ========== */
+    #alertContainer {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+    
+    .alert {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.3s ease;
+      pointer-events: auto;
+      border-left: 4px solid #2563eb;
+    }
+    
+    .alert.success {
+      border-left-color: #22c55e;
+    }
+    .alert.error {
+      border-left-color: #ef4444;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     @media (min-width: 768px) {
       .bottom-nav {
         max-width: 400px;
@@ -841,6 +885,7 @@
     <a href="index.html" class="logo">Sewa<span>Link</span></a>
     <div id="authUI" class="auth-buttons"></div>
   </header>
+  
 
   <div id="alertContainer"></div>
 
@@ -915,7 +960,8 @@
       projectId: "sewalink-ead02",
       storageBucket: "sewalink-ead02.firebasestorage.app",
       messagingSenderId: "682952754486",
-      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97",
+      measurementId: "G-44SGGSRS04"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -964,12 +1010,14 @@
       const div = document.createElement('div');
       div.className = `alert ${type}`;
       div.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" style="color: ${type === 'success' ? '#22c55e' : '#ef4444'}; font-size: 1.2rem;"></i>
         <span style="flex:1;">${message}</span>
         <button onclick="this.parentElement.remove()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem;">×</button>
       `;
       alertContainer.appendChild(div);
-      setTimeout(() => div.remove(), 4000);
+      setTimeout(() => {
+        if (div.parentNode) div.remove();
+      }, 4000);
     }
 
     // ========== FILE TO BASE64 ==========
@@ -984,34 +1032,50 @@
 
     // ========== UPLOAD TO IMGBB ==========
     async function uploadToImgBB(file) {
-      const base64 = await fileToBase64(file);
-      
-      const formData = new FormData();
-      formData.append('key', IMGBB_API_KEY);
-      formData.append('image', base64);
-      formData.append('name', `sewalink-${Date.now()}`);
+      try {
+        const base64 = await fileToBase64(file);
+        
+        const formData = new FormData();
+        formData.append('key', IMGBB_API_KEY);
+        formData.append('image', base64);
+        formData.append('name', `sewalink-${Date.now()}`);
 
-      const response = await fetch(IMGBB_UPLOAD_URL, {
-        method: 'POST',
-        body: formData
-      });
+        const response = await fetch(IMGBB_UPLOAD_URL, {
+          method: 'POST',
+          body: formData
+        });
 
-      const result = await response.json();
-      
-      if (!result.success) {
-        throw new Error(result.error?.message || 'Upload failed');
+        const result = await response.json();
+        
+        if (!result.success) {
+          throw new Error(result.error?.message || 'Upload failed');
+        }
+
+        // Clean the data to remove any undefined values
+        const imageData = {
+          url: result.data.url || null,
+          display_url: result.data.display_url || null,
+          delete_url: result.data.delete_url || null,
+          size: file.size,
+          type: file.type,
+          name: file.name
+        };
+
+        // Only add thumb if it exists
+        if (result.data.thumb?.url) {
+          imageData.thumb = result.data.thumb.url;
+        }
+
+        // Only add delete_hash if it exists
+        if (result.data.delete_hash) {
+          imageData.delete_hash = result.data.delete_hash;
+        }
+
+        return imageData;
+      } catch (error) {
+        console.error('ImgBB upload error:', error);
+        throw error;
       }
-
-      return {
-        url: result.data.url,
-        display_url: result.data.display_url,
-        delete_url: result.data.delete_url,
-        delete_hash: result.data.delete_hash,
-        thumb: result.data.thumb?.url,
-        size: file.size,
-        type: file.type,
-        name: file.name
-      };
     }
 
     // ========== DELETE FROM IMGBB ==========
@@ -1186,7 +1250,7 @@
       return skills.map(skill => 
         `<span class="skill-tag">
           ${escapeHTML(skill)}
-          <i class="fas fa-times" onclick="window.removeSkill('${escapeHTML(skill)}')"></i>
+          <i class="fas fa-times" onclick="removeSkill('${escapeHTML(skill).replace(/'/g, "\\'")}')"></i>
         </span>`
       ).join('');
     }
@@ -1224,9 +1288,9 @@
             <label for="avatarUpload" class="change-avatar-btn">
               <i class="fas fa-camera"></i>
             </label>
-            <input type="file" id="avatarUpload" accept="image/*">
+            <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
             ${currentUser.photoURL ? `
-              <button class="remove-avatar-btn" id="removeAvatarBtn" onclick="window.removeProfilePicture()">
+              <button class="remove-avatar-btn" id="removeAvatarBtn">
                 <i class="fas fa-trash"></i>
               </button>
             ` : ''}
@@ -1451,7 +1515,7 @@
           <div class="portfolio-item">
             <img src="${img.thumb || img.display_url || img.url}" loading="lazy">
             <div class="portfolio-overlay">
-              <button class="portfolio-delete" onclick="window.deletePortfolioItem('${img.id}')">
+              <button class="portfolio-delete" onclick="deletePortfolioItem('${img.id}')">
                 <i class="fas fa-trash"></i>
               </button>
             </div>
@@ -1493,7 +1557,7 @@
                   <i class="fas fa-download"></i>
                 </a>
               ` : ''}
-              <button class="cv-delete" onclick="window.deleteCVItem('${cv.id}')">
+              <button class="cv-delete" onclick="deleteCVItem('${cv.id}')">
                 <i class="fas fa-trash"></i>
               </button>
             </div>
@@ -1524,7 +1588,7 @@
           <div class="portfolio-item">
             <img src="${img.thumb || img.display_url || img.url}" loading="lazy">
             <div class="portfolio-overlay">
-              <button class="portfolio-delete" onclick="window.deleteScreenshotItem('${img.id}')">
+              <button class="portfolio-delete" onclick="deleteScreenshotItem('${img.id}')">
                 <i class="fas fa-trash"></i>
               </button>
             </div>
@@ -1545,27 +1609,65 @@
 
           try {
             showAlert('Uploading image...', 'success');
+            
+            // Upload to ImgBB
             const imageData = await uploadToImgBB(file);
             
+            // Update Firebase Auth profile
             await updateProfile(currentUser, {
               photoURL: imageData.display_url
             });
 
+            // Update Firestore user document - only include defined values
             const userRef = doc(db, 'users', currentUser.uid);
-            await setDoc(userRef, {
+            const updateData = {
               photoURL: imageData.display_url,
-              avatarImgBB: imageData,
               updatedAt: serverTimestamp()
-            }, { merge: true });
+            };
+            
+            // Only add avatarImgBB if it has valid data
+            if (imageData.display_url || imageData.delete_url) {
+              updateData.avatarImgBB = imageData;
+            }
+            
+            await setDoc(userRef, updateData, { merge: true });
 
+            // Update UI
             document.getElementById('profileAvatar').src = imageData.display_url;
-            showAlert('✅ Profile picture updated!', 'success');
+            
+            // Update auth UI avatar
+            const authAvatar = document.querySelector('.profile-avatar');
+            if (authAvatar) {
+              authAvatar.src = imageData.display_url;
+            }
+
+            // Add remove button if not present
+            if (!document.getElementById('removeAvatarBtn')) {
+              const avatarSection = document.querySelector('.avatar-section');
+              const removeBtn = document.createElement('button');
+              removeBtn.className = 'remove-avatar-btn';
+              removeBtn.id = 'removeAvatarBtn';
+              removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
+              removeBtn.onclick = removeProfilePicture;
+              avatarSection.appendChild(removeBtn);
+            }
+
+            showAlert('✅ Profile picture updated successfully!', 'success');
             
           } catch (error) {
             console.error('Error uploading avatar:', error);
-            showAlert('Failed to upload image', 'error');
+            showAlert('Failed to upload image: ' + (error.message || 'Unknown error'), 'error');
           }
+          
+          // Clear input
+          avatarUpload.value = '';
         });
+      }
+
+      // Remove Avatar Button
+      const removeAvatarBtn = document.getElementById('removeAvatarBtn');
+      if (removeAvatarBtn) {
+        removeAvatarBtn.addEventListener('click', removeProfilePicture);
       }
 
       // Add Portfolio
@@ -1579,14 +1681,18 @@
           
           input.onchange = async (e) => {
             const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+            
             const progressDiv = document.getElementById('portfolioUploadProgress');
             const progressFill = document.getElementById('portfolioProgressFill');
             
             progressDiv.classList.add('show');
             
+            let successCount = 0;
+            
             for (let i = 0; i < files.length; i++) {
               try {
-                progressFill.style.width = `${((i + 1) / files.length) * 100}%`;
+                progressFill.style.width = `${((i) / files.length) * 100}%`;
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
@@ -1597,16 +1703,26 @@
                 });
 
                 portfolioImages.push({ id: docRef.id, ...imageData });
+                successCount++;
 
               } catch (error) {
                 console.error('Error uploading portfolio:', error);
               }
             }
 
-            progressDiv.classList.remove('show');
-            progressFill.style.width = '0%';
+            progressFill.style.width = '100%';
+            
+            setTimeout(() => {
+              progressDiv.classList.remove('show');
+              progressFill.style.width = '0%';
+            }, 500);
+            
             renderPortfolio();
-            showAlert(`✅ Uploaded ${files.length} images`, 'success');
+            if (successCount > 0) {
+              showAlert(`✅ Uploaded ${successCount} image${successCount > 1 ? 's' : ''}`, 'success');
+            } else {
+              showAlert('Failed to upload images', 'error');
+            }
           };
           
           input.click();
@@ -1637,11 +1753,11 @@
               if (file.type.startsWith('image/')) {
                 cvData = await uploadToImgBB(file);
               } else {
+                // For PDFs and documents, store metadata only
                 cvData = {
                   name: file.name,
                   size: file.size,
-                  type: file.type,
-                  placeholder: 'https://ui-avatars.com/api/?name=CV&background=8b5cf6&color=fff'
+                  type: file.type
                 };
               }
 
@@ -1661,7 +1777,7 @@
               }, 500);
               
               renderCV();
-              showAlert('✅ CV uploaded!', 'success');
+              showAlert('✅ CV uploaded successfully!', 'success');
               
             } catch (error) {
               console.error('Error uploading CV:', error);
@@ -1685,14 +1801,18 @@
           
           input.onchange = async (e) => {
             const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+            
             const progressDiv = document.getElementById('screenshotUploadProgress');
             const progressFill = document.getElementById('screenshotProgressFill');
             
             progressDiv.classList.add('show');
             
+            let successCount = 0;
+            
             for (let i = 0; i < files.length; i++) {
               try {
-                progressFill.style.width = `${((i + 1) / files.length) * 100}%`;
+                progressFill.style.width = `${((i) / files.length) * 100}%`;
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
@@ -1703,16 +1823,26 @@
                 });
 
                 screenshotFiles.push({ id: docRef.id, ...imageData });
+                successCount++;
 
               } catch (error) {
                 console.error('Error uploading screenshot:', error);
               }
             }
 
-            progressDiv.classList.remove('show');
-            progressFill.style.width = '0%';
+            progressFill.style.width = '100%';
+            
+            setTimeout(() => {
+              progressDiv.classList.remove('show');
+              progressFill.style.width = '0%';
+            }, 500);
+            
             renderScreenshots();
-            showAlert(`✅ Uploaded ${files.length} screenshots`, 'success');
+            if (successCount > 0) {
+              showAlert(`✅ Uploaded ${successCount} screenshot${successCount > 1 ? 's' : ''}`, 'success');
+            } else {
+              showAlert('Failed to upload screenshots', 'error');
+            }
           };
           
           input.click();
@@ -1809,25 +1939,46 @@
     };
 
     window.removeProfilePicture = async function() {
-      if (!currentUser || !confirm('Remove profile picture?')) return;
+      if (!currentUser) return;
+      
+      if (!confirm('Remove profile picture?')) return;
       
       try {
+        showAlert('Removing profile picture...', 'success');
+        
         const userRef = doc(db, 'users', currentUser.uid);
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
         
+        // Delete from ImgBB if exists
         if (userData?.avatarImgBB?.delete_url) {
           await deleteFromImgBB(userData.avatarImgBB.delete_url);
         }
 
+        // Update Firebase Auth
         await updateProfile(currentUser, { photoURL: null });
-        await updateDoc(userRef, { photoURL: null, avatarImgBB: null });
-
-        document.getElementById('profileAvatar').src = 
-          `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || 'User')}&background=2563eb&color=fff&size=120`;
         
-        document.getElementById('removeAvatarBtn')?.remove();
-        showAlert('Profile picture removed', 'success');
+        // Update Firestore
+        await updateDoc(userRef, { 
+          photoURL: null, 
+          avatarImgBB: null 
+        });
+
+        // Update UI
+        const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || 'User')}&background=2563eb&color=fff&size=120`;
+        document.getElementById('profileAvatar').src = defaultAvatar;
+        
+        // Update auth UI avatar
+        const authAvatar = document.querySelector('.profile-avatar');
+        if (authAvatar) {
+          authAvatar.src = defaultAvatar;
+        }
+        
+        // Remove remove button
+        const removeBtn = document.getElementById('removeAvatarBtn');
+        if (removeBtn) removeBtn.remove();
+        
+        showAlert('✅ Profile picture removed', 'success');
         
       } catch (error) {
         console.error('Error removing avatar:', error);
@@ -1836,15 +1987,22 @@
     };
 
     window.deletePortfolioItem = async function(imageId) {
+      if (!confirm('Delete this image?')) return;
+      
       const image = portfolioImages.find(img => img.id === imageId);
-      if (!image || !confirm('Delete this image?')) return;
       
       try {
-        if (image.delete_url) await deleteFromImgBB(image.delete_url);
+        showAlert('Deleting...', 'success');
+        
+        if (image?.delete_url) {
+          await deleteFromImgBB(image.delete_url);
+        }
+        
         await deleteDoc(doc(db, 'portfolio', imageId));
+        
         portfolioImages = portfolioImages.filter(img => img.id !== imageId);
         renderPortfolio();
-        showAlert('Image deleted', 'success');
+        showAlert('✅ Image deleted', 'success');
       } catch (error) {
         console.error('Error deleting portfolio:', error);
         showAlert('Failed to delete', 'error');
@@ -1852,15 +2010,22 @@
     };
 
     window.deleteCVItem = async function(cvId) {
+      if (!confirm('Delete this CV?')) return;
+      
       const cv = cvFiles.find(c => c.id === cvId);
-      if (!cv || !confirm('Delete this CV?')) return;
       
       try {
-        if (cv.delete_url) await deleteFromImgBB(cv.delete_url);
+        showAlert('Deleting...', 'success');
+        
+        if (cv?.delete_url) {
+          await deleteFromImgBB(cv.delete_url);
+        }
+        
         await deleteDoc(doc(db, 'cv', cvId));
+        
         cvFiles = cvFiles.filter(c => c.id !== cvId);
         renderCV();
-        showAlert('CV deleted', 'success');
+        showAlert('✅ CV deleted', 'success');
       } catch (error) {
         console.error('Error deleting CV:', error);
         showAlert('Failed to delete', 'error');
@@ -1868,15 +2033,22 @@
     };
 
     window.deleteScreenshotItem = async function(screenshotId) {
+      if (!confirm('Delete this screenshot?')) return;
+      
       const screenshot = screenshotFiles.find(s => s.id === screenshotId);
-      if (!screenshot || !confirm('Delete this screenshot?')) return;
       
       try {
-        if (screenshot.delete_url) await deleteFromImgBB(screenshot.delete_url);
+        showAlert('Deleting...', 'success');
+        
+        if (screenshot?.delete_url) {
+          await deleteFromImgBB(screenshot.delete_url);
+        }
+        
         await deleteDoc(doc(db, 'screenshots', screenshotId));
+        
         screenshotFiles = screenshotFiles.filter(s => s.id !== screenshotId);
         renderScreenshots();
-        showAlert('Screenshot deleted', 'success');
+        showAlert('✅ Screenshot deleted', 'success');
       } catch (error) {
         console.error('Error deleting screenshot:', error);
         showAlert('Failed to delete', 'error');
@@ -1894,7 +2066,7 @@
       await renderProfile();
     });
 
-    // ========== EXPOSE GLOBALS ==========
+    // Make functions globally available
     window.removeSkill = removeSkill;
     window.removeProfilePicture = removeProfilePicture;
     window.deletePortfolioItem = deletePortfolioItem;
