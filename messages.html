@@ -3,14 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SewaLink · Messages</title>
+  
+  <title>SewaLink · Messenger</title>
+  <meta name="description" content="Real-time messaging with freelancers and clients.">
+  
+  <!-- PWA / App-like settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#2563eb">
+  
   <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
   <style>
-    /* ========== MOBILE-FIRST APP STYLES ========== */
+    /* ========== DESIGN SYSTEM - PROFESSIONAL COLOR PALETTE ========== */
+    :root {
+      /* Primary Colors - Refined */
+      --primary-50: #eef2ff;
+      --primary-100: #e0e7ff;
+      --primary-200: #c7d2fe;
+      --primary-300: #a5b4fc;
+      --primary-400: #818cf8;
+      --primary-500: #6366f1;
+      --primary-600: #4f46e5;
+      --primary-700: #4338ca;
+      --primary-800: #3730a3;
+      --primary-900: #312e81;
+      
+      /* Neutral Colors - Sophisticated */
+      --neutral-50: #fafafa;
+      --neutral-100: #f5f5f5;
+      --neutral-200: #e5e5e5;
+      --neutral-300: #d4d4d4;
+      --neutral-400: #a3a3a3;
+      --neutral-500: #737373;
+      --neutral-600: #525252;
+      --neutral-700: #404040;
+      --neutral-800: #262626;
+      --neutral-900: #171717;
+      
+      /* Accent Colors */
+      --success-50: #f0fdf4;
+      --success-500: #22c55e;
+      --success-700: #15803d;
+      
+      --warning-50: #fffbeb;
+      --warning-500: #f59e0b;
+      --warning-700: #b45309;
+      
+      --danger-50: #fef2f2;
+      --danger-500: #ef4444;
+      --danger-700: #b91c1c;
+      
+      /* Background & Surface */
+      --bg-primary: #ffffff;
+      --bg-secondary: #fafafa;
+      --bg-tertiary: #f5f5f5;
+      --bg-elevated: #ffffff;
+      --bg-chat: #f8fafc;
+      
+      /* Text Colors */
+      --text-primary: #171717;
+      --text-secondary: #525252;
+      --text-tertiary: #737373;
+      --text-disabled: #a3a3a3;
+      
+      /* Border Colors */
+      --border-light: #e5e5e5;
+      --border-medium: #d4d4d4;
+      --border-focus: #4f46e5;
+      
+      /* Shadows */
+      --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.02);
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.03), 0 1px 2px -1px rgb(0 0 0 / 0.02);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.03), 0 2px 4px -2px rgb(0 0 0 / 0.02);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.03), 0 4px 6px -4px rgb(0 0 0 / 0.02);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.02);
+      
+      /* Border Radius */
+      --radius-xs: 6px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 24px;
+      --radius-full: 9999px;
+    }
+
+    /* ========== RESET & BASE STYLES ========== */
     * {
       margin: 0;
       padding: 0;
@@ -20,92 +100,41 @@
     }
 
     body {
-      background: #ffffff;
-      color: #0f172a;
-      line-height: 1.5;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    /* ========== BOTTOM NAVIGATION ========== */
-    .bottom-nav {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-      border-top: 1px solid #f1f5f9;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
-      z-index: 1000;
+      width: 100%;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #64748b;
-      font-size: 0.7rem;
-      gap: 0.2rem;
-      padding: 0.3rem 0.5rem;
-      border-radius: 8px;
-      position: relative;
-    }
-    .nav-item i {
-      font-size: 1.3rem;
-    }
-    .nav-item.active {
-      color: #2563eb;
-    }
-    .nav-item span {
-      font-size: 0.65rem;
-      font-weight: 500;
-    }
-
-    /* ========== NOTIFICATION BADGE ========== */
-    .notification-badge {
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      background: #ef4444;
-      color: white;
-      font-size: 0.6rem;
-      font-weight: 600;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 4px;
-      border: 2px solid white;
-    }
-
-    /* ========== TOP HEADER ========== */
+    /* ========== APP HEADER ========== */
     .app-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-light);
+      height: 60px;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .logo {
       font-size: 1.4rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--text-primary);
       text-decoration: none;
     }
     .logo span {
-      color: #2563eb;
+      color: var(--primary-600);
     }
 
     .auth-buttons {
@@ -116,24 +145,37 @@
 
     .btn-outline {
       padding: 0.4rem 1rem;
-      border: 1px solid #e2e8f0;
-      background: white;
-      border-radius: 30px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-primary);
+      border-radius: var(--radius-full);
       font-weight: 600;
       font-size: 0.8rem;
-      color: #1e293b;
+      color: var(--text-secondary);
       text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: var(--primary-600);
+      color: var(--primary-600);
+      background: var(--primary-50);
     }
 
     .btn-primary {
       padding: 0.4rem 1rem;
-      background: #2563eb;
+      background: var(--primary-600);
       color: white;
       border: none;
-      border-radius: 30px;
+      border-radius: var(--radius-full);
       font-weight: 600;
       font-size: 0.8rem;
       text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-primary:hover {
+      background: var(--primary-700);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
 
     /* ========== PROFILE DROPDOWN ========== */
@@ -142,127 +184,156 @@
       display: inline-block;
     }
     .profile-avatar {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 2px solid var(--bg-elevated);
+      box-shadow: var(--shadow-sm);
       object-fit: cover;
+      transition: transform 0.2s;
+    }
+    .profile-avatar:hover {
+      transform: scale(1.05);
     }
     .dropdown-menu {
       position: absolute;
-      top: 45px;
+      top: 50px;
       right: 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      width: 240px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      width: 260px;
       padding: 0.5rem;
       display: none;
       z-index: 101;
-      border: 1px solid #f1f5f9;
+      border: 1px solid var(--border-light);
     }
     .dropdown-menu.show {
       display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .user-info {
-      padding: 0.8rem;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-light);
     }
     .user-name {
       font-weight: 600;
-      color: #0f172a;
-      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
     }
     .user-email {
       font-size: 0.75rem;
-      color: #64748b;
+      color: var(--text-tertiary);
     }
     .dropdown-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.6rem 0.8rem;
+      padding: 0.75rem 1rem;
       text-decoration: none;
-      color: #1e293b;
-      font-size: 0.85rem;
-      border-radius: 10px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
     }
     .dropdown-item:hover {
-      background: #f8fafc;
+      background: var(--bg-tertiary);
+      color: var(--primary-600);
+    }
+    .dropdown-item i {
+      width: 20px;
+      color: var(--text-tertiary);
+      transition: color 0.2s;
+    }
+    .dropdown-item:hover i {
+      color: var(--primary-600);
     }
     .logout-btn {
       width: 100%;
       background: none;
       border: none;
       text-align: left;
-      padding: 0.6rem 0.8rem;
-      color: #b91c1c;
-      border-top: 1px solid #f1f5f9;
+      padding: 0.75rem 1rem;
+      color: var(--danger-500);
+      border-top: 1px solid var(--border-light);
       margin-top: 0.25rem;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover {
+      background: var(--danger-50);
+    }
+    .logout-btn i {
+      width: 20px;
     }
 
-    /* ========== MESSENGER ========== */
+    /* ========== MAIN MESSENGER LAYOUT ========== */
     .messenger {
       display: flex;
-      flex-direction: column;
-      height: calc(100vh - 130px);
-      background: white;
-      margin: 0.5rem;
-      border-radius: 24px;
-      border: 1px solid #f1f5f9;
+      height: calc(100vh - 60px);
+      background: var(--bg-primary);
       overflow: hidden;
     }
 
+    /* ========== SIDEBAR ========== */
     .sidebar {
+      width: 100%;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-light);
       display: flex;
       flex-direction: column;
-      background: white;
-      height: 100%;
+      transition: transform 0.3s ease;
+      background: var(--bg-primary);
+    }
+    .sidebar.hide {
+      transform: translateX(-100%);
     }
 
     .sidebar-header {
-      padding: 0.8rem 1rem 0.5rem;
+      padding: 1rem;
+      background: var(--bg-primary);
     }
 
     .logo-small {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
       font-size: 1.2rem;
       font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 0.8rem;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
     }
     .logo-small span {
-      color: #2563eb;
-    }
-    .logo-small i {
-      color: #2563eb;
+      color: var(--primary-600);
     }
 
     .search-box {
       display: flex;
       align-items: center;
-      background: #f8fafc;
-      border-radius: 40px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-full);
       padding: 0.5rem 1rem;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 0.5rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
     }
     .search-box:focus-within {
-      border-color: #2563eb;
+      border-color: var(--primary-600);
+      box-shadow: 0 0 0 3px var(--primary-100);
       background: white;
     }
     .search-box i {
-      color: #94a3b8;
+      color: var(--text-tertiary);
       margin-right: 0.5rem;
       font-size: 0.9rem;
     }
@@ -271,68 +342,147 @@
       border: none;
       background: transparent;
       font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+    .search-box input::placeholder {
+      color: var(--text-tertiary);
     }
     .search-box input:focus {
       outline: none;
     }
 
-    .search-filters {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-    .search-filter {
-      padding: 0.25rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: white;
-      border: 1px solid #e2e8f0;
-      color: #64748b;
-      cursor: pointer;
-    }
-    .search-filter.active {
-      background: #2563eb;
-      border-color: #2563eb;
-      color: white;
-    }
-
     .tabs {
       display: flex;
-      padding: 0.3rem 0.8rem;
-      background: #f8fafc;
-      margin: 0.2rem 1rem 0.8rem;
-      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+      background: var(--bg-primary);
     }
-
     .tab {
       flex: 1;
-      padding: 0.5rem 0;
+      padding: 0.6rem 0;
       text-align: center;
       font-weight: 600;
-      font-size: 0.75rem;
-      color: #64748b;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
       cursor: pointer;
-      border-radius: 30px;
+      border-radius: var(--radius-full);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.3rem;
       position: relative;
+      transition: all 0.2s;
     }
     .tab i {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
+    }
+    .tab:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
     }
     .tab.active {
-      background: white;
-      color: #2563eb;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      background: var(--primary-600);
+      color: white;
     }
     .tab-badge {
       position: absolute;
       top: -5px;
       right: 5px;
-      background: #ef4444;
+      background: var(--danger-500);
+      color: white;
+      font-size: 0.6rem;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid var(--bg-elevated);
+    }
+
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+      background: var(--bg-primary);
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      margin-bottom: 0.2rem;
+      transition: background 0.2s;
+    }
+    .chat-item:hover {
+      background: var(--bg-secondary);
+    }
+    .chat-item.active {
+      background: var(--primary-50);
+    }
+
+    .chat-avatar {
+      position: relative;
+    }
+    .chat-avatar img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--bg-elevated);
+      box-shadow: var(--shadow-sm);
+    }
+    .online-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 10px;
+      height: 10px;
+      background: var(--success-500);
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .chat-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .chat-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .friend-badge {
+      color: var(--success-500);
+      font-size: 0.7rem;
+    }
+    .chat-preview {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chat-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.3rem;
+    }
+    .chat-time {
+      font-size: 0.65rem;
+      color: var(--text-tertiary);
+    }
+    .unread-badge {
+      background: var(--primary-600);
       color: white;
       font-size: 0.6rem;
       min-width: 18px;
@@ -344,96 +494,13 @@
       padding: 0 4px;
     }
 
-    .chat-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0.4rem 0.8rem;
-    }
-
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 0.7rem;
-      border-radius: 16px;
-      cursor: pointer;
-      margin-bottom: 0.2rem;
-      transition: all 0.2s;
-    }
-    .chat-item:hover {
-      background: #f1f5f9;
-    }
-    .chat-item.active {
-      background: #eff6ff;
-    }
-
-    .chat-avatar {
-      position: relative;
-    }
-    .chat-avatar img {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid white;
-    }
-
-    .chat-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .chat-name {
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 0.9rem;
-      margin-bottom: 0.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .friend-badge {
-      color: #22c55e;
-      font-size: 0.7rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .stranger-badge {
-      color: #64748b;
-      font-size: 0.65rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .chat-preview {
-      font-size: 0.75rem;
-      color: #64748b;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .chat-time {
-      font-size: 0.65rem;
-      color: #94a3b8;
-    }
-    .unread-badge {
-      background: #2563eb;
-      color: white;
-      font-size: 0.6rem;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 0.5rem;
-    }
-
+    /* ========== CHAT AREA ========== */
     .chat-area {
+      flex: 1;
       display: none;
       flex-direction: column;
+      background: var(--bg-chat);
       height: 100%;
-      background: white;
     }
     .chat-area.active {
       display: flex;
@@ -443,49 +510,52 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.8rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-light);
+      height: 70px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .chat-user {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-    }
-    .chat-user img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .chat-user h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 0.2rem;
-    }
-    .friend-status {
-      color: #22c55e;
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .stranger-status {
-      color: #64748b;
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .back-btn {
-      display: none;
-      font-size: 1.2rem;
-      color: #2563eb;
+      gap: 1rem;
       cursor: pointer;
     }
-    .chat-area.active .back-btn {
+    .chat-user img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--bg-elevated);
+      box-shadow: var(--shadow-sm);
+    }
+    .chat-user-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .user-status {
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .status-online {
+      color: var(--success-500);
+    }
+    .status-offline {
+      color: var(--text-tertiary);
+    }
+    .back-btn {
       display: block;
+      font-size: 1.2rem;
+      color: var(--primary-600);
+      cursor: pointer;
+      margin-right: 0.5rem;
     }
 
     .messages {
@@ -494,15 +564,14 @@
       padding: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      background: #fafcff;
+      gap: 0.5rem;
     }
 
     .message {
       display: flex;
       align-items: flex-end;
-      gap: 0.6rem;
-      max-width: 85%;
+      gap: 0.5rem;
+      max-width: 80%;
       animation: fadeIn 0.2s ease;
     }
     @keyframes fadeIn {
@@ -517,53 +586,74 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
     }
     .message-bubble {
-      padding: 0.6rem 1rem;
+      padding: 0.7rem 1rem;
       border-radius: 18px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       line-height: 1.4;
       word-break: break-word;
+      white-space: pre-wrap;
     }
     .message.sent .message-bubble {
-      background: #2563eb;
+      background: var(--primary-600);
       color: white;
       border-bottom-right-radius: 4px;
     }
     .message.received .message-bubble {
-      background: #f1f5f9;
-      color: #0f172a;
+      background: white;
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
       border-bottom-left-radius: 4px;
     }
     .message-time {
       font-size: 0.6rem;
-      color: #94a3b8;
+      color: var(--text-tertiary);
       margin-top: 0.2rem;
       text-align: right;
     }
 
     .message-input-area {
-      padding: 0.8rem 1rem;
-      border-top: 1px solid #f1f5f9;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-light);
       display: flex;
-      gap: 0.8rem;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    .message-input-wrapper {
+      flex: 1;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-2xl);
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
+    }
+    .message-input-wrapper:focus-within {
+      border-color: var(--primary-600);
+      box-shadow: 0 0 0 3px var(--primary-100);
       background: white;
     }
     .message-input {
-      flex: 1;
-      padding: 0.7rem 1.2rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 40px;
-      font-size: 0.9rem;
-    }
-    .message-input:focus {
-      border-color: #2563eb;
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+      resize: none;
+      max-height: 120px;
       outline: none;
+      font-family: inherit;
+      color: var(--text-primary);
+    }
+    .message-input::placeholder {
+      color: var(--text-tertiary);
     }
     .send-btn {
-      width: 42px;
-      height: 42px;
-      background: #2563eb;
+      width: 44px;
+      height: 44px;
+      background: var(--primary-600);
       color: white;
       border: none;
       border-radius: 50%;
@@ -571,110 +661,266 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .send-btn:hover {
+      background: var(--primary-700);
+      transform: scale(1.05);
+    }
+    .send-btn:disabled {
+      background: var(--neutral-300);
+      cursor: not-allowed;
+      transform: none;
     }
 
+    /* ========== DISCOVER GRID ========== */
     .discover-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.8rem;
     }
     .discover-card {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      padding: 0.8rem;
+      gap: 1rem;
+      padding: 1rem;
       background: white;
-      border-radius: 16px;
-      border: 1px solid #f1f5f9;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
+    }
+    .discover-card:hover {
+      border-color: var(--primary-200);
+      box-shadow: var(--shadow-md);
     }
     .discover-avatar {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid var(--bg-elevated);
+      box-shadow: var(--shadow-sm);
     }
     .discover-info {
       flex: 1;
     }
     .discover-name {
       font-weight: 600;
-      color: #0f172a;
-      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .discover-actions {
+      display: flex;
+      gap: 0.5rem;
     }
     .btn-sm {
-      padding: 0.4rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.7rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
     }
     .btn-add {
-      background: #2563eb;
+      background: var(--primary-600);
       color: white;
+    }
+    .btn-add:hover {
+      background: var(--primary-700);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
     .btn-msg {
       background: white;
-      color: #2563eb;
-      border: 1px solid #2563eb;
+      color: var(--primary-600);
+      border: 1px solid var(--primary-600);
+    }
+    .btn-msg:hover {
+      background: var(--primary-50);
     }
 
+    /* ========== EMPTY STATES ========== */
     .empty-state {
       text-align: center;
-      padding: 2rem 1rem;
-      color: #64748b;
+      padding: 3rem 1rem;
+      color: var(--text-tertiary);
     }
     .empty-state i {
-      font-size: 2.5rem;
-      color: #e2e8f0;
-      margin-bottom: 0.8rem;
+      font-size: 3rem;
+      color: var(--neutral-300);
+      margin-bottom: 1rem;
+    }
+    .empty-state h4 {
+      color: var(--text-secondary);
+      margin-bottom: 0.3rem;
     }
 
+    /* ========== LOADING ========== */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-tertiary);
+    }
+    .skeleton {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem;
+    }
+    .skeleton-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--neutral-200);
+      animation: pulse 1.5s infinite;
+    }
+    .skeleton-line {
+      height: 16px;
+      background: var(--neutral-200);
+      border-radius: var(--radius-xs);
+      margin-bottom: 8px;
+      animation: pulse 1.5s infinite;
+    }
+    .skeleton-line.short { width: 60%; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* ========== ALERTS ========== */
     .alert {
       position: fixed;
       top: 20px;
       left: 20px;
       right: 20px;
       background: white;
-      border-left: 4px solid #22c55e;
-      border-radius: 12px;
-      padding: 0.8rem 1.2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border-left: 4px solid var(--success-500);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      box-shadow: var(--shadow-xl);
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 1rem;
       z-index: 9999;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       animation: slideIn 0.2s ease;
     }
     .alert.error {
-      border-left-color: #ef4444;
+      border-left-color: var(--danger-500);
     }
     @keyframes slideIn {
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
 
-    .bottom-padding {
-      height: 70px;
+    /* ========== BOTTOM NAVIGATION (MOBILE) ========== */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-light);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-tertiary);
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.3rem;
+    }
+    .bottom-nav .nav-item.active {
+      color: var(--primary-600);
+    }
+    .bottom-nav .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+    .nav-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--danger-500);
+      color: white;
+      font-size: 0.6rem;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid var(--bg-elevated);
     }
 
+    /* ========== MEDIA QUERIES ========== */
     @media (min-width: 768px) {
+      .sidebar {
+        width: 380px;
+      }
+      .sidebar.hide {
+        transform: translateX(0);
+      }
+      .back-btn {
+        display: none;
+      }
       .bottom-nav {
         max-width: 400px;
         left: 50%;
         transform: translateX(-50%);
-        border-radius: 30px 30px 0 0;
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
       }
-      .messenger {
-        max-width: 400px;
-        margin: 0.5rem auto;
-        height: calc(100vh - 140px);
+    }
+
+    @media (max-width: 767px) {
+      .sidebar {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        z-index: 90;
+        width: 100%;
+      }
+      .sidebar.hide {
+        transform: translateX(-100%);
+      }
+      .chat-area.active {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 95;
+        background: var(--bg-chat);
+      }
+      .back-btn {
+        display: block;
       }
     }
   </style>
 </head>
 <body>
+  <!-- App Header -->
   <header class="app-header">
     <a href="index.html" class="logo">Sewa<span>Link</span></a>
     <div id="authUI" class="auth-buttons"></div>
@@ -682,44 +928,43 @@
 
   <div id="alertContainer"></div>
 
+  <!-- Main Messenger -->
   <div class="messenger">
+    <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small">
-          <i class="fas fa-comment-dots"></i>
+          <i class="fas fa-comment-dots" style="color: var(--primary-600);"></i>
           <span>Messages</span>
         </div>
         <div class="search-box">
           <i class="fas fa-search"></i>
           <input type="text" id="searchInput" placeholder="Search people...">
         </div>
-        <div class="search-filters">
-          <button class="search-filter active" data-filter="all">All</button>
-          <button class="search-filter" data-filter="name">Name</button>
-          <button class="search-filter" data-filter="email">Email</button>
+        <div class="tabs">
+          <div class="tab active" data-tab="chats">
+            <i class="fas fa-comment-dots"></i> Chats
+            <span id="chatsTabBadge" class="tab-badge" style="display: none;">0</span>
+          </div>
+          <div class="tab" data-tab="friends">
+            <i class="fas fa-user-friends"></i> Friends
+          </div>
+          <div class="tab" data-tab="requests">
+            <i class="fas fa-user-plus"></i> Requests
+            <span id="requestsTabBadge" class="tab-badge" style="display: none;">0</span>
+          </div>
+          <div class="tab" data-tab="discover">
+            <i class="fas fa-search"></i> Discover
+          </div>
         </div>
       </div>
 
-      <div class="tabs">
-        <div class="tab active" data-tab="chats">
-          <i class="fas fa-comment-dots"></i> Chats
-          <span id="chatsTabBadge" class="tab-badge" style="display: none;">0</span>
-        </div>
-        <div class="tab" data-tab="friends">
-          <i class="fas fa-user-friends"></i> Friends
-        </div>
-        <div class="tab" data-tab="requests">
-          <i class="fas fa-user-plus"></i> Requests
-          <span id="requestsTabBadge" class="tab-badge" style="display: none;">0</span>
-        </div>
-        <div class="tab" data-tab="discover">
-          <i class="fas fa-search"></i> Discover
-        </div>
+      <div id="chatList" class="chat-list">
+        <!-- Dynamic content -->
       </div>
-
-      <div id="chatList" class="chat-list"></div>
     </div>
 
+    <!-- Chat Area -->
     <div id="chatArea" class="chat-area">
       <div class="empty-state">
         <i class="fas fa-comments"></i>
@@ -729,23 +974,56 @@
     </div>
   </div>
 
+  <!-- Bottom Navigation (Mobile) -->
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="services.html" class="nav-item"><i class="fas fa-cogs"></i><span>Services</span></a>
-    <a href="jobs.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Jobs</span></a>
-    <a href="messages.html" class="nav-item active"><i class="fas fa-comment"></i><span>Chat</span>
-      <span id="navMessagesBadge" class="notification-badge" style="display: none;">0</span>
+    <a href="index.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
     </a>
-    <a href="profile.html" class="nav-item" id="profileNavLink"><i class="fas fa-user"></i><span>Profile</span></a>
+    <a href="services.html" class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </a>
+    <a href="jobs.html" class="nav-item">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="messenger.html" class="nav-item active">
+      <i class="fas fa-comment"></i>
+      <span>Chat</span>
+      <span id="navMessagesBadge" class="nav-badge" style="display: none;">0</span>
+    </a>
+    <a href="profile.html" class="nav-item" id="profileNavLink">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
   </nav>
-  <div class="bottom-padding"></div>
 
   <script type="module">
+    // ========== FIREBASE IMPORTS ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
-      getFirestore, collection, query, where, orderBy, getDocs, getDoc, doc,
-      addDoc, updateDoc, setDoc, onSnapshot, serverTimestamp, deleteDoc, limit, arrayUnion, arrayRemove, writeBatch
+      getFirestore,
+      collection,
+      query,
+      where,
+      orderBy,
+      getDocs,
+      getDoc,
+      doc,
+      addDoc,
+      updateDoc,
+      setDoc,
+      onSnapshot,
+      serverTimestamp,
+      writeBatch,
+      arrayUnion,
+      limit
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -770,10 +1048,11 @@
     let requests = [];
     let discover = [];
     let activeTab = 'chats';
-    let activeFilter = 'all';
     let messagesUnsub = null;
     let chatsUnsub = null;
     let requestsUnsub = null;
+    let lastMessageTime = 0;
+    const MESSAGE_DELAY = 500;
 
     // ========== DOM ==========
     const authUI = document.getElementById('authUI');
@@ -782,7 +1061,6 @@
     const sidebarEl = document.getElementById('sidebar');
     const tabs = document.querySelectorAll('.tab');
     const searchInput = document.getElementById('searchInput');
-    const filterBtns = document.querySelectorAll('.search-filter');
     const alertContainer = document.getElementById('alertContainer');
     const profileNavLink = document.getElementById('profileNavLink');
     const navMessagesBadge = document.getElementById('navMessagesBadge');
@@ -798,24 +1076,32 @@
     function timeAgo(date) {
       if (!date) return '';
       try {
-        const sec = Math.floor((new Date() - date) / 1000);
-        if (sec < 60) return 'now';
-        const min = Math.floor(sec / 60);
-        if (min < 60) return `${min}m`;
-        const hr = Math.floor(min / 60);
-        if (hr < 24) return `${hr}h`;
-        const days = Math.floor(hr / 24);
-        if (days === 1) return '1d';
-        return `${days}d`;
-      } catch { return ''; }
+        const now = new Date();
+        const diff = now - date;
+        const seconds = Math.floor(diff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return days === 1 ? '1d' : `${days}d`;
+        if (hours > 0) return hours === 1 ? '1h' : `${hours}h`;
+        if (minutes > 0) return minutes === 1 ? '1m' : `${minutes}m`;
+        return 'now';
+      } catch {
+        return '';
+      }
     }
 
     function showAlert(msg, type = 'success') {
       const div = document.createElement('div');
       div.className = `alert ${type}`;
-      div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>${msg}`;
+      div.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span style="flex:1;">${msg}</span>
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; color:var(--text-tertiary); cursor:pointer; font-size:1.2rem;">×</button>
+      `;
       alertContainer.appendChild(div);
-      setTimeout(() => div.remove(), 3000);
+      setTimeout(() => div.remove(), 4000);
     }
 
     function debounce(fn, ms) {
@@ -828,7 +1114,6 @@
       if (user) {
         currentUser = user;
         
-        // Ensure user doc exists with friends array
         const userRef = doc(db, 'users', user.uid);
         const userSnap = await getDoc(userRef);
         
@@ -839,18 +1124,20 @@
             email: user.email || '',
             photoURL: user.photoURL || '',
             friends: [],
+            online: true,
+            lastSeen: serverTimestamp(),
             createdAt: serverTimestamp()
           });
         } else {
-          // Ensure friends field exists
-          if (!userSnap.data().friends) {
-            await updateDoc(userRef, { friends: [] });
-          }
+          await updateDoc(userRef, {
+            online: true,
+            lastSeen: serverTimestamp()
+          });
         }
 
         authUI.innerHTML = `
           <div class="profile-container">
-            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=4f46e5&color=fff&size=40'}" class="profile-avatar" id="avatarTrigger">
             <div class="dropdown-menu" id="dropdownMenu">
               <div class="user-info">
                 <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
@@ -859,7 +1146,7 @@
               <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
               <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
               <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
-              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <a href="messenger.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
               <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
               <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
@@ -881,16 +1168,19 @@
         });
 
         document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+          await updateDoc(doc(db, 'users', user.uid), {
+            online: false,
+            lastSeen: serverTimestamp()
+          });
           await signOut(auth);
           window.location.href = 'index.html';
         });
 
         if (profileNavLink) profileNavLink.href = 'profile.html';
 
-        // Load all data
         await loadFriends();
-        await setupRequestsListener();
-        await setupChatsListener();
+        setupRequestsListener();
+        setupChatsListener();
         
         const urlParams = new URLSearchParams(window.location.search);
         const directUserId = urlParams.get('user');
@@ -903,7 +1193,9 @@
           <a href="sign-up.html" class="btn-primary">Sign Up</a>
         `;
         if (profileNavLink) profileNavLink.href = 'sign-in.html';
-        window.location.href = 'sign-in.html';
+        setTimeout(() => {
+          window.location.href = 'sign-in.html';
+        }, 1000);
       }
     }
 
@@ -933,7 +1225,7 @@
       }
     }
 
-    // ========== FRIEND REQUESTS - REAL-TIME ==========
+    // ========== FRIEND REQUESTS LISTENER ==========
     function setupRequestsListener() {
       if (!currentUser) return;
       
@@ -964,7 +1256,6 @@
           });
         }
         
-        // Update badge
         if (requestsTabBadge) {
           if (requests.length > 0) {
             requestsTabBadge.textContent = requests.length > 9 ? '9+' : requests.length;
@@ -979,7 +1270,7 @@
       });
     }
 
-    // ========== CHATS - REAL-TIME - SHOWS ALL CHATS WITH LATEST FIRST ==========
+    // ========== CHATS LISTENER ==========
     function setupChatsListener() {
       if (!currentUser) return;
       
@@ -1000,7 +1291,6 @@
           const otherId = chat.participants.find(id => id !== currentUser.uid);
           if (!otherId) continue;
           
-          // Get unread count
           let unreadCount = 0;
           const messagesRef = collection(db, 'chats', d.id, 'messages');
           const unreadQuery = query(
@@ -1022,19 +1312,18 @@
             other: { 
               id: otherId, 
               name: user.displayName || 'User', 
-              photo: user.photoURL 
+              photo: user.photoURL,
+              online: user.online || false
             }
           });
         }
         
-        // Sort by lastMessageTime (already sorted by Firestore, but ensure it's correct)
         conversations.sort((a, b) => {
           const timeA = a.lastMessageTime?.toDate?.() || new Date(0);
           const timeB = b.lastMessageTime?.toDate?.() || new Date(0);
           return timeB - timeA;
         });
         
-        // Update badges
         if (navMessagesBadge) {
           if (totalUnread > 0) {
             navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
@@ -1063,13 +1352,11 @@
       if (userId === currentUser.uid) { showAlert('Cannot add yourself', 'error'); return; }
       
       try {
-        // Check if already friends
         if (friendIds.has(userId)) {
           showAlert('Already friends', 'error');
           return;
         }
         
-        // Check for existing pending request FROM me TO them
         const q1 = query(
           collection(db, 'friendRequests'),
           where('from', '==', currentUser.uid),
@@ -1082,7 +1369,6 @@
           return;
         }
         
-        // Check for existing pending request FROM them TO me
         const q2 = query(
           collection(db, 'friendRequests'),
           where('from', '==', userId),
@@ -1092,12 +1378,10 @@
         const snap2 = await getDocs(q2);
         
         if (!snap2.empty) {
-          // Auto-accept their request
           await acceptFriendRequest(snap2.docs[0].id, userId);
           return;
         }
         
-        // Create new request
         await addDoc(collection(db, 'friendRequests'), {
           from: currentUser.uid,
           to: userId,
@@ -1118,27 +1402,21 @@
       if (!currentUser) return;
       
       try {
-        console.log('Accepting friend request:', requestId, 'from:', fromId);
-        
-        // 1. Update request status
         await updateDoc(doc(db, 'friendRequests', requestId), {
           status: 'accepted',
           respondedAt: serverTimestamp()
         });
         
-        // 2. Update current user's friends array
         const userRef = doc(db, 'users', currentUser.uid);
         await updateDoc(userRef, {
           friends: arrayUnion(fromId)
         });
         
-        // 3. Update other user's friends array
         const otherRef = doc(db, 'users', fromId);
         await updateDoc(otherRef, {
           friends: arrayUnion(currentUser.uid)
         });
         
-        // 4. Create notification
         try {
           await addDoc(collection(db, 'notifications'), {
             userId: fromId,
@@ -1149,21 +1427,16 @@
             read: false,
             createdAt: serverTimestamp()
           });
-        } catch (notifError) {
-          console.error('Notification error (non-critical):', notifError);
-        }
+        } catch (e) {}
         
         showAlert('✅ Friend request accepted!');
         
-        // Reload data
         await loadFriends();
         
-        // Update UI
         if (activeTab === 'friends') renderFriends();
         if (activeTab === 'requests') renderRequests();
         if (activeTab === 'discover') loadDiscover();
         
-        // Update current chat if open
         if (currentChat && currentChat.userId === fromId) {
           currentChat.isFriend = true;
           if (chatAreaEl.classList.contains('active')) {
@@ -1219,7 +1492,7 @@
       }
     }
 
-    // ========== CHAT FUNCTIONS - NO FRIEND REQUIRED ==========
+    // ========== START CHAT ==========
     window.startChat = async function(userId) {
       if (!currentUser || userId === currentUser.uid) {
         showAlert('Cannot chat with yourself', 'error');
@@ -1227,7 +1500,15 @@
       }
       
       try {
-        // Find existing chat
+        chatAreaEl.innerHTML = `
+          <div class="loading">
+            <i class="fas fa-spinner fa-pulse fa-2x"></i>
+            <p>Opening chat...</p>
+          </div>
+        `;
+        chatAreaEl.classList.add('active');
+        sidebarEl.classList.add('hide');
+        
         const chatsRef = collection(db, 'chats');
         const q = query(chatsRef, where('participants', 'array-contains', currentUser.uid));
         const snap = await getDocs(q);
@@ -1238,7 +1519,6 @@
           if (data.participants.includes(userId)) chatId = doc.id;
         });
         
-        // Create new chat if not exists
         if (!chatId) {
           const newChat = await addDoc(chatsRef, {
             participants: [currentUser.uid, userId],
@@ -1247,13 +1527,10 @@
             createdAt: serverTimestamp()
           });
           chatId = newChat.id;
-          console.log('✅ New chat created:', chatId);
         }
         
-        // Mark messages as read
         await markMessagesAsRead(chatId, userId);
         
-        // Get user data
         const userSnap = await getDoc(doc(db, 'users', userId));
         const userData = userSnap.data() || {};
         
@@ -1262,11 +1539,9 @@
           userId: userId,
           name: userData.displayName || 'User',
           photo: userData.photoURL,
+          online: userData.online || false,
           isFriend: friendIds.has(userId)
         };
-        
-        sidebarEl.style.display = 'none';
-        chatAreaEl.classList.add('active');
         
         if (messagesUnsub) messagesUnsub();
         
@@ -1282,35 +1557,83 @@
       } catch (error) {
         console.error('Start chat error:', error);
         showAlert('Failed to open chat', 'error');
+        backToSidebar();
       }
     };
 
+    // ========== SEND MESSAGE - FIXED ==========
     window.sendMessage = async function() {
       const input = document.getElementById('messageInput');
-      if (!input || !input.value.trim() || !currentChat) return;
+      if (!input) {
+        console.error('Message input not found');
+        return;
+      }
+      
+      const messageText = input.value.trim();
+      if (!messageText || !currentChat) {
+        showAlert('Cannot send empty message', 'error');
+        return;
+      }
+      
+      const now = Date.now();
+      if (now - lastMessageTime < MESSAGE_DELAY) {
+        showAlert('Please wait a moment', 'error');
+        return;
+      }
+      
+      if (messageText.length > 5000) {
+        showAlert('Message too long (max 5000 characters)', 'error');
+        return;
+      }
       
       try {
-        await addDoc(collection(db, 'chats', currentChat.id, 'messages'), {
-          text: input.value.trim(),
+        lastMessageTime = now;
+        
+        console.log('Sending message to chat:', currentChat.id);
+        
+        // Add message to Firestore
+        const messageRef = await addDoc(collection(db, 'chats', currentChat.id, 'messages'), {
+          text: messageText,
           senderId: currentUser.uid,
           timestamp: serverTimestamp(),
           read: false
         });
         
+        console.log('Message sent with ID:', messageRef.id);
+        
+        // Update chat's last message
         await updateDoc(doc(db, 'chats', currentChat.id), {
-          lastMessage: input.value.trim(),
+          lastMessage: messageText,
           lastMessageTime: serverTimestamp()
         });
         
+        // Clear input
         input.value = '';
+        input.style.height = 'auto';
+        
       } catch (error) {
         console.error('Send message error:', error);
-        showAlert('Failed to send message', 'error');
+        showAlert('Failed to send message: ' + error.message, 'error');
       }
     };
 
+    // Handle Enter key
+    window.handleMessageKey = function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    };
+
+    // Auto-resize textarea
+    window.resizeTextarea = function(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+    };
+
+    // ========== BACK TO SIDEBAR ==========
     window.backToSidebar = function() {
-      sidebarEl.style.display = 'flex';
+      sidebarEl.classList.remove('hide');
       chatAreaEl.classList.remove('active');
       if (messagesUnsub) {
         messagesUnsub();
@@ -1319,7 +1642,12 @@
       currentChat = null;
     };
 
-    // ========== DISCOVER ==========
+    // ========== VIEW PROFILE ==========
+    window.viewProfile = function(userId) {
+      window.location.href = `viewer.html?id=${userId}`;
+    };
+
+    // ========== LOAD DISCOVER ==========
     async function loadDiscover() {
       if (!currentUser) return;
       
@@ -1340,11 +1668,10 @@
         
         const term = searchInput?.value.toLowerCase() || '';
         if (term) {
-          discover = discover.filter(u => {
-            if (activeFilter === 'name') return u.displayName?.toLowerCase().includes(term);
-            if (activeFilter === 'email') return u.email?.toLowerCase().includes(term);
-            return u.displayName?.toLowerCase().includes(term) || u.email?.toLowerCase().includes(term);
-          });
+          discover = discover.filter(u => 
+            u.displayName?.toLowerCase().includes(term) || 
+            u.email?.toLowerCase().includes(term)
+          );
         }
         
         renderDiscover();
@@ -1353,10 +1680,16 @@
       }
     }
 
-    // ========== RENDER CHAT LIST - SHOWS ALL CHATS WITH LATEST AT TOP ==========
+    // ========== RENDER CHAT LIST ==========
     function renderChatList() {
       if (conversations.length === 0) {
-        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-comments"></i><h4>No chats yet</h4><p>Go to Discover to start a conversation</p></div>';
+        chatListEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-comments"></i>
+            <h4>No chats yet</h4>
+            <p>Go to Discover to start a conversation</p>
+          </div>
+        `;
         return;
       }
       
@@ -1365,30 +1698,25 @@
         const time = chat.lastMessageTime?.toDate?.();
         const isFriend = friendIds.has(chat.other.id);
         
-        let badgeHtml = '';
-        if (isFriend) {
-          badgeHtml = '<span class="friend-badge"><i class="fas fa-check-circle"></i> Friend</span>';
-        } else {
-          badgeHtml = '<span class="stranger-badge"><i class="fas fa-user"></i> Stranger</span>';
-        }
+        const statusDot = chat.other.online ? 
+          '<span class="online-dot"></span>' : '';
         
         html += `
-          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="window.startChat('${chat.other.id}')">
+          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="startChat('${chat.other.id}')">
             <div class="chat-avatar">
-              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=44'}">
+              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=4f46e5&color=fff&size=48'}">
+              ${statusDot}
             </div>
             <div class="chat-info">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="chat-name">
-                  ${escapeHTML(chat.other.name)}
-                  ${badgeHtml}
-                </span>
-                <span class="chat-time">${time ? timeAgo(time) : ''}</span>
+              <div class="chat-name">
+                ${escapeHTML(chat.other.name)}
+                ${isFriend ? '<i class="fas fa-check-circle friend-badge" title="Friend"></i>' : ''}
               </div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="chat-preview">${escapeHTML(chat.lastMessage || 'No messages')}</span>
-                ${chat.unread > 0 ? `<span class="unread-badge">${chat.unread}</span>` : ''}
-              </div>
+              <div class="chat-preview">${escapeHTML(chat.lastMessage || 'No messages')}</div>
+            </div>
+            <div class="chat-meta">
+              <span class="chat-time">${time ? timeAgo(time) : ''}</span>
+              ${chat.unread > 0 ? `<span class="unread-badge">${chat.unread}</span>` : ''}
             </div>
           </div>
         `;
@@ -1399,25 +1727,33 @@
     // ========== RENDER FRIENDS ==========
     function renderFriends() {
       if (friends.length === 0) {
-        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-user-friends"></i><h4>No friends yet</h4><p>Add people from Discover</p></div>';
+        chatListEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-user-friends"></i>
+            <h4>No friends yet</h4>
+            <p>Add people from Discover</p>
+          </div>
+        `;
         return;
       }
       
       let html = '';
       friends.forEach(f => {
+        const statusDot = f.online ? 
+          '<span class="online-dot"></span>' : '';
+        
         html += `
-          <div class="chat-item" onclick="window.startChat('${f.id}')">
+          <div class="chat-item" onclick="startChat('${f.id}')">
             <div class="chat-avatar">
-              <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'User') + '&background=2563eb&color=fff&size=44'}">
+              <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'User') + '&background=4f46e5&color=fff&size=48'}">
+              ${statusDot}
             </div>
             <div class="chat-info">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="chat-name">
-                  ${escapeHTML(f.displayName || 'User')}
-                  <span class="friend-badge"><i class="fas fa-check-circle"></i> Friend</span>
-                </span>
+              <div class="chat-name">
+                ${escapeHTML(f.displayName || 'User')}
+                <i class="fas fa-check-circle friend-badge" title="Friend"></i>
               </div>
-              <span class="chat-preview">Click to chat</span>
+              <div class="chat-preview">Click to chat</div>
             </div>
           </div>
         `;
@@ -1428,7 +1764,12 @@
     // ========== RENDER REQUESTS ==========
     function renderRequests() {
       if (requests.length === 0) {
-        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><h4>No pending requests</h4></div>';
+        chatListEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-user-plus"></i>
+            <h4>No pending requests</h4>
+          </div>
+        `;
         return;
       }
       
@@ -1436,14 +1777,14 @@
       requests.forEach(r => {
         html += `
           <div class="discover-card">
-            <img src="${r.fromUser.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(r.fromUser.name) + '&background=2563eb&color=fff&size=48'}" class="discover-avatar">
+            <img src="${r.fromUser.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(r.fromUser.name) + '&background=4f46e5&color=fff&size=56'}" class="discover-avatar">
             <div class="discover-info">
               <div class="discover-name">${escapeHTML(r.fromUser.name)}</div>
-              <div style="display:flex; gap:0.4rem; margin-top:0.4rem;">
-                <button class="btn-sm" style="background:#22c55e; color:white;" onclick="acceptFriendRequest('${r.id}','${r.fromUser.id}')">
+              <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                <button class="btn-sm btn-add" onclick="acceptFriendRequest('${r.id}','${r.fromUser.id}')">
                   <i class="fas fa-check"></i> Accept
                 </button>
-                <button class="btn-sm" style="background:#ef4444; color:white;" onclick="declineFriendRequest('${r.id}')">
+                <button class="btn-sm" style="background:var(--danger-500); color:white;" onclick="declineFriendRequest('${r.id}')">
                   <i class="fas fa-times"></i> Decline
                 </button>
                 <button class="btn-sm btn-msg" onclick="startChat('${r.fromUser.id}')">
@@ -1461,7 +1802,13 @@
     // ========== RENDER DISCOVER ==========
     function renderDiscover() {
       if (discover.length === 0) {
-        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h4>No users found</h4><p>Try a different search</p></div>';
+        chatListEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h4>No users found</h4>
+            <p>Try a different search</p>
+          </div>
+        `;
         return;
       }
       
@@ -1469,12 +1816,12 @@
       discover.forEach(u => {
         html += `
           <div class="discover-card">
-            <img src="${u.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.displayName || 'User') + '&background=2563eb&color=fff&size=48'}" class="discover-avatar">
+            <img src="${u.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.displayName || 'User') + '&background=4f46e5&color=fff&size=56'}" class="discover-avatar" onclick="viewProfile('${u.id}')" style="cursor:pointer;">
             <div class="discover-info">
-              <div class="discover-name">${escapeHTML(u.displayName || 'User')}</div>
-              <div style="font-size:0.7rem; color:#64748b;">${escapeHTML(u.email || '')}</div>
+              <div class="discover-name" onclick="viewProfile('${u.id}')" style="cursor:pointer;">${escapeHTML(u.displayName || 'User')}</div>
+              <div style="font-size:0.75rem; color:var(--text-tertiary);">${escapeHTML(u.email || '')}</div>
             </div>
-            <div class="discover-actions" style="display:flex; gap:0.4rem;">
+            <div class="discover-actions">
               <button class="btn-sm btn-add" onclick="sendFriendRequest('${u.id}')">
                 <i class="fas fa-user-plus"></i> Add
               </button>
@@ -1494,6 +1841,9 @@
       if (!currentChat) return;
       
       const isFriend = friendIds.has(currentChat.userId);
+      const statusText = currentChat.online ? 
+        '<span class="status-online"><i class="fas fa-circle"></i> Online</span>' : 
+        '<span class="status-offline"><i class="fas fa-circle"></i> Offline</span>';
       
       let msgs = '';
       messages.forEach(m => {
@@ -1501,9 +1851,9 @@
         const time = m.timestamp?.toDate?.();
         msgs += `
           <div class="message ${sent ? 'sent' : 'received'}">
-            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=28'}" class="message-avatar">` : ''}
+            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=4f46e5&color=fff&size=28'}" class="message-avatar" onclick="viewProfile('${currentChat.userId}')" style="cursor:pointer;">` : ''}
             <div>
-              <div class="message-bubble">${escapeHTML(m.text)}</div>
+              <div class="message-bubble">${escapeHTML(m.text).replace(/\n/g, '<br>')}</div>
               <div class="message-time">${time ? timeAgo(time) : ''}</div>
             </div>
           </div>
@@ -1511,39 +1861,43 @@
       });
 
       chatAreaEl.innerHTML = `
-        <div style="display:flex; flex-direction:column; height:100%;">
-          <div class="chat-header">
-            <div style="display:flex; align-items:center; gap:0.8rem;">
-              <i class="fas fa-arrow-left back-btn" onclick="backToSidebar()"></i>
-              <div class="chat-user">
-                <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=40'}">
-                <div>
-                  <h3>${escapeHTML(currentChat.name)}</h3>
-                  ${isFriend ? 
-                    '<span class="friend-status"><i class="fas fa-check-circle"></i> Friend</span>' : 
-                    '<span class="stranger-status"><i class="fas fa-user"></i> Stranger</span>'
-                  }
+        <div class="chat-header">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <i class="fas fa-arrow-left back-btn" onclick="backToSidebar()"></i>
+            <div class="chat-user" onclick="viewProfile('${currentChat.userId}')">
+              <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=4f46e5&color=fff&size=44'}" alt="${escapeHTML(currentChat.name)}">
+              <div class="chat-user-info">
+                <h3>${escapeHTML(currentChat.name)}</h3>
+                <div class="user-status">
+                  ${statusText}
+                  ${isFriend ? '<span style="color:var(--success-500); margin-left:0.5rem;"><i class="fas fa-check-circle"></i> Friend</span>' : ''}
                 </div>
               </div>
             </div>
-            ${!isFriend ? 
-              `<button class="btn-sm btn-add" onclick="sendFriendRequest('${currentChat.userId}')">
-                <i class="fas fa-user-plus"></i> Add Friend
-              </button>` :
-              `<span style="background:#dcfce7; color:#166534; padding:0.3rem 1rem; border-radius:30px; font-size:0.7rem;">
-                <i class="fas fa-check-circle"></i> Friends
-              </span>`
-            }
           </div>
-          <div class="messages" id="messagesContainer">
-            ${msgs || '<div style="text-align:center; color:#64748b; padding:2rem;">No messages yet. Say hello! 👋</div>'}
+          ${!isFriend ? 
+            `<button class="btn-sm btn-add" onclick="sendFriendRequest('${currentChat.userId}')">
+              <i class="fas fa-user-plus"></i> Add Friend
+            </button>` : ''
+          }
+        </div>
+        <div class="messages" id="messagesContainer">
+          ${msgs || '<div style="text-align:center; color:var(--text-tertiary); padding:2rem;">No messages yet. Say hello! 👋</div>'}
+        </div>
+        <div class="message-input-area">
+          <div class="message-input-wrapper">
+            <textarea 
+              id="messageInput" 
+              class="message-input" 
+              placeholder="Type a message..." 
+              onkeydown="handleMessageKey(event)"
+              oninput="resizeTextarea(this)"
+              rows="1"
+            ></textarea>
           </div>
-          <div class="message-input-area">
-            <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
-            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
         </div>
       `;
 
@@ -1553,7 +1907,7 @@
       }, 50);
     }
 
-    // ========== EVENT LISTENERS ==========
+    // ========== TAB CLICK HANDLERS ==========
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
@@ -1567,20 +1921,12 @@
       });
     });
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeFilter = btn.dataset.filter;
-        if (activeTab === 'discover') loadDiscover();
-      });
-    });
-
+    // ========== SEARCH ==========
     searchInput?.addEventListener('input', debounce(() => {
       if (activeTab === 'discover') loadDiscover();
     }, 300));
 
-    // ========== AUTH ==========
+    // ========== AUTH STATE ==========
     onAuthStateChanged(auth, renderAuthUI);
 
     // ========== CLEANUP ==========
@@ -1588,15 +1934,25 @@
       if (chatsUnsub) chatsUnsub();
       if (requestsUnsub) requestsUnsub();
       if (messagesUnsub) messagesUnsub();
+      
+      if (currentUser) {
+        updateDoc(doc(db, 'users', currentUser.uid), {
+          online: false,
+          lastSeen: serverTimestamp()
+        }).catch(() => {});
+      }
     });
 
     // ========== EXPOSE GLOBALS ==========
     window.startChat = startChat;
     window.sendMessage = sendMessage;
+    window.handleMessageKey = handleMessageKey;
+    window.resizeTextarea = resizeTextarea;
     window.sendFriendRequest = sendFriendRequest;
     window.acceptFriendRequest = acceptFriendRequest;
     window.declineFriendRequest = declineFriendRequest;
     window.backToSidebar = backToSidebar;
+    window.viewProfile = viewProfile;
   </script>
 </body>
 </html>
