@@ -57,12 +57,12 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
-    /* ========== TOP HEADER ========== */
+    /* ========== TOP HEADER WITH PROFILE ========== */
     .app-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
+      padding: 0.8rem 1rem;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -75,7 +75,7 @@
     }
 
     .logo {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: #1a1a2e;
       text-decoration: none;
@@ -88,47 +88,33 @@
       background-clip: text;
     }
 
-    .auth-buttons {
+    .header-actions {
       display: flex;
-      gap: 0.5rem;
       align-items: center;
+      gap: 1rem;
     }
 
-    .btn-outline {
-      padding: 0.5rem 1.25rem;
-      border: 2px solid #667eea;
-      background: transparent;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
+    .icon-btn {
+      background: rgba(102, 126, 234, 0.1);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: #667eea;
-      text-decoration: none;
+      font-size: 1.2rem;
+      cursor: pointer;
       transition: all 0.3s ease;
+      position: relative;
     }
-    .btn-outline:hover {
+    .icon-btn:hover {
       background: #667eea;
       color: white;
-      transform: translateY(-2px);
+      transform: scale(1.1);
     }
 
-    .btn-primary {
-      padding: 0.5rem 1.25rem;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-    }
-
-    /* ========== PROFILE DROPDOWN ========== */
     .profile-container {
       position: relative;
       display: inline-block;
@@ -146,6 +132,8 @@
     .profile-avatar:hover {
       transform: scale(1.05);
     }
+
+    /* ========== PROFILE DROPDOWN ========== */
     .dropdown-menu {
       position: absolute;
       top: 55px;
@@ -217,6 +205,77 @@
     .logout-btn:hover {
       background: #ff6b6b10;
       transform: translateX(5px);
+    }
+
+    /* ========== BOTTOM NAVIGATION - HOME JOB CHAT NOTIFICATION PROFILE ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.7rem 1rem;
+      padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #4a4a4a;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+    }
+    .nav-item:hover {
+      color: #667eea;
+      transform: translateY(-3px);
+    }
+    .nav-item.active {
+      color: #667eea;
+    }
+    .nav-item.active i {
+      transform: scale(1.1);
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    /* ========== NOTIFICATION BADGE ========== */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff6b6b;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 600;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid white;
+      box-shadow: 0 2px 5px rgba(255,107,107,0.3);
     }
 
     /* ========== MAIN CONTAINER ========== */
@@ -403,7 +462,7 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    /* ========== TOP FREELANCER CARD - ADVANCED ========== */
+    /* ========== TOP FREELANCER CARD ========== */
     .freelancer-grid {
       display: grid;
       gap: 1rem;
@@ -520,7 +579,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* ========== JOB CARD - ADVANCED ========== */
+    /* ========== JOB CARD ========== */
     .job-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -630,77 +689,6 @@
       box-shadow: 0 15px 30px rgba(102,126,234,0.4);
     }
 
-    /* ========== BOTTOM NAVIGATION - GLASS ========== */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0.7rem 1rem;
-      padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #4a4a4a;
-      font-size: 0.7rem;
-      gap: 0.2rem;
-      padding: 0.3rem 0.5rem;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .nav-item i {
-      font-size: 1.3rem;
-      transition: all 0.3s ease;
-    }
-    .nav-item:hover {
-      color: #667eea;
-      transform: translateY(-3px);
-    }
-    .nav-item.active {
-      color: #667eea;
-    }
-    .nav-item.active i {
-      transform: scale(1.1);
-    }
-    .nav-item span {
-      font-size: 0.65rem;
-      font-weight: 500;
-    }
-
-    /* ========== NOTIFICATION BADGE ========== */
-    .notification-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ff6b6b;
-      color: white;
-      font-size: 0.6rem;
-      font-weight: 600;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 4px;
-      border: 2px solid white;
-      box-shadow: 0 2px 5px rgba(255,107,107,0.3);
-    }
-
     /* ========== LOADING SKELETON ========== */
     .skeleton-card {
       background: rgba(255, 255, 255, 0.9);
@@ -761,10 +749,18 @@
   </style>
 </head>
 <body>
-  <!-- App Header -->
+  <!-- Top Header with Profile and Settings -->
   <header class="app-header">
     <a href="index.html" class="logo">SEWA<span>Link</span></a>
-    <div id="authUI" class="auth-buttons"></div>
+    <div class="header-actions">
+      <a href="services.html" class="icon-btn">
+        <i class="fas fa-cogs"></i>
+      </a>
+      <a href="settings.html" class="icon-btn">
+        <i class="fas fa-cog"></i>
+      </a>
+      <div id="authUI" class="auth-buttons"></div>
+    </div>
   </header>
 
   <!-- Main Container -->
@@ -788,7 +784,7 @@
       <a href="games.html" class="earn-link">✨ Earn from here. →</a>
       <div class="banner-buttons">
         <a href="post-job.html" class="btn-white">📋 Post a Job</a>
-        <a href="find-freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
+        <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
       </div>
     </div>
 
@@ -815,23 +811,15 @@
   <!-- Bottom Padding -->
   <div class="bottom-padding"></div>
 
-  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation - Home, Jobs, Chat, Notification, Profile -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item active">
       <i class="fas fa-home"></i>
       <span>Home</span>
     </a>
-    <a href="services.html" class="nav-item">
-      <i class="fas fa-cogs"></i>
-      <span>Services</span>
-    </a>
     <a href="jobs.html" class="nav-item">
       <i class="fas fa-briefcase"></i>
       <span>Jobs</span>
-    </a>
-    <a href="shopping.html" class="nav-item">
-      <i class="fas fa-shopping-cart"></i>
-      <span>Shop</span>
     </a>
     <a href="messages.html" class="nav-item">
       <i class="fas fa-comment"></i>
@@ -846,10 +834,6 @@
     <a href="profile.html" class="nav-item">
       <i class="fas fa-user"></i>
       <span>Profile</span>
-    </a>
-    <a href="settings.html" class="nav-item">
-      <i class="fas fa-cog"></i>
-      <span>Settings</span>
     </a>
   </nav>
 
@@ -964,7 +948,7 @@
             }
           }
 
-          // Profile dropdown
+          // Profile dropdown in header
           authUI.innerHTML = `
             <div class="profile-container">
               <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=667eea&color=fff&size=45'}" class="profile-avatar" id="avatarTrigger">
@@ -976,7 +960,7 @@
                 <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
                 <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
                 <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
-                <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+                <a href="services.html" class="dropdown-item"><i class="fas fa-cogs"></i> Services</a>
                 <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
                 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
               </div>
@@ -1013,9 +997,33 @@
       } else {
         welcomeMessage.textContent = 'Welcome to SEWALINK!';
         authUI.innerHTML = `
-          <a href="sign-in.html" class="btn-outline">Sign In</a>
-          <a href="sign-up.html" class="btn-primary">Sign Up</a>
+          <div class="profile-container">
+            <img src="https://ui-avatars.com/api/?name=Guest&background=667eea&color=fff&size=45" class="profile-avatar" id="avatarTrigger">
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="user-info">
+                <div class="user-name">Guest</div>
+                <div class="user-email">Please sign in</div>
+              </div>
+              <a href="sign-in.html" class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+              <a href="sign-up.html" class="dropdown-item"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+          </div>
         `;
+
+        // Dropdown toggle for guest
+        const avatar = document.getElementById('avatarTrigger');
+        const dropdown = document.getElementById('dropdownMenu');
+        
+        avatar?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown?.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+            dropdown?.classList.remove('show');
+          }
+        });
       }
     }
 
