@@ -299,6 +299,46 @@
       margin-top: 1rem;
     }
 
+    .help-qr {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .help-qr-image {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 12px;
+      padding: 0.5rem;
+    }
+
+    .help-qr-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .help-qr-info {
+      flex: 1;
+    }
+
+    .help-qr-title {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+
+    .help-qr-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
     .transaction-history {
       margin-top: 2rem;
     }
@@ -416,7 +456,8 @@
       where,
       getDocs,
       orderBy,
-      serverTimestamp
+      serverTimestamp,
+      increment
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -440,18 +481,17 @@
     async function loadWithdrawalHistory(userId) {
       try {
         const q = query(
-          collection(db, 'transactions'),
+          collection(db, 'withdrawals'),
           where('userId', '==', userId),
-          where('type', '==', 'withdrawal'),
           orderBy('createdAt', 'desc'),
-          orderBy('__name__', 'desc')
+          limit(10)
         );
         const snap = await getDocs(q);
-        const transactions = [];
+        const withdrawals = [];
         snap.forEach(doc => {
-          transactions.push({ id: doc.id, ...doc.data() });
+          withdrawals.push({ id: doc.id, ...doc.data() });
         });
-        return transactions;
+        return withdrawals;
       } catch (error) {
         console.error('Error loading withdrawals:', error);
         return [];
@@ -531,6 +571,18 @@
           Minimum withdrawal: 100 coins (रु 10)
         </div>
 
+        <div class="help-qr">
+          <div class="help-qr-image">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=esewa://" 
+                 alt="eSewa Help"
+                 onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=esewa'">
+          </div>
+          <div class="help-qr-info">
+            <div class="help-qr-title">eSewa Support</div>
+            <div class="help-qr-desc">Scan for help with withdrawals or call 16600101001</div>
+          </div>
+        </div>
+
         <div class="withdraw-form">
           <div class="form-group">
             <label>Coins to Withdraw</label>
@@ -600,7 +652,7 @@
       const amount = parseInt(document.getElementById('withdrawAmount').value) || 0;
       const roundedAmount = Math.floor(amount / 100) * 100;
       
-      if (roundedAmount !== amount) {
+      if (roundedAmount !== amount && amount > 0) {
         document.getElementById('withdrawAmount').value = roundedAmount;
       }
       
@@ -643,9 +695,9 @@
         const cashAmount = (amount / 100) * 10;
 
         // Record withdrawal request
-        await addDoc(collection(db, 'transactions'), {
+        await addDoc(collection(db, 'withdrawals'), {
           userId: currentUser.uid,
-          type: 'withdrawal',
+          userName: currentUser.displayName || currentUser.email,
           amount: cashAmount,
           coins: amount,
           esewaNumber,
@@ -655,15 +707,15 @@
 
         // Deduct coins
         await updateDoc(doc(db, 'users', currentUser.uid), {
-          coins: userCoins - amount
+          coins: increment(-amount)
         });
 
-        alert(`✅ Withdrawal Request Submitted!\nYou will receive रु ${cashAmount} in your eSewa account within 24 hours.`);
+        alert(`✅ Withdrawal Request Submitted!\n\nYou will receive रु ${cashAmount} in your eSewa account (${esewaNumber}) within 24 hours.`);
         window.location.href = 'profile.html';
 
       } catch (error) {
         console.error('Withdrawal error:', error);
-        alert('Withdrawal failed. Please try again.');
+        alert('❌ Withdrawal failed. Please try again.');
         btn.innerHTML = '<i class="fas fa-exchange-alt"></i> Withdraw to eSewa';
         btn.disabled = false;
       }
