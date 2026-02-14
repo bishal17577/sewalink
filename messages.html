@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
-    /* ========== INDEX.HTML UI STYLES ========== */
+    /* ========== RESET & BASE ========== */
     * {
       margin: 0;
       padding: 0;
@@ -27,10 +27,33 @@
     }
 
     body {
-      background: #ffffff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #0f172a;
-      line-height: 1.5;
+      min-height: 100vh;
       padding-bottom: env(safe-area-inset-bottom);
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>');
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ========== GLASSMORPHISM ========== */
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
     /* ========== BOTTOM NAVIGATION ========== */
@@ -39,18 +62,20 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding: 0.5rem 1rem;
       padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-      border-top: 1px solid #f1f5f9;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
       z-index: 1000;
     }
 
-    .nav-item {
+  .nav-item {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -60,37 +85,44 @@
       gap: 0.2rem;
       padding: 0.3rem 0.5rem;
       border-radius: 8px;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
       position: relative;
     }
     .nav-item i {
       font-size: 1.3rem;
+      transition: all 0.3s ease;
     }
     .nav-item.active {
       color: #2563eb;
     }
-    .nav-item span {
-      font-size: 0.65rem;
-      font-weight: 500;
+    .nav-item.active i {
+      transform: scale(1.1);
     }
 
     /* ========== NOTIFICATION BADGE ========== */
     .notification-badge {
       position: absolute;
-      top: -2px;
-      right: -2px;
+      top: -5px;
+      right: -5px;
       background: #ef4444;
       color: white;
       font-size: 0.6rem;
       font-weight: 600;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 4px;
       border: 2px solid white;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     /* ========== TOP HEADER ========== */
@@ -99,11 +131,14 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
 
     .logo {
@@ -114,34 +149,6 @@
     }
     .logo span {
       color: #2563eb;
-    }
-
-    .auth-buttons {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .btn-outline {
-      padding: 0.4rem 1rem;
-      border: 1px solid #e2e8f0;
-      background: white;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: #1e293b;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      padding: 0.4rem 1rem;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-decoration: none;
     }
 
     /* ========== PROFILE DROPDOWN ========== */
@@ -155,8 +162,12 @@
       border-radius: 50%;
       cursor: pointer;
       border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .profile-avatar:hover {
+      transform: scale(1.1);
     }
     .dropdown-menu {
       position: absolute;
@@ -164,85 +175,109 @@
       right: 0;
       background: white;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       width: 260px;
       padding: 0.5rem;
       display: none;
       z-index: 101;
       border: 1px solid #f1f5f9;
+      animation: slideDown 0.3s ease;
     }
     .dropdown-menu.show {
       display: block;
     }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .user-info {
-      padding: 1rem;
+      padding: 0.75rem;
       border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 0.5rem;
     }
     .user-name {
       font-weight: 600;
       color: #0f172a;
-      font-size: 0.95rem;
     }
     .user-email {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #64748b;
     }
     .dropdown-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem;
+      color: #0f172a;
       text-decoration: none;
-      color: #1e293b;
-      font-size: 0.9rem;
-      border-radius: 10px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
     }
     .dropdown-item:hover {
       background: #f8fafc;
     }
     .logout-btn {
       width: 100%;
-      background: none;
-      border: none;
-      text-align: left;
-      padding: 0.75rem 1rem;
-      color: #b91c1c;
-      border-top: 1px solid #f1f5f9;
-      margin-top: 0.25rem;
-      border-radius: 10px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.9rem;
+      padding: 0.75rem;
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .logout-btn:hover {
+      background: #fef2f2;
     }
 
-    /* ========== MAIN MESSENGER LAYOUT ========== */
+    .btn-outline, .btn-primary {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-left: 0.5rem;
+    }
+    .btn-outline {
+      border: 1px solid #2563eb;
+      color: #2563eb;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* ========== MAIN MESSENGER ========== */
     .messenger {
       display: flex;
       flex-direction: column;
       height: calc(100vh - 60px - 70px);
-      background: white;
-      margin: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin: 1rem;
+      border-radius: 30px;
       overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     /* ========== SIDEBAR ========== */
     .sidebar {
       width: 100%;
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease;
       height: 100%;
-    }
-    .sidebar.hide {
-      display: none;
     }
 
     .sidebar-header {
-      padding: 1rem;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 1.2rem 1rem 0.5rem;
     }
 
     .logo-small {
@@ -263,7 +298,9 @@
       display: flex;
       padding: 0.5rem;
       gap: 0.5rem;
-      border-bottom: 1px solid #f1f5f9;
+      background: #f1f5f9;
+      border-radius: 40px;
+      margin: 0.5rem 0;
     }
     .tab {
       flex: 1;
@@ -274,7 +311,7 @@
       color: #64748b;
       cursor: pointer;
       border-radius: 30px;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
       position: relative;
     }
     .tab i {
@@ -283,6 +320,8 @@
     .tab.active {
       background: #2563eb;
       color: white;
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     }
     .tab-badge {
       position: absolute;
@@ -309,7 +348,12 @@
       border-radius: 40px;
       padding: 0.6rem 1rem;
       border: 1px solid #e2e8f0;
-      margin: 1rem 1rem 0.5rem;
+      margin: 0.5rem 1rem;
+      transition: all 0.3s ease;
+    }
+    .search-box:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
     .search-box i {
       color: #94a3b8;
@@ -321,8 +365,6 @@
       border: none;
       background: transparent;
       font-size: 0.95rem;
-    }
-    .search-box input:focus {
       outline: none;
     }
 
@@ -346,9 +388,6 @@
       font-weight: 600;
       text-transform: uppercase;
     }
-    .favorites-header i {
-      font-size: 0.9rem;
-    }
 
     /* ========== PINNED SECTION ========== */
     .pinned-section {
@@ -364,8 +403,16 @@
       font-weight: 600;
       text-transform: uppercase;
     }
-    .pinned-header i {
-      font-size: 0.9rem;
+
+    /* ========== LETTER HEADER ========== */
+    .letter-header {
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: 8px;
+      margin: 0.5rem 0;
     }
 
     /* ========== CHAT ITEM ========== */
@@ -377,14 +424,19 @@
       border-radius: 16px;
       cursor: pointer;
       margin-bottom: 0.2rem;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
       position: relative;
+      background: white;
+      border: 1px solid transparent;
     }
     .chat-item:hover {
       background: #f8fafc;
+      transform: translateX(5px);
+      border-color: #2563eb;
     }
     .chat-item.active {
       background: #eff6ff;
+      border-color: #2563eb;
     }
     .chat-item.pinned {
       background: #fef9c3;
@@ -401,15 +453,15 @@
       height: 56px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 3px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .online-dot {
       position: absolute;
       bottom: 2px;
       right: 2px;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       background: #22c55e;
       border: 2px solid white;
       border-radius: 50%;
@@ -429,11 +481,7 @@
       color: #0f172a;
       font-size: 1rem;
     }
-    .pin-badge {
-      color: #eab308;
-      font-size: 0.8rem;
-    }
-    .fav-badge {
+    .pin-badge, .fav-badge {
       color: #eab308;
       font-size: 0.8rem;
     }
@@ -459,9 +507,9 @@
       background: #2563eb;
       color: white;
       font-size: 0.7rem;
-      min-width: 20px;
-      height: 20px;
-      border-radius: 10px;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -469,7 +517,34 @@
       margin-left: auto;
     }
 
-    /* ========== PIN/FAVORITE BUTTON ========== */
+    /* ========== TYPING INDICATOR ========== */
+    .typing-preview {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #2563eb;
+      font-size: 0.8rem;
+      font-style: italic;
+    }
+    .typing-dots {
+      display: flex;
+      gap: 0.2rem;
+    }
+    .typing-dots span {
+      width: 4px;
+      height: 4px;
+      background: #2563eb;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    /* ========== ACTION BUTTONS ========== */
     .pin-btn, .fav-btn {
       background: transparent;
       border: none;
@@ -478,7 +553,7 @@
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 50%;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       z-index: 10;
     }
     .pin-btn:hover, .fav-btn:hover {
@@ -487,66 +562,45 @@
     .pin-btn.active, .fav-btn.active {
       color: #eab308;
     }
-    .fav-btn {
-      color: #94a3b8;
-    }
-    .fav-btn.active {
-      color: #eab308;
-    }
 
-    /* ========== USER ITEM FOR ALL USERS ========== */
     .user-item {
       display: flex;
       align-items: center;
       gap: 1rem;
       padding: 0.8rem;
-      border-radius: 16px;
+      border-radius: 12px;
       cursor: pointer;
+      transition: all 0.2s ease;
+      background: white;
       margin-bottom: 0.2rem;
-      transition: background 0.2s;
     }
     .user-item:hover {
       background: #f8fafc;
     }
     .user-avatar {
-      width: 56px;
-      height: 56px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       object-fit: cover;
     }
     .user-info {
       flex: 1;
     }
-    .user-name {
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 1rem;
-      margin-bottom: 0.2rem;
-    }
-    .user-email {
-      font-size: 0.8rem;
-      color: #64748b;
-    }
-
-    /* ========== LETTER HEADER ========== */
-    .letter-header {
-      padding: 0.5rem;
-      color: #2563eb;
-      font-weight: 600;
-      background: #f8fafc;
-      border-radius: 8px;
-      margin-top: 0.5rem;
-    }
 
     /* ========== CHAT AREA ========== */
     .chat-area {
       display: none;
       flex-direction: column;
-      background: #f8fafc;
       height: 100%;
+      background: #f8fafc;
     }
     .chat-area.active {
       display: flex;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
     }
 
     .chat-header {
@@ -554,9 +608,21 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
-      height: 70px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .back-btn {
+      font-size: 1.5rem;
+      color: #2563eb;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background: #f1f5f9;
     }
 
     .chat-user {
@@ -570,28 +636,44 @@
       height: 44px;
       border-radius: 50%;
       object-fit: cover;
-    }
-    .chat-user-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 0.2rem;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .user-status {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       color: #64748b;
     }
-    .status-online {
+    .user-status.status-online {
       color: #22c55e;
     }
-    .back-btn {
-      display: block;
-      font-size: 1.3rem;
-      color: #2563eb;
-      cursor: pointer;
-      margin-right: 0.5rem;
+
+    /* ========== TYPING INDICATOR IN CHAT ========== */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.8rem 1rem;
+      background: white;
+      border-radius: 18px;
+      width: fit-content;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #94a3b8;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
     }
 
+    /* ========== MESSAGE BUBBLES ========== */
     .messages {
       flex: 1;
       overflow-y: auto;
@@ -599,6 +681,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     }
 
     .message {
@@ -606,9 +689,9 @@
       align-items: flex-end;
       gap: 0.5rem;
       max-width: 80%;
-      animation: fadeIn 0.2s ease;
+      animation: messageSlide 0.2s ease;
     }
-    @keyframes fadeIn {
+    @keyframes messageSlide {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
@@ -630,17 +713,20 @@
       line-height: 1.4;
       word-break: break-word;
       white-space: pre-wrap;
+      position: relative;
     }
     .message.sent .message-bubble {
-      background: #2563eb;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: white;
       border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
     }
     .message.received .message-bubble {
       background: white;
       color: #0f172a;
       border: 1px solid #e2e8f0;
       border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     .message-time {
       font-size: 0.6rem;
@@ -649,37 +735,21 @@
       display: flex;
       align-items: center;
       gap: 0.3rem;
+      justify-content: flex-end;
     }
     .message-status {
       color: #22c55e;
     }
-
-    .typing-indicator {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.8rem 1rem;
-      background: white;
-      border-radius: 18px;
-      width: fit-content;
-      border: 1px solid #e2e8f0;
-    }
-    .typing-indicator span {
-      width: 6px;
-      height: 6px;
-      background: #94a3b8;
-      border-radius: 50%;
-      animation: typing 1.4s infinite;
-    }
-    @keyframes typing {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-6px); }
+    .message-status.seen {
+      color: #2563eb;
     }
 
+    /* ========== MESSAGE INPUT ========== */
     .message-input-area {
       padding: 1rem;
-      background: white;
-      border-top: 1px solid #f1f5f9;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid #e2e8f0;
       display: flex;
       gap: 0.5rem;
       align-items: flex-end;
@@ -690,6 +760,11 @@
       border-radius: 24px;
       padding: 0.5rem 1rem;
       border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+    }
+    .message-input-wrapper:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
     .message-input {
       width: 100%;
@@ -699,12 +774,11 @@
       resize: none;
       max-height: 100px;
       outline: none;
-      font-family: inherit;
     }
     .send-btn {
       width: 48px;
       height: 48px;
-      background: #2563eb;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: white;
       border: none;
       border-radius: 50%;
@@ -712,13 +786,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     }
     .send-btn:active {
       transform: scale(0.95);
     }
 
-    /* ========== EMPTY STATES ========== */
+    /* ========== EMPTY STATE ========== */
     .empty-state {
       text-align: center;
       padding: 3rem 1rem;
@@ -728,10 +803,6 @@
       font-size: 4rem;
       color: #cbd5e1;
       margin-bottom: 1rem;
-    }
-    .empty-state h4 {
-      color: #334155;
-      margin-bottom: 0.3rem;
     }
 
     /* ========== LOADING ========== */
@@ -771,6 +842,7 @@
       font-size: 0.95rem;
       max-width: 400px;
       margin: 0 auto;
+      animation: slideDown 0.3s ease;
     }
     .alert.error {
       border-left-color: #ef4444;
@@ -790,13 +862,12 @@
       }
       .messenger {
         max-width: 500px;
-        margin: 0 auto;
+        margin: 1rem auto;
       }
     }
   </style>
 </head>
 <body>
-  <!-- App Header -->
   <header class="app-header">
     <a href="index.html" class="logo">Sewa<span>Link</span></a>
     <div id="authUI" class="auth-buttons"></div>
@@ -804,9 +875,7 @@
 
   <div id="alertContainer"></div>
 
-  <!-- Main Messenger -->
   <div class="messenger">
-    <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small">
@@ -814,32 +883,28 @@
           <span>Messages</span>
         </div>
         
-        <!-- Tabs -->
         <div class="tabs">
-          <div class="tab active" id="sewaTab" onclick="switchTab('sewa')">
+          <div class="tab active" id="sewaTab" onclick="window.switchTab('sewa')">
             <i class="fas fa-thumbtack"></i> Sewa
             <span id="sewaTabBadge" class="tab-badge" style="display: none;">0</span>
           </div>
-          <div class="tab" id="usersTab" onclick="switchTab('users')">
+          <div class="tab" id="usersTab" onclick="window.switchTab('users')">
             <i class="fas fa-users"></i> All Users
           </div>
         </div>
 
-        <!-- Search Box -->
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search users by name, phone or email...">
+          <input type="text" id="searchInput" placeholder="Search users...">
         </div>
       </div>
 
       <div id="chatList" class="chat-list"></div>
     </div>
 
-    <!-- Chat Area -->
     <div id="chatArea" class="chat-area"></div>
   </div>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
     <a href="services.html" class="nav-item"><i class="fas fa-cogs"></i><span>Services</span></a>
@@ -877,7 +942,8 @@
       writeBatch,
       arrayUnion,
       arrayRemove,
-      limit
+      limit,
+      Timestamp
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -899,13 +965,14 @@
     let conversations = [];
     let allUsers = [];
     let pinnedChats = new Set();
-    let pinnedUserIds = new Set();
     let favoriteUsers = new Set();
     let activeTab = 'sewa';
     let isSearching = false;
     let messagesUnsub = null;
     let chatsUnsub = null;
     let typingTimeouts = new Map();
+    let typingListeners = new Map();
+    let userStatusListeners = new Map();
 
     // ========== DOM ==========
     const authUI = document.getElementById('authUI');
@@ -923,7 +990,7 @@
     // ========== HELPERS ==========
     function escapeHTML(str) {
       if (!str) return '';
-      return str.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+      return String(str).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
     }
 
     function timeAgo(date) {
@@ -946,14 +1013,17 @@
     function showAlert(msg, type = 'success') {
       const div = document.createElement('div');
       div.className = `alert ${type}`;
-      div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${msg}</span>`;
+      div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${escapeHTML(msg)}</span>`;
       alertContainer.appendChild(div);
       setTimeout(() => div.remove(), 3000);
     }
 
     function debounce(fn, ms) {
       let t;
-      return function() { clearTimeout(t); t = setTimeout(() => fn(), ms); };
+      return function(...args) { 
+        clearTimeout(t); 
+        t = setTimeout(() => fn.apply(this, args), ms); 
+      };
     }
 
     // ========== SWITCH TAB ==========
@@ -996,16 +1066,9 @@
           });
         } else {
           await updateDoc(userRef, { online: true, lastSeen: serverTimestamp() });
-          // Load pinned chats
           const data = userSnap.data();
-          if (data.pinnedChats) {
-            pinnedChats = new Set(data.pinnedChats);
-          }
-          
-          // Load favorite users
-          if (data.favoriteUsers) {
-            favoriteUsers = new Set(data.favoriteUsers);
-          }
+          pinnedChats = new Set(data.pinnedChats || []);
+          favoriteUsers = new Set(data.favoriteUsers || []);
         }
 
         authUI.innerHTML = `
@@ -1018,9 +1081,6 @@
               </div>
               <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
               <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
-              <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
-              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
-              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
               <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
           </div>
@@ -1064,8 +1124,7 @@
         chatListEl.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-user-lock"></i>
-            <h4>Please sign in</h4>
-            <p>Sign in to access messages</p>
+            <h4>Please sign in to message</h4>
           </div>
         `;
       }
@@ -1082,12 +1141,7 @@
             allUsers.push({ id: doc.id, ...doc.data() });
           }
         });
-        // Sort alphabetically by name
-        allUsers.sort((a, b) => {
-          const nameA = (a.displayName || 'User').toLowerCase();
-          const nameB = (b.displayName || 'User').toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
+        allUsers.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || ''));
       } catch (error) {
         console.error('Load users error:', error);
       }
@@ -1109,48 +1163,75 @@
         let totalUnread = 0;
         
         for (const d of snap.docs) {
-          const chat = d.data();
+          const chat = { id: d.id, ...d.data() };
           const otherId = chat.participants.find(id => id !== currentUser.uid);
           if (!otherId) continue;
           
+          // Get unread count
           let unreadCount = 0;
           try {
             const messagesRef = collection(db, 'chats', d.id, 'messages');
             const unreadQuery = query(
               messagesRef,
               where('senderId', '==', otherId),
-              where('read', '==', false),
-              limit(100)
+              where('read', '==', false)
             );
             const unreadSnap = await getDocs(unreadQuery);
             unreadCount = unreadSnap.size;
             totalUnread += unreadCount;
           } catch (e) {}
           
-          const userSnap = await getDoc(doc(db, 'users', otherId));
+          // Get user data with real-time status
+          const userRef = doc(db, 'users', otherId);
+          const userSnap = await getDoc(userRef);
           const user = userSnap.data() || {};
+          
+          // Setup real-time user status listener
+          if (!userStatusListeners.has(otherId)) {
+            const unsub = onSnapshot(userRef, (doc) => {
+              if (doc.exists()) {
+                const updatedUser = { id: otherId, ...doc.data() };
+                const chatIndex = conversations.findIndex(c => c.other.id === otherId);
+                if (chatIndex !== -1) {
+                  conversations[chatIndex].other.online = updatedUser.online;
+                  conversations[chatIndex].other.lastSeen = updatedUser.lastSeen;
+                  if (activeTab === 'sewa' && !isSearching) {
+                    renderSewaList();
+                  }
+                }
+              }
+            });
+            userStatusListeners.set(otherId, unsub);
+          }
+          
+          // Check typing status
+          let isTyping = false;
+          try {
+            const typingRef = doc(db, 'chats', d.id, 'typing', otherId);
+            const typingSnap = await getDoc(typingRef);
+            isTyping = typingSnap.exists() && typingSnap.data().isTyping;
+          } catch (e) {}
           
           conversations.push({
             id: d.id,
             ...chat,
             unread: unreadCount,
+            isTyping,
             other: { 
               id: otherId, 
               name: user.displayName || 'User', 
               photo: user.photoURL,
               online: user.online || false,
-              phoneNumber: user.phoneNumber || '',
-              email: user.email || ''
+              lastSeen: user.lastSeen
             }
           });
         }
         
         // Update badges
         navMessagesBadge.style.display = totalUnread ? 'flex' : 'none';
-        if (totalUnread) navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
-        
+        navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         sewaTabBadge.style.display = totalUnread ? 'flex' : 'none';
-        if (totalUnread) sewaTabBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
+        sewaTabBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         
         if (activeTab === 'sewa' && !isSearching) {
           renderSewaList();
@@ -1168,21 +1249,16 @@
         
         if (favoriteUsers.has(userId)) {
           favoriteUsers.delete(userId);
-          await updateDoc(userRef, {
-            favoriteUsers: arrayRemove(userId)
-          });
+          await updateDoc(userRef, { favoriteUsers: arrayRemove(userId) });
           showAlert('Removed from favorites');
         } else {
           favoriteUsers.add(userId);
-          await updateDoc(userRef, {
-            favoriteUsers: arrayUnion(userId)
-          });
+          await updateDoc(userRef, { favoriteUsers: arrayUnion(userId) });
           showAlert('Added to favorites ⭐');
         }
         
-        // Refresh current view
         if (isSearching) {
-          await performSearch(searchInput.value);
+          performSearch(searchInput.value);
         } else if (activeTab === 'sewa') {
           renderSewaList();
         } else if (activeTab === 'users') {
@@ -1204,21 +1280,15 @@
         
         if (pinnedChats.has(chatId)) {
           pinnedChats.delete(chatId);
-          await updateDoc(userRef, {
-            pinnedChats: arrayRemove(chatId)
-          });
+          await updateDoc(userRef, { pinnedChats: arrayRemove(chatId) });
           showAlert('Chat unpinned');
         } else {
           pinnedChats.add(chatId);
-          await updateDoc(userRef, {
-            pinnedChats: arrayUnion(chatId)
-          });
+          await updateDoc(userRef, { pinnedChats: arrayUnion(chatId) });
           showAlert('Chat pinned');
         }
         
-        if (activeTab === 'sewa') {
-          renderSewaList();
-        }
+        if (activeTab === 'sewa') renderSewaList();
       } catch (error) {
         console.error('Pin error:', error);
         showAlert('Error toggling pin', 'error');
@@ -1228,46 +1298,30 @@
     // ========== SHOW ALL USERS ==========
     function showAllUsers() {
       if (!allUsers || allUsers.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-users"></i>
-            <h4>No users found</h4>
-          </div>
-        `;
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><h4>No users found</h4></div>`;
         return;
       }
 
       let html = '';
-      
-      // Group by first letter
       const grouped = {};
       allUsers.forEach(user => {
-        const firstLetter = (user.displayName || 'User').charAt(0).toUpperCase();
-        if (!grouped[firstLetter]) {
-          grouped[firstLetter] = [];
-        }
-        grouped[firstLetter].push(user);
+        const letter = (user.displayName || 'User').charAt(0).toUpperCase();
+        if (!grouped[letter]) grouped[letter] = [];
+        grouped[letter].push(user);
       });
 
-      // Sort letters
-      const letters = Object.keys(grouped).sort();
-
-      letters.forEach(letter => {
+      Object.keys(grouped).sort().forEach(letter => {
         html += `<div class="letter-header">${letter}</div>`;
-        
         grouped[letter].forEach(user => {
           const isFavorite = favoriteUsers.has(user.id);
           html += `
-            <div class="user-item" onclick="startChat('${user.id}')">
-              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
+            <div class="user-item" onclick="window.startChat('${user.id}')">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'U') + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
               <div class="user-info">
                 <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
                 <div class="user-email">${escapeHTML(user.email || '')}</div>
-                ${user.phoneNumber ? `<div class="user-email">📞 ${escapeHTML(user.phoneNumber)}</div>` : ''}
               </div>
-              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${user.id}', event)">
-                <i class="fas fa-star"></i>
-              </button>
+              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="window.toggleFavorite('${user.id}', event)"><i class="fas fa-star"></i></button>
             </div>
           `;
         });
@@ -1277,21 +1331,17 @@
     }
 
     // ========== SEARCH FUNCTION ==========
-    async function performSearch(term) {
+    const performSearch = debounce(async function(term) {
       if (!term.trim()) {
         isSearching = false;
-        if (activeTab === 'sewa') {
-          renderSewaList();
-        } else {
-          showAllUsers();
-        }
+        if (activeTab === 'sewa') renderSewaList();
+        else showAllUsers();
         return;
       }
 
       isSearching = true;
       term = term.toLowerCase();
       
-      // Search in ALL USERS from Firebase
       const filteredUsers = allUsers.filter(user => 
         (user.displayName && user.displayName.toLowerCase().includes(term)) ||
         (user.email && user.email.toLowerCase().includes(term)) ||
@@ -1299,60 +1349,48 @@
       );
 
       if (filteredUsers.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-search"></i>
-            <h4>No users found</h4>
-            <p>Try a different search</p>
-          </div>
-        `;
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h4>No users found</h4></div>`;
         return;
       }
 
-      // Sort filtered results alphabetically
-      filteredUsers.sort((a, b) => {
-        const nameA = (a.displayName || 'User').toLowerCase();
-        const nameB = (b.displayName || 'User').toLowerCase();
-        return nameA.localeCompare(nameB);
-      });
+      filteredUsers.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || ''));
 
       let html = '<div style="margin-bottom: 0.5rem; color: #2563eb; font-weight: 600;">SEARCH RESULTS</div>';
       
       filteredUsers.forEach(user => {
-        // Check if this user has an existing chat
         const existingChat = conversations.find(c => c.other.id === user.id);
         const isPinned = existingChat ? pinnedChats.has(existingChat.id) : false;
         const isFavorite = favoriteUsers.has(user.id);
         const unreadCount = existingChat ? existingChat.unread : 0;
+        const isTyping = existingChat ? existingChat.isTyping : false;
         const lastMessage = existingChat ? existingChat.lastMessage : '';
         const lastMessageTime = existingChat?.lastMessageTime?.toDate?.();
         
         html += `
-          <div class="chat-item" onclick="startChat('${user.id}')">
+          <div class="chat-item" onclick="window.startChat('${user.id}')">
             <div class="chat-avatar">
-              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'U') + '&background=2563eb&color=fff&size=56'}">
               ${user.online ? '<span class="online-dot"></span>' : ''}
             </div>
             <div class="chat-info">
               <div class="chat-name-row">
                 <span class="chat-name">${escapeHTML(user.displayName || 'User')}</span>
-                ${isFavorite ? '<i class="fas fa-star" style="color: #eab308; font-size: 0.9rem;"></i>' : ''}
+                ${isFavorite ? '<i class="fas fa-star" style="color: #eab308;"></i>' : ''}
                 ${isPinned ? '<i class="fas fa-thumbtack pin-badge"></i>' : ''}
               </div>
               <div class="chat-preview-row">
-                <span class="chat-preview">${existingChat ? (escapeHTML(lastMessage) || 'Click to chat') : 'Click to start conversation'}</span>
+                ${isTyping ? 
+                  `<div class="typing-preview"><span>Typing</span><div class="typing-dots"><span></span><span></span><span></span></div></div>` :
+                  `<span class="chat-preview">${existingChat ? (escapeHTML(lastMessage) || 'Click to chat') : 'Click to start'}</span>`
+                }
                 ${lastMessageTime ? `<span class="chat-time">${timeAgo(lastMessageTime)}</span>` : ''}
               </div>
-              ${unreadCount > 0 ? `<span class="chat-badge">${unreadCount}</span>` : ''}
             </div>
-            <div style="display: flex; gap: 0.2rem;">
-              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${user.id}', event)">
-                <i class="fas fa-star"></i>
-              </button>
+            ${unreadCount > 0 ? `<span class="chat-badge">${unreadCount}</span>` : ''}
+            <div style="display: flex;">
+              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="window.toggleFavorite('${user.id}', event)"><i class="fas fa-star"></i></button>
               ${existingChat ? `
-                <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="togglePin('${existingChat.id}', '${user.id}', event)">
-                  <i class="fas fa-thumbtack"></i>
-                </button>
+                <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="window.togglePin('${existingChat.id}', '${user.id}', event)"><i class="fas fa-thumbtack"></i></button>
               ` : ''}
             </div>
           </div>
@@ -1360,9 +1398,9 @@
       });
 
       chatListEl.innerHTML = html;
-    }
+    }, 300);
 
-    // ========== START CHAT - OPTIMIZED ==========
+    // ========== START CHAT ==========
     window.startChat = async function(userId) {
       if (!currentUser || userId === currentUser.uid) return;
       
@@ -1392,8 +1430,7 @@
           chatId = newChat.id;
         }
         
-        // Mark messages as read (don't await - do it in background)
-        markMessagesAsRead(chatId, userId).catch(console.error);
+        await markMessagesAsRead(chatId, userId);
         
         const userSnap = await getDoc(doc(db, 'users', userId));
         const userData = userSnap.data() || {};
@@ -1409,79 +1446,87 @@
         if (messagesUnsub) messagesUnsub();
         
         const messagesRef = collection(db, 'chats', chatId, 'messages');
-        const q2 = query(messagesRef, orderBy('timestamp', 'asc'), limit(50));
+        const q2 = query(messagesRef, orderBy('timestamp', 'asc'));
         
         messagesUnsub = onSnapshot(q2, (snap) => {
           const msgs = [];
-          snap.forEach(d => msgs.push({ id: d.id, ...d.data() }));
+          snap.forEach(d => {
+            const data = d.data();
+            msgs.push({ 
+              id: d.id, 
+              ...data,
+              timestamp: data.timestamp?.toDate?.() || new Date()
+            });
+          });
           renderChat(msgs);
         });
 
         // Typing listener
+        if (typingListeners.has(chatId)) {
+          typingListeners.get(chatId)();
+        }
         const typingRef = doc(db, 'chats', chatId, 'typing', userId);
-        onSnapshot(typingRef, (doc) => {
+        const unsubTyping = onSnapshot(typingRef, (doc) => {
           if (doc.exists() && doc.data().isTyping) {
             showTypingIndicator();
           } else {
             hideTypingIndicator();
           }
         });
+        typingListeners.set(chatId, unsubTyping);
         
       } catch (error) {
         console.error('Start chat error:', error);
+        showAlert('Failed to open chat', 'error');
         backToSidebar();
       }
     };
 
-    // ========== SEND MESSAGE - OPTIMIZED (NO DELAY) ==========
+    // ========== SEND MESSAGE ==========
     window.sendMessage = async function() {
       const input = document.getElementById('messageInput');
       if (!input || !input.value.trim() || !currentChat) return;
       
       const messageText = input.value.trim();
-      const tempMessage = {
-        text: messageText,
-        senderId: currentUser.uid,
-        timestamp: new Date(),
-        read: false,
-        temp: true
-      };
       
-      // Clear input immediately for better UX
       input.value = '';
       input.style.height = 'auto';
       
-      // Add to UI immediately (optimistic update)
-      const messagesContainer = document.getElementById('messagesContainer');
-      if (messagesContainer) {
-        const tempMsgDiv = document.createElement('div');
-        tempMsgDiv.className = 'message sent';
-        tempMsgDiv.innerHTML = `
-          <div>
-            <div class="message-bubble" style="opacity: 0.7;">${escapeHTML(messageText)}</div>
-            <div class="message-time">now <span class="message-status"><i class="fas fa-clock"></i></span></div>
-          </div>
-        `;
-        messagesContainer.appendChild(tempMsgDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
-      
       try {
-        // Send to Firebase
-        await addDoc(collection(db, 'chats', currentChat.id, 'messages'), {
+        // Add message
+        const messageRef = await addDoc(collection(db, 'chats', currentChat.id, 'messages'), {
           text: messageText,
           senderId: currentUser.uid,
           timestamp: serverTimestamp(),
           read: false
         });
         
+        // Update chat last message
         await updateDoc(doc(db, 'chats', currentChat.id), {
           lastMessage: messageText,
           lastMessageTime: serverTimestamp()
         });
         
-        // Remove typing indicator
-        setTyping(false);
+        // Stop typing indicator
+        await setTyping(false);
+        
+        // Optimistically update UI
+        const messagesContainer = document.getElementById('messagesContainer');
+        if (messagesContainer) {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message sent';
+          messageDiv.innerHTML = `
+            <div>
+              <div class="message-bubble">${escapeHTML(messageText).replace(/\n/g, '<br>')}</div>
+              <div class="message-time">
+                now
+                <span class="message-status"><i class="fas fa-check"></i></span>
+              </div>
+            </div>
+          `;
+          messagesContainer.appendChild(messageDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
         
       } catch (error) {
         console.error('Send message error:', error);
@@ -1522,7 +1567,7 @@
       if (indicator) indicator.style.display = 'none';
     }
 
-    // ========== MARK MESSAGES AS READ - OPTIMIZED ==========
+    // ========== MARK MESSAGES AS READ ==========
     async function markMessagesAsRead(chatId, otherId) {
       if (!currentUser) return;
       try {
@@ -1530,18 +1575,14 @@
         const q = query(
           messagesRef,
           where('senderId', '==', otherId),
-          where('read', '==', false),
-          limit(50)
+          where('read', '==', false)
         );
         const snap = await getDocs(q);
-        
         if (snap.empty) return;
         
         const batch = writeBatch(db);
         snap.forEach(d => batch.update(d.ref, { read: true }));
         await batch.commit();
-        
-        console.log(`Marked ${snap.size} messages as read`);
       } catch (error) {
         console.error('Error marking messages as read:', error);
       }
@@ -1556,11 +1597,8 @@
         messagesUnsub = null;
       }
       currentChat = null;
-      if (activeTab === 'sewa') {
-        renderSewaList();
-      } else {
-        showAllUsers();
-      }
+      if (activeTab === 'sewa') renderSewaList();
+      else showAllUsers();
     };
 
     window.viewProfile = function(userId) {
@@ -1570,7 +1608,7 @@
     window.handleMessageKey = function(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        window.sendMessage();
       }
     };
 
@@ -1581,12 +1619,10 @@
 
     // ========== RENDER SEWA LIST ==========
     function renderSewaList() {
-      // Get favorite users data
       const favoriteUsersList = [];
       favoriteUsers.forEach(userId => {
         const user = allUsers.find(u => u.id === userId);
         if (user) {
-          // Check if there's an existing chat with this user
           const existingChat = conversations.find(c => c.other.id === userId);
           favoriteUsersList.push({
             id: userId,
@@ -1594,91 +1630,67 @@
             isFavorite: true,
             unread: existingChat ? existingChat.unread : 0,
             lastMessage: existingChat ? existingChat.lastMessage : '',
-            lastMessageTime: existingChat?.lastMessageTime
+            lastMessageTime: existingChat?.lastMessageTime,
+            isTyping: existingChat ? existingChat.isTyping : false
           });
         }
       });
 
-      // Get pinned chats
       const pinned = conversations.filter(chat => pinnedChats.has(chat.id));
-      
-      // Get regular chats (not pinned)
-      const regularChats = conversations.filter(chat => !pinnedChats.has(chat.id));
+      const regular = conversations.filter(chat => !pinnedChats.has(chat.id));
 
       let html = '';
 
-      // FAVORITES SECTION
       if (favoriteUsersList.length > 0) {
-        html += '<div class="favorites-section">';
-        html += '<div class="favorites-header"><i class="fas fa-star"></i> FAVORITES</div>';
+        html += '<div class="favorites-section"><div class="favorites-header"><i class="fas fa-star"></i> FAVORITES</div>';
         favoriteUsersList.forEach(user => {
           const time = user.lastMessageTime?.toDate?.();
-          const unreadCount = user.unread || 0;
-          
           html += `
-            <div class="chat-item favorite" onclick="startChat('${user.id}')">
+            <div class="chat-item favorite" onclick="window.startChat('${user.id}')">
               <div class="chat-avatar">
-                <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}">
+                <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'U') + '&background=2563eb&color=fff&size=56'}">
                 ${user.online ? '<span class="online-dot"></span>' : ''}
               </div>
               <div class="chat-info">
                 <div class="chat-name-row">
                   <span class="chat-name">${escapeHTML(user.displayName || 'User')}</span>
-                  <i class="fas fa-star" style="color: #eab308; font-size: 0.9rem;"></i>
+                  <i class="fas fa-star" style="color: #eab308;"></i>
                 </div>
                 <div class="chat-preview-row">
-                  <span class="chat-preview">${user.lastMessage ? escapeHTML(user.lastMessage) : 'Click to start conversation'}</span>
+                  ${user.isTyping ? 
+                    `<div class="typing-preview"><span>Typing</span><div class="typing-dots"><span></span><span></span><span></span></div></div>` :
+                    `<span class="chat-preview">${user.lastMessage ? escapeHTML(user.lastMessage) : 'Click to start'}</span>`
+                  }
                   ${time ? `<span class="chat-time">${timeAgo(time)}</span>` : ''}
                 </div>
               </div>
-              ${unreadCount > 0 ? `<span class="chat-badge">${unreadCount}</span>` : ''}
-              <button class="fav-btn active" onclick="toggleFavorite('${user.id}', event)">
-                <i class="fas fa-star"></i>
-              </button>
+              ${user.unread > 0 ? `<span class="chat-badge">${user.unread}</span>` : ''}
+              <button class="fav-btn active" onclick="window.toggleFavorite('${user.id}', event)"><i class="fas fa-star"></i></button>
             </div>
           `;
         });
         html += '</div>';
       }
 
-      // PINNED SECTION
       if (pinned.length > 0) {
-        html += '<div class="pinned-section">';
-        html += '<div class="pinned-header"><i class="fas fa-thumbtack"></i> PINNED</div>';
-        pinned.forEach(chat => {
-          renderChatItem(chat, true);
-        });
+        html += '<div class="pinned-section"><div class="pinned-header"><i class="fas fa-thumbtack"></i> PINNED</div>';
+        pinned.forEach(chat => renderChatItem(chat, true));
         html += '</div>';
       }
 
-      // ALL CHATS SECTION
-      if (regularChats.length > 0) {
-        if (pinned.length > 0 || favoriteUsersList.length > 0) {
-          html += '<div style="margin: 0.5rem 0;"></div>';
-        }
-        regularChats.forEach(chat => {
-          renderChatItem(chat, false);
-        });
+      if (regular.length > 0) {
+        regular.forEach(chat => renderChatItem(chat, false));
       }
 
-      // If nothing at all
-      if (favoriteUsersList.length === 0 && pinned.length === 0 && regularChats.length === 0) {
-        chatListEl.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-thumbtack"></i>
-            <h4>No Sewa yet</h4>
-            <p>Search for users above and star them to add to favorites</p>
-          </div>
-        `;
+      if (favoriteUsersList.length === 0 && pinned.length === 0 && regular.length === 0) {
+        chatListEl.innerHTML = `<div class="empty-state"><i class="fas fa-thumbtack"></i><h4>No Sewa yet</h4><p>Search and star users to start</p></div>`;
         return;
       }
 
       function renderChatItem(chat, isPinned) {
         const time = chat.lastMessageTime?.toDate?.();
-        
         html += `
-          <div class="chat-item ${isPinned ? 'pinned' : ''} ${currentChat?.id === chat.id ? 'active' : ''}" 
-               onclick="startChat('${chat.other.id}')">
+          <div class="chat-item ${isPinned ? 'pinned' : ''}" onclick="window.startChat('${chat.other.id}')">
             <div class="chat-avatar">
               <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=56'}">
               ${chat.other.online ? '<span class="online-dot"></span>' : ''}
@@ -1689,14 +1701,15 @@
                 ${isPinned ? '<i class="fas fa-thumbtack pin-badge"></i>' : ''}
               </div>
               <div class="chat-preview-row">
-                <span class="chat-preview">${escapeHTML(chat.lastMessage || 'Start a conversation')}</span>
-                <span class="chat-time">${time ? timeAgo(time) : ''}</span>
+                ${chat.isTyping ? 
+                  `<div class="typing-preview"><span>Typing</span><div class="typing-dots"><span></span><span></span><span></span></div></div>` :
+                  `<span class="chat-preview">${escapeHTML(chat.lastMessage || 'Start a conversation')}</span>`
+                }
+                ${time ? `<span class="chat-time">${timeAgo(time)}</span>` : ''}
               </div>
             </div>
             ${chat.unread > 0 ? `<span class="chat-badge">${chat.unread}</span>` : ''}
-            <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="togglePin('${chat.id}', '${chat.other.id}', event)">
-              <i class="fas fa-thumbtack"></i>
-            </button>
+            <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="window.togglePin('${chat.id}', '${chat.other.id}', event)"><i class="fas fa-thumbtack"></i></button>
           </div>
         `;
       }
@@ -1711,15 +1724,15 @@
       let msgs = '';
       messages.forEach(m => {
         const sent = m.senderId === currentUser?.uid;
-        const time = m.timestamp?.toDate?.();
+        const time = m.timestamp;
         msgs += `
           <div class="message ${sent ? 'sent' : 'received'}">
-            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=28'}" class="message-avatar" onclick="viewProfile('${currentChat.userId}')">` : ''}
+            ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=28'}" class="message-avatar" onclick="window.viewProfile('${currentChat.userId}')">` : ''}
             <div>
               <div class="message-bubble">${escapeHTML(m.text).replace(/\n/g, '<br>')}</div>
               <div class="message-time">
                 ${time ? timeAgo(time) : ''}
-                ${sent ? `<span class="message-status"><i class="fas fa-check${m.read ? '-double' : ''}"></i></span>` : ''}
+                ${sent ? `<span class="message-status ${m.read ? 'seen' : ''}"><i class="fas fa-check${m.read ? '-double' : ''}"></i></span>` : ''}
               </div>
             </div>
           </div>
@@ -1729,10 +1742,10 @@
       chatAreaEl.innerHTML = `
         <div class="chat-header">
           <div style="display:flex; align-items:center; gap:0.5rem;">
-            <i class="fas fa-arrow-left back-btn" onclick="backToSidebar()"></i>
-            <div class="chat-user" onclick="viewProfile('${currentChat.userId}')">
+            <i class="fas fa-arrow-left back-btn" onclick="window.backToSidebar()"></i>
+            <div class="chat-user" onclick="window.viewProfile('${currentChat.userId}')">
               <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=44'}">
-              <div class="chat-user-info">
+              <div>
                 <h3>${escapeHTML(currentChat.name)}</h3>
                 <div class="user-status ${currentChat.online ? 'status-online' : ''}">
                   ${currentChat.online ? '🟢 Online' : '⚪ Offline'}
@@ -1740,36 +1753,23 @@
               </div>
             </div>
           </div>
-          <div style="display: flex; gap: 0.2rem;">
-            <button class="fav-btn ${favoriteUsers.has(currentChat.userId) ? 'active' : ''}" onclick="toggleFavorite('${currentChat.userId}', event)">
-              <i class="fas fa-star"></i>
-            </button>
-            <button class="pin-btn ${pinnedChats.has(currentChat.id) ? 'active' : ''}" onclick="togglePin('${currentChat.id}', '${currentChat.userId}', event)">
-              <i class="fas fa-thumbtack"></i>
-            </button>
+          <div style="display: flex;">
+            <button class="fav-btn ${favoriteUsers.has(currentChat.userId) ? 'active' : ''}" onclick="window.toggleFavorite('${currentChat.userId}', event)"><i class="fas fa-star"></i></button>
+            <button class="pin-btn ${pinnedChats.has(currentChat.id) ? 'active' : ''}" onclick="window.togglePin('${currentChat.id}', '${currentChat.userId}', event)"><i class="fas fa-thumbtack"></i></button>
           </div>
         </div>
         <div class="messages" id="messagesContainer">
-          ${msgs || '<div class="empty-state"><i class="fas fa-comment-dots"></i><h4>No messages yet</h4><p>Say hello! 👋</p></div>'}
+          ${msgs || '<div class="empty-state">Say hello! 👋</div>'}
           <div id="typingIndicator" style="display: none;" class="typing-indicator">
             <span></span><span></span><span></span>
           </div>
         </div>
         <div class="message-input-area">
           <div class="message-input-wrapper">
-            <textarea 
-              id="messageInput" 
-              class="message-input" 
-              placeholder="Type a message..." 
-              onkeydown="handleMessageKey(event)"
-              onkeyup="handleTyping()"
-              oninput="resizeTextarea(this)"
-              rows="1"
-            ></textarea>
+            <textarea id="messageInput" class="message-input" placeholder="Type a message..." 
+              onkeydown="window.handleMessageKey(event)" onkeyup="window.handleTyping()" oninput="window.resizeTextarea(this)" rows="1"></textarea>
           </div>
-          <button class="send-btn" onclick="sendMessage()">
-            <i class="fas fa-paper-plane"></i>
-          </button>
+          <button class="send-btn" onclick="window.sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
       `;
 
@@ -1779,21 +1779,17 @@
       }, 50);
     }
 
-    // ========== SEARCH INPUT HANDLER ==========
-    searchInput.addEventListener('input', debounce(async () => {
-      await performSearch(searchInput.value);
-    }, 300));
+    // ========== SEARCH INPUT ==========
+    searchInput.addEventListener('input', () => performSearch(searchInput.value));
 
-    // ========== AUTH STATE ==========
+    // ========== INIT ==========
     onAuthStateChanged(auth, renderAuthUI);
 
-    // ========== CLEANUP ==========
     window.addEventListener('beforeunload', () => {
       if (chatsUnsub) chatsUnsub();
       if (messagesUnsub) messagesUnsub();
-      if (currentUser) {
-        updateDoc(doc(db, 'users', currentUser.uid), { online: false, lastSeen: serverTimestamp() }).catch(() => {});
-      }
+      typingListeners.forEach(unsub => unsub());
+      userStatusListeners.forEach(unsub => unsub());
     });
 
     // ========== EXPOSE GLOBALS ==========
