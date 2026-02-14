@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>Send Gift - SewaLink</title>
+  <meta name="description" content="Send coins as a gift to other users on SewaLink">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#667eea">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23667eea'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%23667eea'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%23667eea'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>');
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      padding: 1rem 1rem 80px 1rem;
+    }
+
+    /* ========== HEADER ========== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1a1a2e;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .icon-btn {
+      background: rgba(102, 126, 234, 0.1);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #667eea;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .icon-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    /* ========== PROFILE DROPDOWN ========== */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .profile-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 55px;
+      right: 0;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      width: 280px;
+      padding: 0.75rem;
+      display: none;
+      z-index: 1000;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .dropdown-menu.show {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .user-info {
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .user-name {
+      font-weight: 700;
+      color: #1a1a2e;
+      font-size: 1rem;
+    }
+    .user-email {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.2rem;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: #4a4a4a;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .dropdown-item:hover {
+      background: linear-gradient(135deg, #667eea10, #764ba210);
+      color: #667eea;
+      transform: translateX(5px);
+    }
+    .logout-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: #ff6b6b;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 0.25rem;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .logout-btn:hover {
+      background: #ff6b6b10;
+      transform: translateX(5px);
+    }
+
+    /* ========== GIFT CONTAINER ========== */
+    .gift-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 30px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gift-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .gift-header h1 {
+      font-size: 2rem;
+      color: #1a1a2e;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .gift-header h1 span {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gift-header p {
+      color: #64748b;
+      font-size: 1rem;
+    }
+
+    /* ========== BALANCE CARD ========== */
+    .balance-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 20px;
+      padding: 1.5rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .balance-card h2 {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+      position: relative;
+      font-weight: 500;
+    }
+
+    .balance-card .amount {
+      font-size: 2.5rem;
+      font-weight: 800;
+      position: relative;
+      line-height: 1.2;
+    }
+
+    .balance-card .amount small {
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    /* ========== SEARCH SECTION ========== */
+    .search-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .search-label {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+      display: block;
+      font-weight: 500;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 50px;
+      padding: 0.8rem 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus-within {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+
+    .search-box i {
+      color: #94a3b8;
+      margin-right: 0.8rem;
+      font-size: 1.1rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      color: #1a1a2e;
+    }
+
+    .search-box input::placeholder {
+      color: #94a3b8;
+    }
+
+    .search-box input:focus {
+      outline: none;
+    }
+
+    /* ========== USERS GRID ========== */
+    .users-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      max-height: 350px;
+      overflow-y: auto;
+      padding: 0.2rem;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+    }
+
+    .users-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .users-grid::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    .users-grid::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .user-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .user-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .user-card.selected {
+      border-color: #667eea;
+      background: #eff6ff;
+      transform: scale(1.02);
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-info h3 {
+      font-size: 1rem;
+      color: #1a1a2e;
+      margin-bottom: 0.2rem;
+      font-weight: 600;
+    }
+
+    .user-info p {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    /* ========== GIFT FORM ========== */
+    .gift-form {
+      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border: 1px solid #e2e8f0;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gift-form h3 {
+      margin-bottom: 1.5rem;
+      color: #1a1a2e;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .gift-form h3 i {
+      color: #667eea;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #667eea;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+
+    .amount-presets {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+
+    .preset-btn {
+      padding: 0.6rem 1.2rem;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 30px;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 1;
+      min-width: 60px;
+    }
+
+    .preset-btn:hover,
+    .preset-btn.active {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+    }
+
+    /* ========== BUTTONS ========== */
+    .gift-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      flex: 1;
+      box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(102,126,234,0.4);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 2px solid #e2e8f0;
+      color: #64748b;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* ========== RECENT GIFTS ========== */
+    .recent-gifts {
+      margin-top: 2rem;
+    }
+
+    .recent-gifts h3 {
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .recent-gifts h3 i {
+      color: #667eea;
+    }
+
+    .gift-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .gift-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .gift-item i {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea20, #764ba220);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #667eea;
+      font-size: 1.2rem;
+    }
+
+    .gift-details {
+      flex: 1;
+    }
+
+    .gift-details .name {
+      font-weight: 600;
+      color: #1a1a2e;
+      font-size: 0.95rem;
+    }
+
+    .gift-details .time {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+
+    .gift-amount {
+      font-weight: 700;
+      color: #f59e0b;
+      font-size: 1.1rem;
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+      background: #f8fafc;
+      border-radius: 16px;
+    }
+
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+    }
+
+    /* ========== MODAL ========== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 30px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #22c55e20, #16a34a20);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .modal-icon i {
+      font-size: 2.5rem;
+      color: #22c55e;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+      font-size: 1.5rem;
+    }
+
+    .modal-content p {
+      color: #64748b;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .modal-content .btn {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    /* ========== BOTTOM NAVIGATION ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.7rem 1rem;
+      padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #4a4a4a;
+      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+    }
+    .nav-item:hover {
+      color: #667eea;
+      transform: translateY(-3px);
+    }
+    .nav-item.active {
+      color: #667eea;
+    }
+    .nav-item.active i {
+      transform: scale(1.1);
+    }
+    .nav-item span {
+      font-size: 0.65rem;
+      font-weight: 500;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff6b6b;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 600;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid white;
+    }
+
+    /* ========== LOADING SPINNER ========== */
+    .loading-spinner {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+
+    .loading-spinner i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== TOAST NOTIFICATION ========== */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #22c55e;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 10px 30px rgba(34,197,94,0.3);
+      z-index: 9999;
+      animation: slideInRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ========== MEDIA QUERIES ========== */
+    @media (max-width: 480px) {
+      .app-wrapper {
+        padding: 0.8rem 0.8rem 70px 0.8rem;
+      }
+
+      .gift-container {
+        padding: 1.2rem;
+      }
+
+      .gift-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .balance-card .amount {
+        font-size: 2rem;
+      }
+
+      .preset-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 40px 40px 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <a href="index.html" class="logo">SEWA<span>Link</span></a>
+      <div class="header-actions">
+        <a href="services.html" class="icon-btn">
+          <i class="fas fa-cogs"></i>
+        </a>
+        <a href="settings.html" class="icon-btn">
+          <i class="fas fa-cog"></i>
+        </a>
+        <div id="authUI"></div>
+      </div>
+    </header>
+
+    <!-- Main Gift Container -->
+    <div class="gift-container">
+      <div class="gift-header">
+        <h1>Send <span>Gift</span></h1>
+        <p>Share your coins with friends</p>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="balance-card">
+        <h2>Your Balance</h2>
+        <div class="amount" id="userBalance">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+      </div>
+
+      <!-- Search Users -->
+      <div class="search-section">
+        <label class="search-label">
+          <i class="fas fa-search" style="margin-right: 0.3rem;"></i>
+          Find a friend
+        </label>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by name or email...">
+        </div>
+      </div>
+
+      <!-- Users Grid -->
+      <div id="usersContainer" class="users-grid">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading users...</p>
+        </div>
+      </div>
+
+      <!-- Gift Form -->
+      <div class="gift-form" id="giftForm" style="display: none;">
+        <h3>
+          <i class="fas fa-gift"></i>
+          Send to <span id="selectedUserName"></span>
+        </h3>
+        
+        <div class="form-group">
+          <label>Amount (Coins)</label>
+          <input type="number" id="giftAmount" min="1" placeholder="Enter amount">
+          <div class="amount-presets">
+            <button type="button" class="preset-btn" onclick="setAmount(10)">10</button>
+            <button type="button" class="preset-btn" onclick="setAmount(50)">50</button>
+            <button type="button" class="preset-btn" onclick="setAmount(100)">100</button>
+            <button type="button" class="preset-btn" onclick="setAmount(500)">500</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Gift Type</label>
+          <select id="giftType">
+            <option value="general">🎁 General Gift</option>
+            <option value="birthday">🎂 Birthday Gift</option>
+            <option value="thankyou">🙏 Thank You</option>
+            <option value="congratulations">🎉 Congratulations</option>
+            <option value="support">💪 Support</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Message (Optional)</label>
+          <textarea id="giftMessage" rows="3" placeholder="Write a heartfelt message..."></textarea>
+        </div>
+
+        <div class="gift-actions">
+          <button class="btn btn-secondary" onclick="cancelGift()">
+            <i class="fas fa-times"></i>
+            Cancel
+          </button>
+          <button class="btn btn-primary" id="sendGiftBtn" onclick="sendGift()">
+            <i class="fas fa-paper-plane"></i>
+            Send Gift
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Gifts -->
+      <div class="recent-gifts">
+        <h3>
+          <i class="fas fa-history"></i>
+          Recent Gifts
+        </h3>
+        <div id="recentGiftsContainer">
+          <div class="empty-state">
+            <i class="fas fa-gift"></i>
+            <p>No gifts sent yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="jobs.html" class="nav-item">
+        <i class="fas fa-briefcase"></i>
+        <span>Jobs</span>
+      </a>
+      <a href="messages.html" class="nav-item">
+        <i class="fas fa-comment"></i>
+        <span>Chat</span>
+        <span id="messagesNavBadge" class="notification-badge" style="display: none;">0</span>
+      </a>
+      <a href="notification.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        <span>Alerts</span>
+        <span id="notificationsNavBadge" class="notification-badge" style="display: none;">0</span>
+      </a>
+      <a href="profile.html" class="nav-item active">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>Gift Sent! 🎉</h2>
+      <p id="successMessage"></p>
+      <button class="btn btn-primary" onclick="closeSuccessModal()">
+        <i class="fas fa-check"></i>
+        Continue
+      </button>
+    </div>
+  </div>
+
+  <script type="module">
+    // ========== FIREBASE IMPORTS ==========
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      orderBy,
+      limit,
+      getDocs,
+      getDoc,
+      doc,
+      updateDoc,
+      addDoc,
+      serverTimestamp,
+      runTransaction
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    // ========== INITIALIZE FIREBASE ==========
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ========== STATE ==========
+    let currentUser = null;
+    let selectedUser = null;
+    let allUsers = [];
+
+    // ========== DOM ELEMENTS ==========
+    const authUI = document.getElementById('authUI');
+    const userBalance = document.getElementById('userBalance');
+    const usersContainer = document.getElementById('usersContainer');
+    const searchInput = document.getElementById('searchInput');
+    const giftForm = document.getElementById('giftForm');
+    const selectedUserName = document.getElementById('selectedUserName');
+    const giftAmount = document.getElementById('giftAmount');
+    const giftMessage = document.getElementById('giftMessage');
+    const giftType = document.getElementById('giftType');
+    const sendGiftBtn = document.getElementById('sendGiftBtn');
+    const recentGiftsContainer = document.getElementById('recentGiftsContainer');
+    const successModal = document.getElementById('successModal');
+    const successMessage = document.getElementById('successMessage');
+
+    // ========== HELPER FUNCTIONS ==========
+    function formatNumber(num) {
+      return Number(num || 0).toLocaleString();
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"]/g, function(match) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;'
+        }[match];
+      });
+    }
+
+    function formatTimeAgo(timestamp) {
+      if (!timestamp) return 'Just now';
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      const seconds = Math.floor((new Date() - date) / 1000);
+      
+      if (seconds < 60) return 'Just now';
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      if (days < 7) return `${days}d ago`;
+      return date.toLocaleDateString();
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.style.background = type === 'success' ? '#22c55e' : '#ef4444';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // ========== AUTH UI ==========
+    async function renderAuthUI(user) {
+      if (user) {
+        currentUser = user;
+        
+        await loadUserData();
+        
+        authUI.innerHTML = `
+          <div class="profile-container">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=667eea&color=fff&size=45'}" class="profile-avatar" id="avatarTrigger">
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="user-info">
+                <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                <div class="user-email">${escapeHTML(user.email || '')}</div>
+              </div>
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+              <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
+              <a href="services.html" class="dropdown-item"><i class="fas fa-cogs"></i> Services</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <a href="send-gift.html" class="dropdown-item"><i class="fas fa-gift"></i> Send Gift</a>
+              <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+          </div>
+        `;
+
+        const avatar = document.getElementById('avatarTrigger');
+        const dropdown = document.getElementById('dropdownMenu');
+        
+        avatar?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown?.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
+            dropdown?.classList.remove('show');
+          }
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+          await signOut(auth);
+          window.location.href = 'sign-in.html';
+        });
+
+        await Promise.all([
+          loadAllUsers(),
+          loadRecentGifts()
+        ]);
+      } else {
+        window.location.href = 'sign-in.html?redirect=send-gift.html';
+      }
+    }
+
+    // ========== LOAD USER DATA ==========
+    async function loadUserData() {
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          userBalance.innerHTML = `${formatNumber(userData.coins || 0)} <small>coins</small>`;
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        userBalance.textContent = 'Error loading balance';
+      }
+    }
+
+    // ========== LOAD ALL USERS ==========
+    async function loadAllUsers() {
+      try {
+        const usersRef = collection(db, 'users');
+        const usersQuery = query(usersRef, limit(50));
+        const snapshot = await getDocs(usersQuery);
+        
+        allUsers = [];
+        snapshot.forEach(doc => {
+          if (doc.id !== currentUser?.uid) {
+            allUsers.push({ id: doc.id, ...doc.data() });
+          }
+        });
+
+        renderUsers(allUsers);
+      } catch (error) {
+        console.error('Error loading users:', error);
+        usersContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading users</p>
+          </div>
+        `;
+      }
+    }
+
+    // ========== RENDER USERS ==========
+    function renderUsers(users) {
+      if (users.length === 0) {
+        usersContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <p>No users found</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      users.forEach(user => {
+        html += `
+          <div class="user-card" onclick="window.selectUser('${user.id}', '${escapeHTML(user.displayName || 'User')}')">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=667eea&color=fff&size=50'}" class="user-avatar">
+            <div class="user-info">
+              <h3>${escapeHTML(user.displayName || 'User')}</h3>
+              <p>${escapeHTML(user.email || '')}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      usersContainer.innerHTML = html;
+    }
+
+    // ========== SELECT USER ==========
+    window.selectUser = function(userId, userName) {
+      selectedUser = { id: userId, name: userName };
+      selectedUserName.textContent = userName;
+      giftForm.style.display = 'block';
+      
+      document.querySelectorAll('.user-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      event.currentTarget.classList.add('selected');
+      
+      giftForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    // ========== SET AMOUNT ==========
+    window.setAmount = function(amount) {
+      giftAmount.value = amount;
+      
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent == amount) {
+          btn.classList.add('active');
+        }
+      });
+    };
+
+    // ========== CANCEL GIFT ==========
+    window.cancelGift = function() {
+      selectedUser = null;
+      giftForm.style.display = 'none';
+      giftAmount.value = '';
+      giftMessage.value = '';
+      giftType.value = 'general';
+      
+      document.querySelectorAll('.user-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+    };
+
+    // ========== SEND GIFT ==========
+    window.sendGift = async function() {
+      if (!selectedUser) {
+        showToast('Please select a user', 'error');
+        return;
+      }
+
+      const amount = parseInt(giftAmount.value);
+      if (!amount || amount < 1) {
+        showToast('Please enter a valid amount', 'error');
+        return;
+      }
+
+      const message = giftMessage.value.trim();
+      const type = giftType.value;
+
+      sendGiftBtn.disabled = true;
+      sendGiftBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+      try {
+        await runTransaction(db, async (transaction) => {
+          const senderRef = doc(db, 'users', currentUser.uid);
+          const senderSnap = await transaction.get(senderRef);
+          
+          if (!senderSnap.exists()) throw new Error('Sender not found');
+
+          const senderCoins = senderSnap.data().coins || 0;
+          
+          if (senderCoins < amount) throw new Error('Insufficient coins');
+
+          const receiverRef = doc(db, 'users', selectedUser.id);
+          const receiverSnap = await transaction.get(receiverRef);
+          
+          if (!receiverSnap.exists()) throw new Error('Receiver not found');
+
+          const receiverCoins = receiverSnap.data().coins || 0;
+
+          transaction.update(senderRef, { coins: senderCoins - amount });
+          transaction.update(receiverRef, { coins: receiverCoins + amount });
+        });
+
+        const giftData = {
+          senderId: currentUser.uid,
+          senderName: currentUser.displayName || 'User',
+          senderEmail: currentUser.email,
+          receiverId: selectedUser.id,
+          receiverName: selectedUser.name,
+          amount: amount,
+          message: message,
+          type: type,
+          status: 'completed',
+          createdAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, 'gifts'), giftData);
+
+        await addDoc(collection(db, 'notifications'), {
+          userId: selectedUser.id,
+          type: 'gift_received',
+          title: '🎁 Gift Received!',
+          message: `${currentUser.displayName || 'Someone'} sent you ${amount} coins as a gift${message ? ': ' + message : ''}`,
+          data: { senderId: currentUser.uid, senderName: currentUser.displayName || 'User', amount, giftType: type },
+          read: false,
+          createdAt: serverTimestamp()
+        });
+
+        await loadUserData();
+        await loadRecentGifts();
+        
+        successMessage.innerHTML = `
+          You sent <strong>${amount} coins</strong> to <strong>${escapeHTML(selectedUser.name)}</strong><br>
+          ${message ? `<small style="color: #64748b;">"${escapeHTML(message)}"</small>` : ''}
+        `;
+        successModal.classList.add('active');
+        
+        cancelGift();
+
+      } catch (error) {
+        console.error('Error sending gift:', error);
+        showToast(error.message || 'Failed to send gift', 'error');
+      } finally {
+        sendGiftBtn.disabled = false;
+        sendGiftBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Gift';
+      }
+    };
+
+    // ========== LOAD RECENT GIFTS ==========
+    async function loadRecentGifts() {
+      try {
+        const giftsQuery = query(
+          collection(db, 'gifts'),
+          where('senderId', '==', currentUser.uid),
+          orderBy('createdAt', 'desc'),
+          limit(5)
+        );
+
+        const snapshot = await getDocs(giftsQuery);
+        
+        if (snapshot.empty) {
+          recentGiftsContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-gift"></i>
+              <p>No gifts sent yet</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        snapshot.forEach(doc => {
+          const gift = doc.data();
+          const time = formatTimeAgo(gift.createdAt);
+          
+          html += `
+            <div class="gift-item">
+              <i class="fas fa-gift"></i>
+              <div class="gift-details">
+                <div class="name">To: ${escapeHTML(gift.receiverName || 'User')}</div>
+                <div class="time">${time} • ${gift.type || 'general'}</div>
+              </div>
+              <div class="gift-amount">${gift.amount}</div>
+            </div>
+          `;
+        });
+
+        recentGiftsContainer.innerHTML = html;
+      } catch (error) {
+        console.error('Error loading gifts:', error);
+      }
+    }
+
+    // ========== SEARCH USERS ==========
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      
+      if (!searchTerm) {
+        renderUsers(allUsers);
+        return;
+      }
+
+      const filtered = allUsers.filter(user => 
+        (user.displayName && user.displayName.toLowerCase().includes(searchTerm)) ||
+        (user.email && user.email.toLowerCase().includes(searchTerm))
+      );
+
+      renderUsers(filtered);
+    });
+
+    // ========== CLOSE SUCCESS MODAL ==========
+    window.closeSuccessModal = function() {
+      successModal.classList.remove('active');
+    };
+
+    // ========== CHECK AUTH ==========
+    onAuthStateChanged(auth, renderAuthUI);
+  </script>
+</body>
+</html>
