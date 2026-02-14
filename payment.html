@@ -348,6 +348,18 @@
       margin-top: 1rem;
     }
 
+    .warning-text {
+      background: #fef2f2;
+      padding: 1rem;
+      border-radius: 12px;
+      color: #ef4444;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
     .transaction-history {
       margin-top: 2rem;
     }
@@ -416,11 +428,18 @@
       font-size: 0.7rem;
       padding: 0.2rem 0.8rem;
       border-radius: 50px;
+    }
+    .history-status.completed {
       background: #22c55e;
       color: white;
     }
     .history-status.pending {
       background: #f59e0b;
+      color: white;
+    }
+    .history-status.rejected {
+      background: #ef4444;
+      color: white;
     }
 
     .empty-history {
@@ -486,6 +505,7 @@
     let currentUser = null;
     let userCoins = 0;
     let selectedPackage = { coins: 100, price: 100, bonus: 10 };
+    let pendingTransactionId = null;
 
     // Load company QR code from settings
     async function loadCompanyQR() {
@@ -504,24 +524,24 @@
           return {
             qrUrl: qrData.qrImage || qrData.url,
             accountName: qrData.name || 'SewaLink Company',
-            accountNumber: qrData.accountNumber || '9841234567',
+            accountNumber: qrData.accountNumber || '9849359719',
             instructions: 'Scan this QR with eSewa app to pay'
           };
         }
         
         // Default fallback - eSewa merchant QR format
         return {
-          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay?amt=100&pid=SEWALINK&scd=PAYMENT',
+          qrUrl: 'https://i.ibb.co/tpLDj5Pm/Screenshot-2026-02-14-at-10-29-32-am.png',
           accountName: 'SewaLink Company',
-          accountNumber: '9841234567',
+          accountNumber: '9849359719',
           instructions: 'Scan this QR with eSewa app to pay'
         };
       } catch (error) {
         console.error('Error loading QR:', error);
         return {
-          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay?amt=100&pid=SEWALINK&scd=PAYMENT',
+          qrUrl: 'https://i.ibb.co/tpLDj5Pm/Screenshot-2026-02-14-at-10-29-32-am.png',
           accountName: 'SewaLink Company',
-          accountNumber: '9841234567',
+          accountNumber: '9849359719',
           instructions: 'Scan this QR with eSewa app to pay'
         };
       }
@@ -570,6 +590,28 @@
       }
     }
 
+    // Check for pending transaction
+    async function checkPendingTransaction(userId) {
+      try {
+        const q = query(
+          collection(db, 'transactions'),
+          where('userId', '==', userId),
+          where('type', '==', 'purchase'),
+          where('status', '==', 'pending'),
+          limit(1)
+        );
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          pendingTransactionId = snap.docs[0].id;
+          return snap.docs[0].data();
+        }
+        return null;
+      } catch (error) {
+        console.error('Error checking pending:', error);
+        return null;
+      }
+    }
+
     // Format time
     function formatTime(timestamp) {
       if (!timestamp) return 'Just now';
@@ -601,25 +643,43 @@
 
       const qrData = await loadCompanyQR();
       const transactions = await loadTransactionHistory(currentUser.uid);
+      const pendingTx = await checkPendingTransaction(currentUser.uid);
 
       let transactionsHTML = '';
       if (transactions.length === 0) {
         transactionsHTML = '<div class="empty-history"><i class="fas fa-receipt"></i><p>No transactions yet</p></div>';
       } else {
-        transactionsHTML = transactions.map(t => `
+        transactionsHTML = transactions.map(t => {
+          let statusClass = 'pending';
+          if (t.status === 'completed') statusClass = 'completed';
+          if (t.status === 'rejected') statusClass = 'rejected';
+          
+          return `
           <div class="history-item">
             <div class="history-left">
               <div class="history-icon">
                 <i class="fas fa-coins"></i>
               </div>
               <div class="history-details">
-                <div class="history-amount">+${t.coins || t.amount*10} coins (रु ${t.amount})</div>
+                <div class="history-amount">+${t.coins} coins (रु ${t.amount})</div>
                 <div class="history-time">${formatTime(t.timestamp)}</div>
               </div>
             </div>
-            <span class="history-status">Completed</span>
+            <span class="history-status ${statusClass}">${t.status}</span>
           </div>
-        `).join('');
+        `}).join('');
+      }
+
+      // Show pending message if there's a pending transaction
+      let pendingHTML = '';
+      if (pendingTx) {
+        pendingHTML = `
+          <div class="warning-text">
+            <i class="fas fa-hourglass-half"></i>
+            <strong>Payment Pending Approval!</strong>
+            <p style="margin-top: 0.5rem;">Your payment of रु ${pendingTx.amount} for ${pendingTx.coins} coins is being verified by admin. You'll receive coins once approved.</p>
+          </div>
+        `;
       }
 
       paymentContent.innerHTML = `
@@ -633,6 +693,8 @@
           <span class="balance-label">Your Coins</span>
           <span class="balance-value" id="currentCoins">${userCoins.toLocaleString()}</span>
         </div>
+
+        ${pendingHTML}
 
         <h3 style="margin-bottom: 0.8rem;">Select Package</h3>
         <div class="package-grid">
@@ -671,6 +733,10 @@
             <i class="fas fa-arrow-right"></i>
             <strong>Step 3:</strong> Enter transaction ID below
           </p>
+          <p style="margin-top: 0.5rem; padding-left: 1.8rem;">
+            <i class="fas fa-arrow-right"></i>
+            <strong>Step 4:</strong> Wait for admin approval (coins added within 24h)
+          </p>
         </div>
 
         <div class="company-qr-section" onclick="openEsewaPayment(${selectedPackage.price})">
@@ -682,7 +748,7 @@
           <div class="qr-info">
             <div class="qr-title">${qrData?.accountName || 'SewaLink Company'}</div>
             <div class="qr-desc">${qrData?.instructions || 'Tap to pay with eSewa'}</div>
-            <div class="qr-number">${qrData?.accountNumber || '9841234567'}</div>
+            <div class="qr-number">${qrData?.accountNumber || '9849359719'}</div>
           </div>
         </div>
 
@@ -694,27 +760,27 @@
 
           <div class="form-group">
             <label>Your eSewa Number</label>
-            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" value="9841234567">
+            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" value="">
           </div>
 
           <div class="form-group">
             <label>Transaction ID (from eSewa SMS)</label>
-            <input type="text" id="transactionId" placeholder="Enter transaction ID">
+            <input type="text" id="transactionId" placeholder="Enter transaction ID" value="">
           </div>
 
           <div class="info-text">
             <i class="fas fa-shield-alt"></i>
-            After payment, enter the transaction ID from your SMS
+            After payment, enter the transaction ID from your SMS. Admin will verify and add coins within 24 hours.
           </div>
         </div>
 
-        <button class="btn-pay" onclick="processPayment()">
+        <button class="btn-pay" onclick="processPayment()" ${pendingTx ? 'disabled' : ''}>
           <i class="fas fa-lock"></i> Pay रु <span id="payAmount">100</span>
         </button>
 
         <div class="secure-badge">
           <i class="fas fa-shield-alt"></i>
-          <span>Secure payment via eSewa</span>
+          <span>Secure payment via eSewa • Admin verification required</span>
         </div>
 
         <div class="transaction-history">
@@ -749,7 +815,7 @@
       
       // Show instructions
       setTimeout(() => {
-        alert(`📱 If eSewa app didn't open:\n\n1. Open eSewa app manually\n2. Send रु ${amount} to merchant: 9841234567\n3. Enter transaction ID below`);
+        alert(`📱 If eSewa app didn't open:\n\n1. Open eSewa app manually\n2. Send रु ${amount} to merchant: 9849359719\n3. Enter transaction ID below`);
       }, 1000);
     };
 
@@ -768,17 +834,17 @@
       }
 
       const btn = document.querySelector('.btn-pay');
-      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Submitting...';
       btn.disabled = true;
 
       try {
-        // Record transaction
+        // Record transaction as pending
         const totalCoins = selectedPackage.coins + selectedPackage.bonus;
         
-        // Save to transactions collection
-        await addDoc(collection(db, 'transactions'), {
+        const transactionData = {
           userId: currentUser.uid,
           userName: currentUser.displayName || currentUser.email,
+          userEmail: currentUser.email,
           type: 'purchase',
           amount: selectedPackage.price,
           coins: totalCoins,
@@ -786,22 +852,32 @@
           bonus: selectedPackage.bonus,
           esewaNumber,
           transactionId,
-          status: 'completed',
+          status: 'pending',
+          timestamp: serverTimestamp()
+        };
+
+        // Save to transactions collection
+        const docRef = await addDoc(collection(db, 'transactions'), transactionData);
+        
+        // Also add to coinTransactions for tracking
+        await addDoc(collection(db, 'coinTransactions'), {
+          userId: currentUser.uid,
+          userName: currentUser.displayName || currentUser.email,
+          type: 'purchase_request',
+          amount: totalCoins,
+          oldBalance: userCoins,
+          newBalance: userCoins,
+          reason: `Coin purchase request - रु ${selectedPackage.price} (Pending)`,
+          transactionId: docRef.id,
           timestamp: serverTimestamp()
         });
 
-        // Update user coins
-        const userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, {
-          coins: increment(totalCoins)
-        });
-
-        alert(`✅ Payment Successful!\n\nYou received ${totalCoins} coins (${selectedPackage.coins} + ${selectedPackage.bonus} bonus)`);
+        alert(`✅ Payment Request Submitted!\n\nYou will receive ${totalCoins} coins after admin verification (usually within 24 hours).`);
         window.location.href = 'profile.html';
 
       } catch (error) {
         console.error('Payment error:', error);
-        alert('❌ Payment failed. Please try again.');
+        alert('❌ Failed to submit payment request. Please try again.');
         btn.innerHTML = '<i class="fas fa-lock"></i> Pay रु ' + selectedPackage.price;
         btn.disabled = false;
       }
