@@ -841,6 +841,95 @@ body::before {
     border-radius: 40px 40px 0 0;
   }
 }
+    /* ===============================
+   SEO INTRO – FINAL VERSION
+   Clean • Premium • Animated
+   =============================== */
+
+.seo-intro {
+  max-width: 1100px;
+  margin: 24px auto 14px;
+  padding: 18px 28px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(246, 248, 255, 0.92)
+  );
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  backdrop-filter: blur(6px);
+
+  /* Animation start state */
+  opacity: 0;
+  transform: translateY(22px);
+  animation: seoFadeUp 0.9s ease-out forwards;
+}
+
+/* Title */
+.seo-intro h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+/* Accent underline */
+.seo-intro h1::after {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #5f6cff, #9b8cff);
+}
+
+/* Paragraph */
+.seo-intro p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #444;
+  margin: 0;
+}
+
+/* Hover polish */
+.seo-intro:hover {
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(120, 130, 255, 0.25);
+}
+
+/* Animation keyframes */
+@keyframes seoFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .seo-intro {
+    margin: 16px 12px 10px;
+    padding: 14px 18px;
+    border-radius: 14px;
+  }
+
+  .seo-intro h1 {
+    font-size: 1.1rem;
+  }
+
+  .seo-intro p {
+    font-size: 0.88rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -872,34 +961,23 @@ body::before {
 
       <!-- JOB Indicator -->
       <div class="job-indicator">💼 JOB</div>
-
-      <!-- Welcome Banner -->
-      <div class="welcome-banner" id="welcomeBanner">
-        <!-- SEO Content (Visible for Google) -->
-<section style="
-  background: rgba(255,255,255,0.95);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-">
-  <h1 style="font-size:1.6rem; font-weight:800; color:#1a1a2e; margin-bottom:0.5rem;">
-    Sewalink – Nepali Freelancing & Online Working Platform
-  </h1>
-
-  <p style="font-size:0.95rem; color:#4a4a4a; line-height:1.6;">
-    Sewalink is a Nepali freelancing platform founded by Bishal Shrestha.
-    It helps users find online work, hire freelancers, post jobs,
-    and connect with clients across Nepal.
-    Sewalink works as a Nepali alternative to Upwork for students,
-    freelancers, and professionals.
+<section class="seo-intro">
+  <h1>Sewalink – Nepali Freelancing & Online Working Platform</h1>
+  <p>
+    Sewalink is a Nepali freelancing platform created by Bishal Shrestha.
+    Find online work, post jobs, hire freelancers, and connect with clients
+    across Nepal. A Nepal-based alternative to Upwork.
   </p>
 </section>
-        <div class="banner-buttons">
-          <a href="post-job.html" class="btn-white">📋 Post a Job</a>
-          <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
-        </div>
-      </div>
+     <div class="welcome-banner" id="welcomeBanner">
+  <h1 id="welcomeMessage">Welcome to SEWALINK!</h1>
+  <p>Find the perfect freelancer for your project.</p>
+  <a href="games.html" class="earn-link">✨ Earn from here. →</a>
+  <div class="banner-buttons">
+    <a href="post-job.html" class="btn-white">📋 Post a Job</a>
+    <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
+  </div>
+</div>
 
       <!-- POST Indicator -->
       <div class="post-indicator">📬 POST</div>
