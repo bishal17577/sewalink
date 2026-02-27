@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>SEWALINK – Hire Freelancers, Find Work</title>
   <meta name="description" content="Connect with skilled freelancers for your projects. Post jobs, hire experts, and get work done securely.">
@@ -32,924 +32,1320 @@
   }
   </script>
   
-  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230f172a'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%230f172a'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%230f172a'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
- 
   <style>
-   /* ========== SEWALINK PROFESSIONAL DESIGN SYSTEM ==========
-   Author: SEWALINK Team
-   Description: Production-ready CSS for freelancing platform
-   Version: 1.0.0
-   ======================================================== */
-
-/* ---------- CSS Reset & Base ---------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* Subtle background pattern overlay */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>');
-  background-size: 50px 50px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ---------- Main App Wrapper ---------- */
-.app-wrapper {
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  padding: 1rem;
-  padding-bottom: 80px; /* Space for bottom navigation */
-}
-
-/* ---------- Top Header ---------- */
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 100px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  position: relative;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #1a1a2e;
-  text-decoration: none;
-  letter-spacing: -0.5px;
-}
-
-.logo span {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.icon-btn {
-  background: rgba(102, 126, 234, 0.1);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #667eea;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  text-decoration: none;
-}
-
-.icon-btn:hover {
-  background: #667eea;
-  color: white;
-  transform: scale(1.1);
-}
-
-/* ---------- Profile Section ---------- */
-.profile-container {
-  position: relative;
-  display: inline-block;
-}
-
-.profile-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.profile-avatar:hover {
-  transform: scale(1.05);
-}
-
-/* Profile Dropdown Menu */
-.dropdown-menu {
-  position: absolute;
-  top: 55px;
-  right: 0;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  width: 280px;
-  padding: 0.75rem;
-  display: none;
-  z-index: 1000;
-  border: 1px solid rgba(0,0,0,0.05);
-}
-
-.dropdown-menu.show {
-  display: block;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.user-info {
-  padding: 1rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.user-name {
-  font-weight: 700;
-  color: #1a1a2e;
-  font-size: 1rem;
-}
-
-.user-email {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 0.2rem;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  text-decoration: none;
-  color: #4a4a4a;
-  font-size: 0.9rem;
-  border-radius: 12px;
-  transition: all 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background: linear-gradient(135deg, #667eea10, #764ba210);
-  color: #667eea;
-  transform: translateX(5px);
-}
-
-.logout-btn {
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 0.75rem 1rem;
-  color: #ff6b6b;
-  border-top: 1px solid #f0f0f0;
-  margin-top: 0.25rem;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.logout-btn:hover {
-  background: #ff6b6b10;
-  transform: translateX(5px);
-}
-
-/* ---------- Bottom Navigation ---------- */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.7rem 1rem;
-  padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #4a4a4a;
-  font-size: 0.7rem;
-  gap: 0.2rem;
-  padding: 0.3rem 0.5rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.nav-item i {
-  font-size: 1.3rem;
-  transition: all 0.3s ease;
-}
-
-.nav-item:hover {
-  color: #667eea;
-  transform: translateY(-3px);
-}
-
-.nav-item.active {
-  color: #667eea;
-}
-
-.nav-item.active i {
-  transform: scale(1.1);
-}
-
-.nav-item span {
-  font-size: 0.65rem;
-  font-weight: 500;
-}
-
-/* Notification Badge */
-.notification-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: #ff6b6b;
-  color: white;
-  font-size: 0.6rem;
-  font-weight: 600;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
-  border: 2px solid white;
-  box-shadow: 0 2px 5px rgba(255,107,107,0.3);
-}
-
-/* ---------- Main Container ---------- */
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-}
-
-/* ---------- Search Section ---------- */
-.search-section {
-  margin-bottom: 1.5rem;
-}
-
-.search-label {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.9);
-  margin-bottom: 0.5rem;
-  display: block;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 60px;
-  padding: 0.8rem 1.2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.search-box i {
-  color: #667eea;
-  margin-right: 0.8rem;
-  font-size: 1.1rem;
-}
-
-.search-box input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-size: 1rem;
-  color: #1a1a2e;
-}
-
-.search-box input::placeholder {
-  color: #999;
-}
-
-.search-box input:focus {
-  outline: none;
-}
-
-/* ---------- Section Indicators ---------- */
-.job-indicator,
-.post-indicator {
-  color: white;
-  padding: 0.6rem 2rem;
-  border-radius: 40px;
-  display: inline-block;
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.job-indicator {
-  background: linear-gradient(135deg, #f6b93b, #e58e26);
-  box-shadow: 0 10px 20px rgba(229, 142, 38, 0.3);
-}
-
-.post-indicator {
-  background: linear-gradient(135deg, #a55eea, #8854d0);
-  box-shadow: 0 10px 20px rgba(136, 84, 208, 0.3);
-}
-
-/* ---------- Welcome Banner ---------- */
-.welcome-banner {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 30px;
-  margin-bottom: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.welcome-banner.search-active {
-  display: none;
-}
-
-/* Animated background gradient */
-.welcome-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.welcome-banner h1 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #1a1a2e;
-  margin-bottom: 0.3rem;
-  position: relative;
-}
-
-.welcome-banner p {
-  font-size: 1rem;
-  color: #4a4a4a;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.earn-link {
-  background: linear-gradient(135deg, #f6b93b, #e58e26);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-decoration: none;
-  font-weight: 700;
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  font-size: 1.1rem;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.earn-link:hover {
-  transform: translateX(5px);
-}
-
-.banner-buttons {
-  display: flex;
-  gap: 1rem;
-  position: relative;
-}
-
-.btn-white {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 0.7rem 1.5rem;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-}
-
-.btn-white:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(102,126,234,0.4);
-}
-
-.btn-outline-white {
-  background: rgba(255,255,255,0.1);
-  color: #1a1a2e;
-  border: 2px solid #667eea;
-  padding: 0.7rem 1.5rem;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.btn-outline-white:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-3px);
-}
-
-/* ---------- Section Headers ---------- */
-.section-header {
-  margin-bottom: 1rem;
-}
-
-.section-header h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* ---------- Freelancer Cards ---------- */
-.freelancer-grid {
-  display: grid;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.freelancer-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Shine effect on hover */
-.freelancer-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.freelancer-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-
-.freelancer-card:hover::before {
-  left: 100%;
-}
-
-.freelancer-rank {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: linear-gradient(135deg, #f6b93b, #e58e26);
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 5px 10px rgba(229, 142, 38, 0.3);
-}
-
-.freelancer-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid white;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.freelancer-info {
-  flex: 1;
-}
-
-.freelancer-info h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.3rem;
-}
-
-.freelancer-email {
-  font-size: 0.8rem;
-  color: #666;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.freelancer-email i {
-  color: #667eea;
-  font-size: 0.7rem;
-}
-
-.freelancer-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #667eea20, #764ba220);
-  color: #667eea;
-  padding: 0.2rem 1rem;
-  border-radius: 30px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.freelancer-stats {
-  display: flex;
-  gap: 1.2rem;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-value {
-  font-weight: 700;
-  color: #1a1a2e;
-  font-size: 1rem;
-}
-
-.stat-label {
-  color: #666;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* ---------- Job Cards ---------- */
-.job-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Glow effect */
-.job-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(102,126,234,0.05) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.job-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.job-card:hover::before {
-  opacity: 1;
-}
-
-.job-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.8rem;
-}
-
-.job-poster {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #1a1a2e;
-  font-weight: 500;
-}
-
-.job-poster i {
-  color: #667eea;
-}
-
-.job-time {
-  color: #666;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.job-featured {
-  background: linear-gradient(135deg, #f6b93b, #e58e26);
-  color: white;
-  padding: 0.2rem 1rem;
-  border-radius: 30px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  display: inline-block;
-  margin-bottom: 0.8rem;
-  box-shadow: 0 5px 10px rgba(229,142,38,0.2);
-}
-
-.job-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #1a1a2e;
-}
-
-.job-description {
-  font-size: 0.9rem;
-  color: #4a4a4a;
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.job-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.2rem;
-}
-
-.job-detail-item {
-  background: rgba(102,126,234,0.1);
-  padding: 0.4rem 1rem;
-  border-radius: 30px;
-  font-size: 0.75rem;
-  color: #667eea;
-  font-weight: 500;
-}
-
-.job-apply {
-  display: inline-block;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 0.6rem 2rem;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-}
-
-.job-apply:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(102,126,234,0.4);
-}
-
-/* ---------- Loading Skeletons ---------- */
-.skeleton-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.skeleton-line {
-  height: 16px;
-  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-  background-size: 200% 100%;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  animation: shimmer 1.5s infinite;
-}
-
-.skeleton-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ---------- Empty States ---------- */
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 30px;
-  color: #666;
-}
-
-.empty-state i {
-  font-size: 3rem;
-  color: #667eea;
-  margin-bottom: 1rem;
-}
-
-/* ---------- Search Results Title ---------- */
-.search-results-title {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  display: none;
-}
-
-.search-results-title.show {
-  display: block;
-}
-
-/* ---------- Bottom Padding (for scroll) ---------- */
-.bottom-padding {
-  height: 80px;
-}
-
-/* ---------- Desktop Enhancements ---------- */
-@media (min-width: 768px) {
-  .bottom-nav {
-    max-width: 400px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 40px 40px 0 0;
-  }
-}
-    /* ===============================
-   SEO INTRO – FINAL VERSION
-   Clean • Premium • Animated
-   =============================== */
-
-.seo-intro {
-  max-width: 1100px;
-  margin: 24px auto 14px;
-  padding: 18px 28px;
-
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.96),
-    rgba(246, 248, 255, 0.92)
-  );
-
-  border-radius: 18px;
-
-  box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-
-  backdrop-filter: blur(6px);
-
-  /* Animation start state */
-  opacity: 0;
-  transform: translateY(22px);
-  animation: seoFadeUp 0.9s ease-out forwards;
-}
-
-/* Title */
-.seo-intro h1 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #1a1a2e;
-  margin-bottom: 8px;
-  letter-spacing: -0.3px;
-}
-
-/* Accent underline */
-.seo-intro h1::after {
-  content: "";
-  display: block;
-  width: 46px;
-  height: 3px;
-  margin-top: 6px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #5f6cff, #9b8cff);
-}
-
-/* Paragraph */
-.seo-intro p {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: #444;
-  margin: 0;
-}
-
-/* Hover polish */
-.seo-intro:hover {
-  box-shadow:
-    0 16px 38px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(120, 130, 255, 0.25);
-}
-
-/* Animation keyframes */
-@keyframes seoFadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile optimization */
-@media (max-width: 768px) {
-  .seo-intro {
-    margin: 16px 12px 10px;
-    padding: 14px 18px;
-    border-radius: 14px;
-  }
-
-  .seo-intro h1 {
-    font-size: 1.1rem;
-  }
-
-  .seo-intro p {
-    font-size: 0.88rem;
-  }
-}
+    /* ========== GLOBAL STYLES (Both Mobile & Desktop) ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>');
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+    }
+
+    /* ========== MOBILE STYLES (Default, up to 768px) ========== */
+    @media (max-width: 768px) {
+      .app-wrapper {
+        padding: 1rem;
+        padding-bottom: 80px;
+      }
+
+      /* Mobile Header */
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 100px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+
+      .logo span {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .icon-btn {
+        background: rgba(102, 126, 234, 0.1);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        text-decoration: none;
+      }
+
+      /* Mobile Profile Section */
+      .profile-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      .profile-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 3px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .profile-avatar:hover {
+        transform: scale(1.05);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 55px;
+        right: 0;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        width: 280px;
+        padding: 0.75rem;
+        display: none;
+        z-index: 1000;
+        border: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .dropdown-menu.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .user-info {
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .user-name {
+        font-weight: 700;
+        color: #1a1a2e;
+        font-size: 1rem;
+      }
+
+      .user-email {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 0.2rem;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        text-decoration: none;
+        color: #4a4a4a;
+        font-size: 0.9rem;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-item:hover {
+        background: linear-gradient(135deg, #667eea10, #764ba210);
+        color: #667eea;
+        transform: translateX(5px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: none;
+        text-align: left;
+        padding: 0.75rem 1rem;
+        color: #ff6b6b;
+        border-top: 1px solid #f0f0f0;
+        margin-top: 0.25rem;
+        border-radius: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .logout-btn:hover {
+        background: #ff6b6b10;
+        transform: translateX(5px);
+      }
+
+      /* Mobile Bottom Navigation */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.7rem 1rem;
+        padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #4a4a4a;
+        font-size: 0.7rem;
+        gap: 0.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-item i {
+        font-size: 1.3rem;
+        transition: all 0.3s ease;
+      }
+
+      .nav-item.active {
+        color: #667eea;
+      }
+
+      .nav-item.active i {
+        transform: scale(1.1);
+      }
+
+      .nav-item span {
+        font-size: 0.65rem;
+        font-weight: 500;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff6b6b;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 600;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(255,107,107,0.3);
+      }
+
+      /* Mobile Container */
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Mobile Search Section */
+      .search-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .search-label {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 0.5rem;
+        display: block;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 60px;
+        padding: 0.8rem 1.2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-box i {
+        color: #667eea;
+        margin-right: 0.8rem;
+        font-size: 1.1rem;
+      }
+
+      .search-box input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        font-size: 1rem;
+        color: #1a1a2e;
+      }
+
+      .search-box input::placeholder {
+        color: #999;
+      }
+
+      .search-box input:focus {
+        outline: none;
+      }
+
+      /* Mobile Indicators */
+      .job-indicator,
+      .post-indicator {
+        color: white;
+        padding: 0.6rem 2rem;
+        border-radius: 40px;
+        display: inline-block;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .job-indicator {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        box-shadow: 0 10px 20px rgba(229, 142, 38, 0.3);
+      }
+
+      .post-indicator {
+        background: linear-gradient(135deg, #a55eea, #8854d0);
+        box-shadow: 0 10px 20px rgba(136, 84, 208, 0.3);
+      }
+
+      /* Mobile Welcome Banner */
+      .welcome-banner {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 30px;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .welcome-banner.search-active {
+        display: none;
+      }
+
+      .welcome-banner h1 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+        position: relative;
+      }
+
+      .welcome-banner p {
+        font-size: 0.95rem;
+        color: #4a4a4a;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .earn-link {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        position: relative;
+      }
+
+      .banner-buttons {
+        display: flex;
+        gap: 0.8rem;
+        position: relative;
+        flex-wrap: wrap;
+      }
+
+      .btn-white {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+      }
+
+      .btn-outline-white {
+        background: rgba(255,255,255,0.1);
+        color: #1a1a2e;
+        border: 2px solid #667eea;
+        padding: 0.6rem 1.2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      /* Mobile Section Headers */
+      .section-header {
+        margin-bottom: 1rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      /* Mobile Freelancer Cards */
+      .freelancer-grid {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .freelancer-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .freelancer-rank {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        box-shadow: 0 5px 10px rgba(229, 142, 38, 0.3);
+      }
+
+      .freelancer-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+
+      .freelancer-info {
+        flex: 1;
+      }
+
+      .freelancer-info h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 0.2rem;
+      }
+
+      .freelancer-email {
+        font-size: 0.75rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .freelancer-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea20, #764ba220);
+        color: #667eea;
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .freelancer-stats {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .stat-value {
+        font-weight: 700;
+        color: #1a1a2e;
+        font-size: 0.9rem;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Mobile Job Cards */
+      .job-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .job-poster {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #1a1a2e;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .job-time {
+        color: #666;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .job-featured {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        color: white;
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+
+      .job-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+        color: #1a1a2e;
+      }
+
+      .job-description {
+        font-size: 0.85rem;
+        color: #4a4a4a;
+        margin-bottom: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .job-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .job-detail-item {
+        background: rgba(102,126,234,0.1);
+        padding: 0.3rem 0.8rem;
+        border-radius: 30px;
+        font-size: 0.7rem;
+        color: #667eea;
+        font-weight: 500;
+      }
+
+      .job-apply {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+      }
+
+      /* Mobile SEO Intro */
+      .seo-intro {
+        margin: 16px 12px 10px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 255, 0.92));
+        border-radius: 14px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(6px);
+      }
+
+      .seo-intro h1 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+      }
+
+      .seo-intro p {
+        font-size: 0.88rem;
+        line-height: 1.6;
+        color: #444;
+        margin: 0;
+      }
+
+      /* Mobile Search Results */
+      .search-results-title {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .search-results-title.show {
+        display: block;
+      }
+
+      /* Mobile Loading Skeletons */
+      .skeleton-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .skeleton-line {
+        height: 16px;
+        background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+        background-size: 200% 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        animation: shimmer 1.5s infinite;
+      }
+
+      .skeleton-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      /* Mobile Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 30px;
+        color: #666;
+      }
+
+      .empty-state i {
+        font-size: 2.5rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+      }
+
+      /* Mobile Bottom Padding */
+      .bottom-padding {
+        height: 70px;
+      }
+
+      /* Hide Desktop Elements */
+      .desktop-nav {
+        display: none;
+      }
+      .desktop-footer {
+        display: none;
+      }
+    }
+
+    /* ========== DESKTOP STYLES (min-width: 769px) ========== */
+    @media (min-width: 769px) {
+      .app-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Desktop Header */
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: white;
+        border-radius: 50px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+
+      .logo span {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Desktop Navigation */
+      .desktop-nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .desktop-nav a {
+        color: #4a5568;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .desktop-nav a:hover {
+        color: #667eea;
+      }
+
+      .desktop-nav .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+      }
+
+      .desktop-nav .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .icon-btn {
+        background: rgba(102, 126, 234, 0.1);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+        font-size: 1.3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .icon-btn:hover {
+        background: #667eea;
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* Desktop Profile */
+      .profile-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      .profile-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 3px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        width: 280px;
+        padding: 0.75rem;
+        display: none;
+        z-index: 1000;
+      }
+
+      .dropdown-menu.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      /* Desktop Search */
+      .search-section {
+        margin-bottom: 2rem;
+      }
+
+      .search-label {
+        font-size: 1rem;
+        color: white;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-weight: 500;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 60px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+      }
+
+      .search-box i {
+        color: #667eea;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+      }
+
+      .search-box input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        font-size: 1rem;
+        color: #1a1a2e;
+      }
+
+      .search-box input:focus {
+        outline: none;
+      }
+
+      /* Desktop Layout */
+      .desktop-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .left-column {
+        grid-column: 1;
+      }
+
+      .right-column {
+        grid-column: 2;
+      }
+
+      /* Desktop Welcome Banner */
+      .welcome-banner {
+        background: white;
+        border-radius: 30px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .welcome-banner h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.5rem;
+      }
+
+      .welcome-banner p {
+        font-size: 1.1rem;
+        color: #4a4a4a;
+        margin-bottom: 1.5rem;
+      }
+
+      .earn-link {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+      }
+
+      .banner-buttons {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn-white {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+      }
+
+      .btn-white:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(102,126,234,0.4);
+      }
+
+      .btn-outline-white {
+        background: transparent;
+        color: #1a1a2e;
+        border: 2px solid #667eea;
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+      }
+
+      .btn-outline-white:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      /* Desktop Indicators */
+      .job-indicator,
+      .post-indicator {
+        display: inline-block;
+        padding: 0.5rem 2rem;
+        border-radius: 40px;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: white;
+      }
+
+      .job-indicator {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+      }
+
+      .post-indicator {
+        background: linear-gradient(135deg, #a55eea, #8854d0);
+      }
+
+      /* Desktop Section Headers */
+      .section-header h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      /* Desktop Freelancer Cards */
+      .freelancer-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .freelancer-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      }
+
+      .freelancer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+
+      .freelancer-rank {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .freelancer-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+
+      .freelancer-info h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+      }
+
+      .freelancer-email {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .freelancer-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea20, #764ba220);
+        color: #667eea;
+        padding: 0.3rem 1.2rem;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+      }
+
+      .freelancer-stats {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .stat-value {
+        font-weight: 700;
+        color: #1a1a2e;
+        font-size: 1.1rem;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Desktop Job Cards */
+      .job-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      }
+
+      .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .job-poster {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #1a1a2e;
+        font-weight: 500;
+      }
+
+      .job-time {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .job-featured {
+        background: linear-gradient(135deg, #f6b93b, #e58e26);
+        color: white;
+        padding: 0.3rem 1.2rem;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      .job-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #1a1a2e;
+      }
+
+      .job-description {
+        font-size: 1rem;
+        color: #4a4a4a;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .job-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .job-detail-item {
+        background: rgba(102,126,234,0.1);
+        padding: 0.5rem 1.2rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        color: #667eea;
+        font-weight: 500;
+      }
+
+      .job-apply {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 40px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .job-apply:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(102,126,234,0.4);
+      }
+
+      /* Desktop SEO Intro */
+      .seo-intro {
+        max-width: 100%;
+        margin: 24px 0 20px;
+        padding: 24px 32px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      }
+
+      .seo-intro h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 10px;
+      }
+
+      .seo-intro p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #4a4a4a;
+        max-width: 800px;
+      }
+
+      /* Desktop Footer */
+      .desktop-footer {
+        display: block;
+        background: white;
+        border-radius: 30px;
+        padding: 3rem;
+        margin-top: 3rem;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+      }
+
+      .footer-title {
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-links a {
+        color: #718096;
+        text-decoration: none;
+        transition: color 0.3s;
+        font-size: 0.95rem;
+      }
+
+      .footer-links a:hover {
+        color: #667eea;
+      }
+
+      .copyright {
+        text-align: center;
+        color: #718096;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+        font-size: 0.9rem;
+      }
+
+      /* Hide Mobile Elements */
+      .bottom-nav {
+        display: none;
+      }
+      .bottom-padding {
+        display: none;
+      }
+    }
+
+    /* Shared Animations */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
   </style>
 </head>
 <body>
   <div class="app-wrapper">
-    <!-- Top Header -->
+    <!-- Top Header (Visible on both mobile & desktop) -->
     <header class="app-header">
       <a href="index.html" class="logo">SEWA<span>Link</span></a>
+      
+      <!-- Desktop Navigation (visible only on desktop) -->
+      <nav class="desktop-nav">
+        <a href="jobs.html">Find Work</a>
+        <a href="freelancers.html">Hire Freelancers</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="post-job.html" class="btn-primary">Post a Job</a>
+      </nav>
+
       <div class="header-actions">
         <a href="services.html" class="icon-btn">
           <i class="fas fa-cogs"></i>
@@ -963,7 +1359,7 @@ body::before {
 
     <!-- Main Container -->
     <div class="container">
-      <!-- Search Section -->
+      <!-- Search Section (Visible on both) -->
       <div class="search-section">
         <div class="search-label">🔍 search freelancer</div>
         <div class="search-box">
@@ -972,55 +1368,112 @@ body::before {
         </div>
       </div>
 
-      <!-- JOB Indicator -->
-      <div class="job-indicator">💼 JOB</div>
-<section class="seo-intro">
-  <h1>Sewalink – Nepali Freelancing & Online Working Platform</h1>
-  <p>
-    Sewalink is a Nepali freelancing platform created by Bishal Shrestha.
-    Find online work, post jobs, hire freelancers, and connect with clients
-    across Nepal. A Nepal-based alternative to Upwork.
-  </p>
-</section>
-     <div class="welcome-banner" id="welcomeBanner">
-  <h1 id="welcomeMessage">Welcome to SEWALINK!</h1>
-  <p>Find the perfect freelancer for your project.</p>
-  <a href="games.html" class="earn-link">✨ Earn from here. →</a>
-  <div class="banner-buttons">
-    <a href="post-job.html" class="btn-white">📋 Post a Job</a>
-    <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
-  </div>
-</div>
+      <!-- Desktop Grid Layout -->
+      <div class="desktop-grid">
+        <!-- Left Column -->
+        <div class="left-column">
+          <!-- JOB Indicator -->
+          <div class="job-indicator">💼 JOB</div>
 
-      <!-- POST Indicator -->
-      <div class="post-indicator">📬 POST</div>
+          <!-- SEO Intro (Desktop version) -->
+          <section class="seo-intro">
+            <h1>Sewalink – Nepali Freelancing & Online Working Platform</h1>
+            <p>
+              Sewalink is a Nepali freelancing platform created by Bishal Shrestha.
+              Find online work, post jobs, hire freelancers, and connect with clients
+              across Nepal. A Nepal-based alternative to Upwork.
+            </p>
+          </section>
 
-      <!-- Search Results Title -->
-      <div class="search-results-title" id="searchResultsTitle">
-        🔍 Search Results
+          <!-- Welcome Banner -->
+          <div class="welcome-banner" id="welcomeBanner">
+            <h1 id="welcomeMessage">Welcome to SEWALINK!</h1>
+            <p>Find the perfect freelancer for your project.</p>
+            <a href="games.html" class="earn-link">✨ Earn from here. →</a>
+            <div class="banner-buttons">
+              <a href="post-job.html" class="btn-white">📋 Post a Job</a>
+              <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
+            </div>
+          </div>
+
+          <!-- Search Results Title -->
+          <div class="search-results-title" id="searchResultsTitle">
+            🔍 Search Results
+          </div>
+
+          <!-- Search available Job -->
+          <div class="section-header" id="jobsHeader">
+            <h2>🔎 Search available Job by name, price</h2>
+          </div>
+
+          <!-- Jobs Container -->
+          <div id="jobsContainer"></div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+          <!-- POST Indicator -->
+          <div class="post-indicator">📬 POST</div>
+
+          <!-- Top freelancer -->
+          <div class="section-header" id="freelancersHeader">
+            <h2>🏆 Top 3 Freelancers by Earnings</h2>
+          </div>
+
+          <!-- Freelancers Container -->
+          <div id="freelancersContainer" class="freelancer-grid"></div>
+        </div>
       </div>
-
-      <!-- Search available Job -->
-      <div class="section-header" id="jobsHeader">
-        <h2>🔎 Search available Job by name, price</h2>
-      </div>
-
-      <!-- Jobs Container -->
-      <div id="jobsContainer"></div>
-
-      <!-- Top freelancer -->
-      <div class="section-header" id="freelancersHeader">
-        <h2>🏆 Top 3 Freelancers by Earnings</h2>
-      </div>
-
-      <!-- Freelancers Container -->
-      <div id="freelancersContainer" class="freelancer-grid"></div>
     </div>
 
-    <!-- Bottom Padding -->
+    <!-- Desktop Footer (visible only on desktop) -->
+    <footer class="desktop-footer">
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-title">For Freelancers</h4>
+          <ul class="footer-links">
+            <li><a href="find-work.html">Find Work</a></li>
+            <li><a href="create-profile.html">Create Profile</a></li>
+            <li><a href="freelancer-guide.html">Freelancer Guide</a></li>
+            <li><a href="success-stories.html">Success Stories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">For Clients</h4>
+          <ul class="footer-links">
+            <li><a href="post-job.html">Post a Job</a></li>
+            <li><a href="hire-freelancers.html">Hire Freelancers</a></li>
+            <li><a href="client-guide.html">Client Guide</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Connect With Us</h4>
+          <ul class="footer-links">
+            <li><a href="https://facebook.com/sewalink" target="_blank">Facebook</a></li>
+            <li><a href="https://linkedin.com/company/sewalink" target="_blank">LinkedIn</a></li>
+            <li><a href="mailto:support@sewalink.com">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 SewaLink. All rights reserved. Nepal's trusted freelancing platform.</p>
+      </div>
+    </footer>
+
+    <!-- Bottom Padding (for mobile) -->
     <div class="bottom-padding"></div>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation (visible only on mobile) -->
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item active">
         <i class="fas fa-home"></i>
