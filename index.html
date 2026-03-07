@@ -2,2080 +2,1760 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>SEWALINK – Hire Freelancers, Find Work</title>
-  <meta name="description" content="Connect with skilled freelancers for your projects. Post jobs, hire experts, and get work done securely.">
-  
-  <!-- PWA / App-like settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0f172a">
-  <meta name="google-adsense-account" content="ca-pub-4613290012533303">
-  <!-- Social & Google Preview -->
-<meta property="og:title" content="Sewalink – Hire Freelancers in Nepal">
-<meta property="og:description" content="Find online work, hire freelancers, and post jobs on Sewalink – a Nepali freelancing platform by Bishal Shrestha.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://bishalshrestha17.com.np">
-<meta property="og:image" content="https://bishalshrestha17.com.np/logo.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Sewalink",
-    "url": "https://bishalshrestha17.com.np",
-    "logo": "https://bishalshrestha17.com.np/sewalink.png",
-    "sameAs": [
-      "https://www.facebook.com/sewalink",
-      "https://www.linkedin.com/company/sewalink"
-    ]
-  }
-  </script>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Develop Nepal - Report Issues, Build Tomorrow</title>
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
   <style>
-    /* ========== GLOBAL STYLES (Both Mobile & Desktop) ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      -webkit-tap-highlight-color: transparent;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --primary: #0b4f3a;
+      --primary-dark: #063f2e;
+      --primary-light: #1e7e5c;
+      --primary-soft: #e6f7f0;
+      --accent: #f59e0b;
+      --gray-bg: #f5f7fa;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-light: #475569;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --success: #10b981;
+      --success-soft: #d1fae5;
+      --warning: #f59e0b;
+      --warning-soft: #fef3c7;
+      --danger: #ef4444;
+      --danger-soft: #fee2e2;
+      --info: #3b82f6;
+      --info-soft: #dbeafe;
     }
 
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gray-bg);
+      color: var(--text-dark);
+      line-height: 1.5;
       min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    body::before {
-      content: '';
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Navigation */
+    .navbar {
+      background: var(--card-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.25rem 0.25rem 1rem;
+      background: var(--gray-bg);
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .user-profile img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-light);
+    }
+
+    .user-profile span {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      background: var(--card-bg);
+      min-width: 180px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-dark);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.85rem;
+    }
+
+    .dropdown-content a i {
+      width: 20px;
+      color: var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: block;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      background: var(--card-bg);
+      padding: 1rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      color: var(--text-dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .mobile-menu a i {
+      width: 24px;
+      color: var(--primary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      color: white;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--primary);
+    }
+
+    .btn-outline-white {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline-white:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    /* Features Grid - 10 Working Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-color: var(--primary-light);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-soft);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: var(--primary);
+      font-size: 1.8rem;
+    }
+
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .feature-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .feature-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: var(--border-light);
+      height: 8px;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    /* Issues Grid */
+    .issues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .issue-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .issue-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .issue-image {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .issue-status {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .status-active { background: var(--warning); color: white; }
+    .status-progress { background: var(--info); color: white; }
+    .status-resolved { background: var(--success); color: white; }
+    .status-pending { background: var(--danger); color: white; }
+
+    .issue-content {
+      padding: 1rem;
+    }
+
+    .issue-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .issue-location {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .issue-location i {
+      color: var(--primary);
+    }
+
+    .issue-description {
+      color: var(--text-light);
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+    }
+
+    .view-btn { background: var(--info-soft); color: var(--info); }
+    .edit-btn { background: var(--warning-soft); color: var(--warning); }
+    .delete-btn { background: var(--danger-soft); color: var(--danger); }
+    .accept-btn { background: var(--success-soft); color: var(--success); }
+    .reject-btn { background: var(--danger-soft); color: var(--danger); }
+    .comment-btn { background: var(--primary-soft); color: var(--primary); }
+    .share-btn { background: #e8f0fe; color: #3b5998; }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .vote-btn i { color: var(--danger); }
+    .vote-btn.voted { background: var(--danger); color: white; }
+    .vote-btn.voted i { color: white; }
+
+    /* Leader Badge */
+    .leader-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--success-soft);
+      color: var(--success);
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* Issue Meta */
+    .issue-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .issue-meta i { color: var(--primary); margin-right: 0.2rem; }
+
+    /* Section Title */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i { color: var(--primary); }
+
+    /* Category Filter */
+    .category-filter {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1.2rem;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--primary);
+      z-index: 2000;
+      max-width: 300px;
+      display: none;
+    }
+
+    .notification.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .notification-title {
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .notification-message {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .close-notification {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    /* Progress Tracker */
+    .tracker-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .tracker-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .step-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .step-icon.completed {
+      background: var(--success);
+      color: white;
+    }
+
+    .step-icon.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: white;
+      padding: 3rem 1.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-section h3 {
+      color: white;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section a:hover { color: white; }
+    .footer-section a i { width: 20px; margin-right: 0.5rem; color: var(--primary-light); }
+
+    .social-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #1e293b;
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 0.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>');
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
     }
 
-    .app-wrapper {
-      position: relative;
-      z-index: 10;
-      min-height: 100vh;
+    .modal.active {
+      display: flex;
     }
 
-    /* ========== MOBILE STYLES (Default, up to 768px) ========== */
-    @media (max-width: 768px) {
-      .app-wrapper {
-        padding: 1rem;
-        padding-bottom: 80px;
-      }
-
-      /* Mobile Header */
-      .app-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.8rem 1rem;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 100px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        position: relative;
-        z-index: 100;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        text-decoration: none;
-        letter-spacing: -0.5px;
-      }
-
-      .logo span {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-      }
-
-      .icon-btn {
-        background: rgba(102, 126, 234, 0.1);
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #667eea;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        text-decoration: none;
-      }
-
-      /* Mobile Profile Section */
-      .profile-container {
-        position: relative;
-        display: inline-block;
-      }
-
-      .profile-avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 3px solid white;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      }
-
-      .profile-avatar:hover {
-        transform: scale(1.05);
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 55px;
-        right: 0;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        width: 280px;
-        padding: 0.75rem;
-        display: none;
-        z-index: 1000;
-        border: 1px solid rgba(0,0,0,0.05);
-      }
-
-      .dropdown-menu.show {
-        display: block;
-        animation: slideDown 0.3s ease;
-      }
-
-      @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .user-info {
-        padding: 1rem;
-        border-bottom: 1px solid #f0f0f0;
-      }
-
-      .user-name {
-        font-weight: 700;
-        color: #1a1a2e;
-        font-size: 1rem;
-      }
-
-      .user-email {
-        font-size: 0.8rem;
-        color: #666;
-        margin-top: 0.2rem;
-      }
-
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        text-decoration: none;
-        color: #4a4a4a;
-        font-size: 0.9rem;
-        border-radius: 12px;
-        transition: all 0.2s ease;
-      }
-
-      .dropdown-item:hover {
-        background: linear-gradient(135deg, #667eea10, #764ba210);
-        color: #667eea;
-        transform: translateX(5px);
-      }
-
-      .logout-btn {
-        width: 100%;
-        background: none;
-        border: none;
-        text-align: left;
-        padding: 0.75rem 1rem;
-        color: #ff6b6b;
-        border-top: 1px solid #f0f0f0;
-        margin-top: 0.25rem;
-        border-radius: 12px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-      }
-
-      .logout-btn:hover {
-        background: #ff6b6b10;
-        transform: translateX(5px);
-      }
-
-      /* Mobile Bottom Navigation */
-      .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 0.7rem 1rem;
-        padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-      }
-
-      .nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: #4a4a4a;
-        font-size: 0.7rem;
-        gap: 0.2rem;
-        padding: 0.3rem 0.5rem;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        position: relative;
-      }
-
-      .nav-item i {
-        font-size: 1.3rem;
-        transition: all 0.3s ease;
-      }
-
-      .nav-item.active {
-        color: #667eea;
-      }
-
-      .nav-item.active i {
-        transform: scale(1.1);
-      }
-
-      .nav-item span {
-        font-size: 0.65rem;
-        font-weight: 500;
-      }
-
-      .notification-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: #ff6b6b;
-        color: white;
-        font-size: 0.6rem;
-        font-weight: 600;
-        min-width: 18px;
-        height: 18px;
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 4px;
-        border: 2px solid white;
-        box-shadow: 0 2px 5px rgba(255,107,107,0.3);
-      }
-
-      /* Mobile Container */
-      .container {
-        max-width: 100%;
-        margin: 0 auto;
-        position: relative;
-        z-index: 10;
-      }
-
-      /* Mobile Search Section */
-      .search-section {
-        margin-bottom: 1.5rem;
-      }
-
-      .search-label {
-        font-size: 0.9rem;
-        color: rgba(255,255,255,0.9);
-        margin-bottom: 0.5rem;
-        display: block;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-      }
-
-      .search-box {
-        display: flex;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 60px;
-        padding: 0.8rem 1.2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .search-box i {
-        color: #667eea;
-        margin-right: 0.8rem;
-        font-size: 1.1rem;
-      }
-
-      .search-box input {
-        width: 100%;
-        border: none;
-        background: transparent;
-        font-size: 1rem;
-        color: #1a1a2e;
-      }
-
-      .search-box input::placeholder {
-        color: #999;
-      }
-
-      .search-box input:focus {
-        outline: none;
-      }
-
-      /* Mobile Indicators */
-      .job-indicator,
-      .post-indicator {
-        color: white;
-        padding: 0.6rem 2rem;
-        border-radius: 40px;
-        display: inline-block;
-        font-weight: 700;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .job-indicator {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        box-shadow: 0 10px 20px rgba(229, 142, 38, 0.3);
-      }
-
-      .post-indicator {
-        background: linear-gradient(135deg, #a55eea, #8854d0);
-        box-shadow: 0 10px 20px rgba(136, 84, 208, 0.3);
-      }
-
-      /* Mobile Welcome Banner */
-      .welcome-banner {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 1.5rem;
-        border-radius: 30px;
-        margin-bottom: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .welcome-banner.search-active {
-        display: none;
-      }
-
-      .welcome-banner h1 {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin-bottom: 0.3rem;
-        position: relative;
-      }
-
-      .welcome-banner p {
-        font-size: 0.95rem;
-        color: #4a4a4a;
-        margin-bottom: 1rem;
-        position: relative;
-      }
-
-      .earn-link {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-decoration: none;
-        font-weight: 700;
-        display: inline-block;
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        position: relative;
-      }
-
-      .banner-buttons {
-        display: flex;
-        gap: 0.8rem;
-        position: relative;
-        flex-wrap: wrap;
-      }
-
-      .btn-white {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border-radius: 40px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-      }
-
-      .btn-outline-white {
-        background: rgba(255,255,255,0.1);
-        color: #1a1a2e;
-        border: 2px solid #667eea;
-        padding: 0.6rem 1.2rem;
-        border-radius: 40px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-      }
-
-      /* Mobile Section Headers */
-      .section-header {
-        margin-bottom: 1rem;
-      }
-
-      .section-header h2 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: white;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      /* Mobile Freelancer Cards */
-      .freelancer-grid {
-        display: grid;
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-
-      .freelancer-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .freelancer-rank {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 0.9rem;
-        box-shadow: 0 5px 10px rgba(229, 142, 38, 0.3);
-      }
-
-      .freelancer-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid white;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      }
-
-      .freelancer-info {
-        flex: 1;
-      }
-
-      .freelancer-info h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-bottom: 0.2rem;
-      }
-
-      .freelancer-email {
-        font-size: 0.75rem;
-        color: #666;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-      }
-
-      .freelancer-badge {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea20, #764ba220);
-        color: #667eea;
-        padding: 0.2rem 0.8rem;
-        border-radius: 30px;
-        font-size: 0.65rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .freelancer-stats {
-        display: flex;
-        gap: 1rem;
-      }
-
-      .stat-value {
-        font-weight: 700;
-        color: #1a1a2e;
-        font-size: 0.9rem;
-      }
-
-      .stat-label {
-        color: #666;
-        font-size: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      /* Mobile Job Cards */
-      .job-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 1.2rem;
-        margin-bottom: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .job-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .job-poster {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #1a1a2e;
-        font-weight: 500;
-        font-size: 0.9rem;
-      }
-
-      .job-time {
-        color: #666;
-        font-size: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-      }
-
-      .job-featured {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        color: white;
-        padding: 0.2rem 0.8rem;
-        border-radius: 30px;
-        font-size: 0.65rem;
-        font-weight: 600;
-        display: inline-block;
-        margin-bottom: 0.5rem;
-      }
-
-      .job-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 0.3rem;
-        color: #1a1a2e;
-      }
-
-      .job-description {
-        font-size: 0.85rem;
-        color: #4a4a4a;
-        margin-bottom: 0.8rem;
-        line-height: 1.5;
-      }
-
-      .job-details {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .job-detail-item {
-        background: rgba(102,126,234,0.1);
-        padding: 0.3rem 0.8rem;
-        border-radius: 30px;
-        font-size: 0.7rem;
-        color: #667eea;
-        font-weight: 500;
-      }
-
-      .job-apply {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.5rem 1.5rem;
-        border-radius: 40px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-      }
-
-      /* Mobile SEO Intro */
-      .seo-intro {
-        margin: 16px 12px 10px;
-        padding: 14px 18px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 255, 0.92));
-        border-radius: 14px;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(6px);
-      }
-
-      .seo-intro h1 {
-        font-size: 1.1rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin-bottom: 8px;
-      }
-
-      .seo-intro p {
-        font-size: 0.88rem;
-        line-height: 1.6;
-        color: #444;
-        margin: 0;
-      }
-
-      /* Mobile Search Results */
-      .search-results-title {
-        color: white;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        display: none;
-      }
-
-      .search-results-title.show {
-        display: block;
-      }
-
-      /* Mobile Loading Skeletons */
-      .skeleton-card {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 1.2rem;
-        margin-bottom: 1rem;
-      }
-
-      .skeleton-line {
-        height: 16px;
-        background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-        background-size: 200% 100%;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        animation: shimmer 1.5s infinite;
-      }
-
-      .skeleton-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-      }
-
-      @keyframes shimmer {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-
-      /* Mobile Empty State */
-      .empty-state {
-        text-align: center;
-        padding: 2rem;
-        background: rgba(255,255,255,0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 30px;
-        color: #666;
-      }
-
-      .empty-state i {
-        font-size: 2.5rem;
-        color: #667eea;
-        margin-bottom: 1rem;
-      }
-
-      /* Mobile Bottom Padding */
-      .bottom-padding {
-        height: 70px;
-      }
-
-      /* Hide Desktop Elements */
-      .desktop-nav {
-        display: none;
-      }
-      .desktop-footer {
-        display: none;
-      }
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
     }
 
-    /* ========== DESKTOP STYLES (min-width: 769px) ========== */
-    @media (min-width: 769px) {
-      .app-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-
-      /* Desktop Header */
-      .app-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-        background: white;
-        border-radius: 50px;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .logo {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        text-decoration: none;
-        letter-spacing: -0.5px;
-      }
-
-      .logo span {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      /* Desktop Navigation */
-      .desktop-nav {
-        display: flex;
-        gap: 2rem;
-        align-items: center;
-      }
-
-      .desktop-nav a {
-        color: #4a5568;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s;
-      }
-
-      .desktop-nav a:hover {
-        color: #667eea;
-      }
-
-      .desktop-nav .btn-primary {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.5rem 1.5rem;
-        border-radius: 30px;
-        font-weight: 600;
-      }
-
-      .desktop-nav .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-      }
-
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .icon-btn {
-        background: rgba(102, 126, 234, 0.1);
-        border: none;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #667eea;
-        font-size: 1.3rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-
-      .icon-btn:hover {
-        background: #667eea;
-        color: white;
-        transform: scale(1.1);
-      }
-
-      /* Desktop Profile */
-      .profile-container {
-        position: relative;
-        display: inline-block;
-      }
-
-      .profile-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 3px solid white;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        object-fit: cover;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        width: 280px;
-        padding: 0.75rem;
-        display: none;
-        z-index: 1000;
-      }
-
-      .dropdown-menu.show {
-        display: block;
-        animation: slideDown 0.3s ease;
-      }
-
-      /* Desktop Search */
-      .search-section {
-        margin-bottom: 2rem;
-      }
-
-      .search-label {
-        font-size: 1rem;
-        color: white;
-        margin-bottom: 0.5rem;
-        display: block;
-        font-weight: 500;
-      }
-
-      .search-box {
-        display: flex;
-        align-items: center;
-        background: white;
-        border-radius: 60px;
-        padding: 1rem 1.5rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-      }
-
-      .search-box i {
-        color: #667eea;
-        margin-right: 1rem;
-        font-size: 1.2rem;
-      }
-
-      .search-box input {
-        width: 100%;
-        border: none;
-        background: transparent;
-        font-size: 1rem;
-        color: #1a1a2e;
-      }
-
-      .search-box input:focus {
-        outline: none;
-      }
-
-      /* Desktop Layout */
-      .desktop-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        margin-top: 2rem;
-      }
-
-      .left-column {
-        grid-column: 1;
-      }
-
-      .right-column {
-        grid-column: 2;
-      }
-
-      /* Desktop Welcome Banner */
-      .welcome-banner {
-        background: white;
-        border-radius: 30px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      }
-
-      .welcome-banner h1 {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin-bottom: 0.5rem;
-      }
-
-      .welcome-banner p {
-        font-size: 1.1rem;
-        color: #4a4a4a;
-        margin-bottom: 1.5rem;
-      }
-
-      .earn-link {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        font-size: 1.1rem;
-        text-decoration: none;
-        display: inline-block;
-        margin-bottom: 1.5rem;
-      }
-
-      .banner-buttons {
-        display: flex;
-        gap: 1rem;
-      }
-
-      .btn-white {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.8rem 2rem;
-        border-radius: 40px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s;
-        display: inline-block;
-      }
-
-      .btn-white:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(102,126,234,0.4);
-      }
-
-      .btn-outline-white {
-        background: transparent;
-        color: #1a1a2e;
-        border: 2px solid #667eea;
-        padding: 0.8rem 2rem;
-        border-radius: 40px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s;
-        display: inline-block;
-      }
-
-      .btn-outline-white:hover {
-        background: #667eea;
-        color: white;
-        transform: translateY(-3px);
-      }
-
-      /* Desktop Indicators */
-      .job-indicator,
-      .post-indicator {
-        display: inline-block;
-        padding: 0.5rem 2rem;
-        border-radius: 40px;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: white;
-      }
-
-      .job-indicator {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-      }
-
-      .post-indicator {
-        background: linear-gradient(135deg, #a55eea, #8854d0);
-      }
-
-      /* Desktop Section Headers */
-      .section-header h2 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 1rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      /* Desktop Freelancer Cards */
-      .freelancer-grid {
-        display: grid;
-        gap: 1rem;
-      }
-
-      .freelancer-card {
-        background: white;
-        border-radius: 20px;
-        padding: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      }
-
-      .freelancer-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      }
-
-      .freelancer-rank {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        color: white;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 1rem;
-      }
-
-      .freelancer-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid white;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      }
-
-      .freelancer-info h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-bottom: 0.3rem;
-      }
-
-      .freelancer-email {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-      }
-
-      .freelancer-badge {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea20, #764ba220);
-        color: #667eea;
-        padding: 0.3rem 1.2rem;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-bottom: 0.8rem;
-      }
-
-      .freelancer-stats {
-        display: flex;
-        gap: 1.5rem;
-      }
-
-      .stat-value {
-        font-weight: 700;
-        color: #1a1a2e;
-        font-size: 1.1rem;
-      }
-
-      .stat-label {
-        color: #666;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      /* Desktop Job Cards */
-      .job-card {
-        background: white;
-        border-radius: 20px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      }
-
-      .job-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      }
-
-      .job-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-
-      .job-poster {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #1a1a2e;
-        font-weight: 500;
-      }
-
-      .job-time {
-        color: #666;
-        font-size: 0.9rem;
-      }
-
-      .job-featured {
-        background: linear-gradient(135deg, #f6b93b, #e58e26);
-        color: white;
-        padding: 0.3rem 1.2rem;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        display: inline-block;
-        margin-bottom: 1rem;
-      }
-
-      .job-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        color: #1a1a2e;
-      }
-
-      .job-description {
-        font-size: 1rem;
-        color: #4a4a4a;
-        margin-bottom: 1rem;
-        line-height: 1.6;
-      }
-
-      .job-details {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .job-detail-item {
-        background: rgba(102,126,234,0.1);
-        padding: 0.5rem 1.2rem;
-        border-radius: 30px;
-        font-size: 0.85rem;
-        color: #667eea;
-        font-weight: 500;
-      }
-
-      .job-apply {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.8rem 2.5rem;
-        border-radius: 40px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-
-      .job-apply:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(102,126,234,0.4);
-      }
-
-      /* Desktop SEO Intro */
-      .seo-intro {
-        max-width: 100%;
-        margin: 24px 0 20px;
-        padding: 24px 32px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-      }
-
-      .seo-intro h1 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin-bottom: 10px;
-      }
-
-      .seo-intro p {
-        font-size: 1rem;
-        line-height: 1.7;
-        color: #4a4a4a;
-        max-width: 800px;
-      }
-
-      /* Desktop Footer */
-      .desktop-footer {
-        display: block;
-        background: white;
-        border-radius: 30px;
-        padding: 3rem;
-        margin-top: 3rem;
-      }
-
-      .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2rem;
-      }
-
-      .footer-title {
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
-      }
-
-      .footer-links {
-        list-style: none;
-      }
-
-      .footer-links li {
-        margin-bottom: 0.5rem;
-      }
-
-      .footer-links a {
-        color: #718096;
-        text-decoration: none;
-        transition: color 0.3s;
-        font-size: 0.95rem;
-      }
-
-      .footer-links a:hover {
-        color: #667eea;
-      }
-
-      .copyright {
-        text-align: center;
-        color: #718096;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid #e2e8f0;
-        font-size: 0.9rem;
-      }
-
-      /* Hide Mobile Elements */
-      .bottom-nav {
-        display: none;
-      }
-      .bottom-padding {
-        display: none;
-      }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
-    /* Shared Animations */
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .modal-header h3 {
+      font-size: 1.3rem;
     }
 
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+    .close-modal {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .comment-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .comment-author {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .comment-text {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .comment-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .comment-input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .comment-submit {
+      margin-top: 0.5rem;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="app-wrapper">
-    <!-- Top Header (Visible on both mobile & desktop) -->
-    <header class="app-header">
-      <a href="index.html" class="logo">SEWA<span>Link</span></a>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        Develop Nepal
+      </a>
       
-      <!-- Desktop Navigation (visible only on desktop) -->
-      <nav class="desktop-nav">
-        <a href="jobs.html">Find Work</a>
-        <a href="freelancers.html">Hire Freelancers</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="post-job.html" class="btn-primary">Post a Job</a>
-      </nav>
-
-      <div class="header-actions">
-        <a href="services.html" class="icon-btn">
-          <i class="fas fa-cogs"></i>
-        </a>
-        <a href="settings.html" class="icon-btn">
-          <i class="fas fa-cog"></i>
-        </a>
-        <div id="authUI"></div>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="view.html">Issues</a>
+        <a href="upload.html">Report</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div id="authSection"></div>
       </div>
-    </header>
 
-    <!-- Main Container -->
-    <div class="container">
-      <!-- Search Section (Visible on both) -->
-      <div class="search-section">
-        <div class="search-label">🔍 search freelancer</div>
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search by name, skills, location...">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="view.html"><i class="fas fa-list"></i> Issues</a>
+      <a href="upload.html"><i class="fas fa-plus-circle"></i> Report</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      <div id="mobileAuthSection"></div>
+    </div>
+  </nav>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+    <span class="close-notification" onclick="hideNotification()">&times;</span>
+    <div class="notification-title" id="notificationTitle">Welcome!</div>
+    <div class="notification-message" id="notificationMessage">Develop Nepal - Report Issues, Build Tomorrow</div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Report Today, Build Tomorrow.</h1>
+      <p>Share local issues directly with political leaders for a better Nepal!</p>
+      <div class="hero-buttons">
+        <a href="upload.html" class="btn btn-white">
+          <i class="fas fa-plus-circle"></i> Report an Issue
+        </a>
+        <a href="view.html" class="btn btn-outline-white">
+          <i class="fas fa-list"></i> View All Issues
+        </a>
+      </div>
+    </section>
+
+    <!-- 10 Working Features Section -->
+    <div class="features-grid" id="featuresGrid">
+      <div class="feature-card" onclick="window.location.href='upload.html'">
+        <div class="feature-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <div class="feature-title">Report Issue</div>
+        <div class="feature-value" id="totalIssues">0</div>
+        <div class="feature-desc">Total issues reported</div>
+      </div>
+
+      <div class="feature-card" onclick="filterByStatus('in-progress')">
+        <div class="feature-icon">
+          <i class="fas fa-spinner"></i>
+        </div>
+        <div class="feature-title">In Progress</div>
+        <div class="feature-value" id="inProgressCount">0</div>
+        <div class="feature-desc">Issues being addressed</div>
+      </div>
+
+      <div class="feature-card" onclick="filterByStatus('resolved')">
+        <div class="feature-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="feature-title">Resolved</div>
+        <div class="feature-value" id="resolvedCount">0</div>
+        <div class="feature-desc">Successfully completed</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="resolutionRate" style="width: 0%"></div>
         </div>
       </div>
 
-      <!-- Desktop Grid Layout -->
-      <div class="desktop-grid">
-        <!-- Left Column -->
-        <div class="left-column">
-          <!-- JOB Indicator -->
-          <div class="job-indicator">💼 JOB</div>
-
-          <!-- SEO Intro (Desktop version) -->
-          <section class="seo-intro">
-            <h1>Sewalink – Nepali Freelancing & Online Working Platform</h1>
-            <p>
-              Sewalink is a Nepali freelancing platform created by Bishal Shrestha.
-              Find online work, post jobs, hire freelancers, and connect with clients
-              across Nepal. A Nepal-based alternative to Upwork.
-            </p>
-          </section>
-
-          <!-- Welcome Banner -->
-          <div class="welcome-banner" id="welcomeBanner">
-            <h1 id="welcomeMessage">Welcome to SEWALINK!</h1>
-            <p>Find the perfect freelancer for your project.</p>
-            <a href="games.html" class="earn-link">✨ Earn from here. →</a>
-            <div class="banner-buttons">
-              <a href="post-job.html" class="btn-white">📋 Post a Job</a>
-              <a href="freelancers.html" class="btn-outline-white">👥 Find freelancers</a>
-            </div>
-          </div>
-
-          <!-- Search Results Title -->
-          <div class="search-results-title" id="searchResultsTitle">
-            🔍 Search Results
-          </div>
-
-          <!-- Search available Job -->
-          <div class="section-header" id="jobsHeader">
-            <h2>🔎 Search available Job by name, price</h2>
-          </div>
-
-          <!-- Jobs Container -->
-          <div id="jobsContainer"></div>
+      <div class="feature-card" onclick="showTopVoted()">
+        <div class="feature-icon">
+          <i class="fas fa-heart"></i>
         </div>
+        <div class="feature-title">Total Votes</div>
+        <div class="feature-value" id="totalVotes">0</div>
+        <div class="feature-desc">Community support</div>
+      </div>
 
-        <!-- Right Column -->
-        <div class="right-column">
-          <!-- POST Indicator -->
-          <div class="post-indicator">📬 POST</div>
+      <div class="feature-card" onclick="window.location.href='leaderboard.html'">
+        <div class="feature-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div class="feature-title">Active Leaders</div>
+        <div class="feature-value" id="activeLeaders">0</div>
+        <div class="feature-desc">Responding to issues</div>
+      </div>
 
-          <!-- Top freelancer -->
-          <div class="section-header" id="freelancersHeader">
-            <h2>🏆 Top 3 Freelancers by Earnings</h2>
-          </div>
+      <div class="feature-card" onclick="showDistrictStats()">
+        <div class="feature-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="feature-title">Districts</div>
+        <div class="feature-value" id="activeDistricts">0</div>
+        <div class="feature-desc">With active issues</div>
+      </div>
 
-          <!-- Freelancers Container -->
-          <div id="freelancersContainer" class="freelancer-grid"></div>
+      <div class="feature-card" onclick="showUrgentIssues()">
+        <div class="feature-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="feature-title">Urgent Issues</div>
+        <div class="feature-value" id="urgentIssues">0</div>
+        <div class="feature-desc">Need immediate attention</div>
+      </div>
+
+      <div class="feature-card" onclick="showCategories()">
+        <div class="feature-icon">
+          <i class="fas fa-tags"></i>
+        </div>
+        <div class="feature-title">Categories</div>
+        <div class="feature-value" id="totalCategories">7</div>
+        <div class="feature-desc">Issue types</div>
+      </div>
+
+      <div class="feature-card" onclick="window.location.href='my-issues.html'">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="feature-title">Contributors</div>
+        <div class="feature-value" id="totalContributors">0</div>
+        <div class="feature-desc">Active citizens</div>
+      </div>
+
+      <div class="feature-card" onclick="showProgress()">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="feature-title">Success Rate</div>
+        <div class="feature-value" id="successRate">0%</div>
+        <div class="feature-desc">Issues resolved</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="successBar" style="width: 0%"></div>
         </div>
       </div>
     </div>
 
-    <!-- Desktop Footer (visible only on desktop) -->
-    <footer class="desktop-footer">
-      <div class="footer-grid">
-        <div>
-          <h4 class="footer-title">For Freelancers</h4>
-          <ul class="footer-links">
-            <li><a href="find-work.html">Find Work</a></li>
-            <li><a href="create-profile.html">Create Profile</a></li>
-            <li><a href="freelancer-guide.html">Freelancer Guide</a></li>
-            <li><a href="success-stories.html">Success Stories</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-title">For Clients</h4>
-          <ul class="footer-links">
-            <li><a href="post-job.html">Post a Job</a></li>
-            <li><a href="hire-freelancers.html">Hire Freelancers</a></li>
-            <li><a href="client-guide.html">Client Guide</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-title">Company</h4>
-          <ul class="footer-links">
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-title">Connect With Us</h4>
-          <ul class="footer-links">
-            <li><a href="https://facebook.com/sewalink" target="_blank">Facebook</a></li>
-            <li><a href="https://linkedin.com/company/sewalink" target="_blank">LinkedIn</a></li>
-            <li><a href="mailto:support@sewalink.com">Email Us</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="copyright">
-        <p>&copy; 2025 SewaLink. All rights reserved. Nepal's trusted freelancing platform.</p>
-      </div>
-    </footer>
+    <!-- Category Filter -->
+    <div class="category-filter" id="categoryFilter">
+      <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
+      <button class="filter-btn" onclick="filterByCategory('road')">Road</button>
+      <button class="filter-btn" onclick="filterByCategory('water')">Water</button>
+      <button class="filter-btn" onclick="filterByCategory('electricity')">Electricity</button>
+      <button class="filter-btn" onclick="filterByCategory('sanitation')">Sanitation</button>
+      <button class="filter-btn" onclick="filterByCategory('education')">Education</button>
+      <button class="filter-btn" onclick="filterByCategory('health')">Health</button>
+      <button class="filter-btn" onclick="filterByCategory('other')">Other</button>
+    </div>
 
-    <!-- Bottom Padding (for mobile) -->
-    <div class="bottom-padding"></div>
+    <!-- Latest Issues Section -->
+    <h2 class="section-title">
+      <i class="fas fa-list"></i> Latest Issues
+    </h2>
+    <div class="issues-grid" id="issuesGrid">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading issues from Firebase...</p>
+      </div>
+    </div>
+  </main>
 
-    <!-- Bottom Navigation (visible only on mobile) -->
-    <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
-        <i class="fas fa-home"></i>
-        <span>Home</span>
-      </a>
-      <a href="jobs.html" class="nav-item">
-        <i class="fas fa-briefcase"></i>
-        <span>Jobs</span>
-      </a>
-      <a href="messages.html" class="nav-item">
-        <i class="fas fa-comment"></i>
-        <span>Chat</span>
-        <span id="messagesNavBadge" class="notification-badge" style="display: none;">0</span>
-      </a>
-      <a href="notification.html" class="nav-item">
-        <i class="fas fa-bell"></i>
-        <span>Alerts</span>
-        <span id="notificationsNavBadge" class="notification-badge" style="display: none;">0</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>Profile</span>
-      </a>
-    </nav>
+  <!-- Comments Modal -->
+  <div class="modal" id="commentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Comments</h3>
+        <span class="close-modal" onclick="closeCommentModal()">&times;</span>
+      </div>
+      <div id="commentsList" style="max-height: 300px; overflow-y: auto;"></div>
+      <div id="commentForm" style="display: none;">
+        <input type="text" class="comment-input" id="commentInput" placeholder="Write a comment...">
+        <button class="btn btn-primary comment-submit" onclick="submitComment()">Post Comment</button>
+      </div>
+      <p id="loginToComment" style="text-align: center; color: var(--text-muted); display: none;">Please <a href="login.html">login</a> to comment</p>
+    </div>
   </div>
 
+  <!-- Progress Tracker Modal -->
+  <div class="modal" id="progressModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Progress Tracker</h3>
+        <span class="close-modal" onclick="closeProgressModal()">&times;</span>
+      </div>
+      <div id="progressContent"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Develop Nepal</h3>
+        <p>Report local issues directly to leaders. Track progress and be part of Nepal's development journey.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
+        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
+        <a href="tel:+9779761409401"><i class="fas fa-phone"></i> +977 9761409401</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: 9761614027</a>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-telegram-plane"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+          <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>© 2026 Develop Nepal. All rights reserved. | Created by <strong>Bishal Shrestha</strong> with <i class="fas fa-heart" style="color: #ef4444;"></i> in Nepal</p>
+      <p style="margin-top: 0.5rem;">📞 9761614027 / 9761409401 | 📧 bishalxtha17@gmail.com</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Integration -->
   <script type="module">
-    // ========== FIREBASE CONFIGURATION ==========
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      onAuthStateChanged, 
-      signOut 
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      query,
-      where,
-      orderBy,
-      limit,
-      getDocs,
-      getDoc,
-      doc,
-      setDoc,
-      onSnapshot,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, getDocs, updateDoc, deleteDoc, doc, addDoc, query, orderBy, limit, increment, arrayUnion, arrayRemove, where, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
     const firebaseConfig = {
-      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
-      authDomain: "sewalink-ead02.firebaseapp.com",
-      projectId: "sewalink-ead02",
-      storageBucket: "sewalink-ead02.firebasestorage.app",
-      messagingSenderId: "682952754486",
-      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
+    const auth = getAuth(app);
 
-    // ========== DOM ELEMENTS ==========
-    const authUI = document.getElementById('authUI');
-    const welcomeMessage = document.getElementById('welcomeMessage');
-    const welcomeBanner = document.getElementById('welcomeBanner');
-    const freelancersContainer = document.getElementById('freelancersContainer');
-    const jobsContainer = document.getElementById('jobsContainer');
-    const searchInput = document.getElementById('searchInput');
-    const messagesNavBadge = document.getElementById('messagesNavBadge');
-    const notificationsNavBadge = document.getElementById('notificationsNavBadge');
-    const searchResultsTitle = document.getElementById('searchResultsTitle');
-    const jobsHeader = document.getElementById('jobsHeader');
-    const freelancersHeader = document.getElementById('freelancersHeader');
+    // DOM Elements
+    const authSection = document.getElementById('authSection');
+    const mobileAuthSection = document.getElementById('mobileAuthSection');
+    const issuesGrid = document.getElementById('issuesGrid');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const commentModal = document.getElementById('commentModal');
+    const commentsList = document.getElementById('commentsList');
+    const commentInput = document.getElementById('commentInput');
+    const commentForm = document.getElementById('commentForm');
+    const loginToComment = document.getElementById('loginToComment');
+    const progressModal = document.getElementById('progressModal');
+    const progressContent = document.getElementById('progressContent');
+    const notification = document.getElementById('notification');
+    const notificationTitle = document.getElementById('notificationTitle');
+    const notificationMessage = document.getElementById('notificationMessage');
 
-    // ========== STATE ==========
+    // Feature elements
+    const totalIssuesEl = document.getElementById('totalIssues');
+    const inProgressCountEl = document.getElementById('inProgressCount');
+    const resolvedCountEl = document.getElementById('resolvedCount');
+    const totalVotesEl = document.getElementById('totalVotes');
+    const activeLeadersEl = document.getElementById('activeLeaders');
+    const activeDistrictsEl = document.getElementById('activeDistricts');
+    const urgentIssuesEl = document.getElementById('urgentIssues');
+    const totalContributorsEl = document.getElementById('totalContributors');
+    const successRateEl = document.getElementById('successRate');
+    const resolutionRate = document.getElementById('resolutionRate');
+    const successBar = document.getElementById('successBar');
+
     let currentUser = null;
-    let allJobs = [];
+    let userRole = 'citizen';
+    let currentIssueId = null;
+    let allIssues = [];
+    let currentFilter = 'all';
 
-    // ========== HELPER FUNCTIONS ==========
-    function formatNPR(amount) {
-      if (!amount && amount !== 0) return 'रु 0';
-      return `रु ${Number(amount).toLocaleString('en-IN')}`;
+    // Show notification
+    function showNotification(title, message) {
+      notificationTitle.textContent = title;
+      notificationMessage.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 5000);
     }
 
-    function escapeHTML(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' })[c]);
-    }
+    window.hideNotification = () => {
+      notification.classList.remove('show');
+    };
 
-    function formatTimeAgo(date) {
-      if (!date) return 'Just now';
-      try {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        if (seconds < 60) return 'Just now';
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes}m ago`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours}h ago`;
-        const days = Math.floor(hours / 24);
-        return days === 1 ? '1d ago' : `${days}d ago`;
-      } catch {
-        return 'Just now';
-      }
-    }
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
 
-    function debounce(fn, ms) {
-      let t;
-      return function() { clearTimeout(t); t = setTimeout(() => fn(), ms); };
-    }
-
-    // ========== AUTH UI ==========
-    async function renderAuthUI(user) {
+    // Auth State Management
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUser = user;
+        
         try {
-          const userRef = doc(db, 'users', user.uid);
-          const userSnap = await getDoc(userRef);
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
           
-          if (!userSnap.exists()) {
-            await setDoc(userRef, {
-              uid: user.uid,
+          if (userDoc.exists()) {
+            userRole = userDoc.data().role || 'citizen';
+          } else {
+            // Create user document if it doesn't exist
+            await setDoc(userDocRef, {
+              email: user.email,
               displayName: user.displayName || 'User',
-              email: user.email || '',
               photoURL: user.photoURL || '',
-              role: 'freelancer',
-              createdAt: serverTimestamp()
+              role: 'citizen',
+              createdAt: new Date().toISOString(),
+              issuesReported: 0,
+              votesGiven: 0
             });
+            userRole = 'citizen';
           }
-
-          if (user.displayName) {
-            welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-          } else {
-            const userData = userSnap.data();
-            if (userData?.displayName) {
-              welcomeMessage.textContent = `Welcome back, ${userData.displayName.split(' ')[0]}!`;
-            }
-          }
-
-          authUI.innerHTML = `
-            <div class="profile-container">
-              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=667eea&color=fff&size=45'}" class="profile-avatar" id="avatarTrigger">
-              <div class="dropdown-menu" id="dropdownMenu">
-                <div class="user-info">
-                  <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
-                  <div class="user-email">${escapeHTML(user.email || '')}</div>
-                </div>
-                <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
-                <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
-                <a href="services.html" class="dropdown-item"><i class="fas fa-cogs"></i> Services</a>
-                <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
-                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-              </div>
-            </div>
-          `;
-
-          const avatar = document.getElementById('avatarTrigger');
-          const dropdown = document.getElementById('dropdownMenu');
-          
-          avatar?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown?.classList.toggle('show');
-          });
-
-          document.addEventListener('click', (e) => {
-            if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
-              dropdown?.classList.remove('show');
-            }
-          });
-
-          document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-            await signOut(auth);
-            window.location.reload();
-          });
-
-          setupMessagesListener(user.uid);
-
-        } catch (error) {
-          console.error('Auth error:', error);
-        }
-      } else {
-        welcomeMessage.textContent = 'Welcome to SEWALINK!';
-        authUI.innerHTML = `
-          <div class="profile-container">
-            <img src="https://ui-avatars.com/api/?name=Guest&background=667eea&color=fff&size=45" class="profile-avatar" id="avatarTrigger">
-            <div class="dropdown-menu" id="dropdownMenu">
-              <div class="user-info">
-                <div class="user-name">Guest</div>
-                <div class="user-email">Please sign in</div>
-              </div>
-              <a href="sign-in.html" class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-              <a href="sign-up.html" class="dropdown-item"><i class="fas fa-user-plus"></i> Sign Up</a>
-            </div>
-          </div>
-        `;
-
-        const avatar = document.getElementById('avatarTrigger');
-        const dropdown = document.getElementById('dropdownMenu');
-        
-        avatar?.addEventListener('click', (e) => {
-          e.stopPropagation();
-          dropdown?.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!avatar?.contains(e.target) && !dropdown?.contains(e.target)) {
-            dropdown?.classList.remove('show');
-          }
-        });
-      }
-    }
-
-    // ========== MESSAGES BADGE ==========
-    function setupMessagesListener(userId) {
-      const q = query(
-        collection(db, 'chats'),
-        where('participants', 'array-contains', userId)
-      );
-
-      onSnapshot(q, async (snapshot) => {
-        let unreadCount = 0;
-        
-        for (const doc of snapshot.docs) {
-          const messagesRef = collection(db, 'chats', doc.id, 'messages');
-          const messagesQuery = query(
-            messagesRef,
-            where('senderId', '!=', userId),
-            where('read', '==', false)
-          );
-          const messagesSnap = await getDocs(messagesQuery);
-          unreadCount += messagesSnap.size;
-        }
-        
-        if (messagesNavBadge) {
-          if (unreadCount > 0) {
-            messagesNavBadge.textContent = unreadCount > 9 ? '9+' : unreadCount;
-            messagesNavBadge.style.display = 'flex';
-          } else {
-            messagesNavBadge.style.display = 'none';
-          }
-        }
-      });
-
-      const notifQuery = query(
-        collection(db, 'notifications'),
-        where('userId', '==', userId),
-        where('read', '==', false)
-      );
-      
-      onSnapshot(notifQuery, (snapshot) => {
-        const count = snapshot.size;
-        if (notificationsNavBadge) {
-          if (count > 0) {
-            notificationsNavBadge.textContent = count > 9 ? '9+' : count;
-            notificationsNavBadge.style.display = 'flex';
-          } else {
-            notificationsNavBadge.style.display = 'none';
-          }
-        }
-      });
-    }
-
-    // ========== LOAD TOP 3 FREELANCERS ==========
-    async function loadTopFreelancers() {
-      try {
-        freelancersContainer.innerHTML = `
-          <div class="skeleton-card">
-            <div style="display: flex; gap: 1rem;">
-              <div class="skeleton-avatar"></div>
-              <div style="flex: 1;">
-                <div class="skeleton-line" style="width: 60%;"></div>
-                <div class="skeleton-line" style="width: 40%;"></div>
-                <div class="skeleton-line" style="width: 80%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="skeleton-card">
-            <div style="display: flex; gap: 1rem;">
-              <div class="skeleton-avatar"></div>
-              <div style="flex: 1;">
-                <div class="skeleton-line" style="width: 60%;"></div>
-                <div class="skeleton-line" style="width: 40%;"></div>
-                <div class="skeleton-line" style="width: 80%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="skeleton-card">
-            <div style="display: flex; gap: 1rem;">
-              <div class="skeleton-avatar"></div>
-              <div style="flex: 1;">
-                <div class="skeleton-line" style="width: 60%;"></div>
-                <div class="skeleton-line" style="width: 40%;"></div>
-                <div class="skeleton-line" style="width: 80%;"></div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        const usersRef = collection(db, 'users');
-        const q = query(
-          usersRef,
-          where('role', 'in', ['freelancer', 'both'])
-        );
-        const snapshot = await getDocs(q);
-        
-        if (snapshot.empty) {
-          freelancersContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user"></i><p>No freelancers yet</p></div>';
-          return;
-        }
-
-        const freelancersWithEarnings = [];
-        
-        for (const doc of snapshot.docs) {
-          const freelancer = doc.data();
-          
-          let completedJobs = 0;
-          let totalEarned = 0;
-          
-          try {
-            const jobsRef = collection(db, 'jobs');
-            const completedQuery = query(
-              jobsRef,
-              where('acceptedBy', '==', doc.id),
-              where('status', '==', 'completed')
-            );
-            const completedSnap = await getDocs(completedQuery);
-            completedJobs = completedSnap.size;
-            
-            completedSnap.forEach(jobDoc => {
-              totalEarned += jobDoc.data().budget || 0;
-            });
-          } catch (e) {}
-          
-          freelancersWithEarnings.push({
-            id: doc.id,
-            ...freelancer,
-            completedJobs,
-            totalEarned
-          });
-        }
-
-        const topFreelancers = freelancersWithEarnings
-          .sort((a, b) => b.totalEarned - a.totalEarned)
-          .slice(0, 3);
-
-        if (topFreelancers.length === 0) {
-          freelancersContainer.innerHTML = '<div class="empty-state"><i class="fas fa-trophy"></i><p>No top freelancers yet</p></div>';
-          return;
-        }
-
-        let html = '';
-        topFreelancers.forEach((freelancer, index) => {
-          const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
-          
-          html += `
-            <div class="freelancer-card" onclick="window.location.href='viewer.html?id=${freelancer.id}'">
-              <div class="freelancer-rank">${rankEmoji}</div>
-              <img src="${freelancer.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(freelancer.displayName || 'User') + '&background=667eea&color=fff&size=70'}" class="freelancer-avatar">
-              <div class="freelancer-info">
-                <h3>${escapeHTML(freelancer.displayName || 'User')}</h3>
-                <div class="freelancer-email">
-                  <i class="fas fa-envelope"></i>
-                  ${escapeHTML(freelancer.email || '')}
-                </div>
-                <div class="freelancer-badge">🏅 Top ${index + 1} Freelancer</div>
-                <div class="freelancer-stats">
-                  <div class="stat">
-                    <span class="stat-value">${freelancer.completedJobs}</span>
-                    <span class="stat-label">Completed</span>
-                  </div>
-                  <div class="stat">
-                    <span class="stat-value">${formatNPR(freelancer.totalEarned)}</span>
-                    <span class="stat-label">Earned</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-        
-        freelancersContainer.innerHTML = html;
-      } catch (error) {
-        console.error('Error loading freelancers:', error);
-        freelancersContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load freelancers</p></div>';
-      }
-    }
-
-    // ========== LOAD JOBS ==========
-    async function loadJobs() {
-      try {
-        jobsContainer.innerHTML = `
-          <div class="skeleton-card">
-            <div class="skeleton-line" style="width: 30%;"></div>
-            <div class="skeleton-line" style="height: 24px;"></div>
-            <div class="skeleton-line" style="width: 90%;"></div>
-            <div class="skeleton-line" style="width: 70%;"></div>
-          </div>
-          <div class="skeleton-card">
-            <div class="skeleton-line" style="width: 30%;"></div>
-            <div class="skeleton-line" style="height: 24px;"></div>
-            <div class="skeleton-line" style="width: 90%;"></div>
-            <div class="skeleton-line" style="width: 70%;"></div>
-          </div>
-        `;
-
-        const jobsRef = collection(db, 'jobs');
-        const q = query(
-          jobsRef,
-          where('status', '==', 'open'),
-          orderBy('createdAt', 'desc'),
-          limit(5)
-        );
-        const snapshot = await getDocs(q);
-        
-        if (snapshot.empty) {
-          jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase"></i><p>No jobs available</p></div>';
-          return;
-        }
-
-        let html = '';
-        for (const doc of snapshot.docs) {
-          const job = doc.data();
-          const createdAt = job.createdAt?.toDate?.();
-          const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
-          
-          let clientName = 'Anonymous';
-          if (job.clientId) {
-            try {
-              const clientSnap = await getDoc(doc(db, 'users', job.clientId));
-              if (clientSnap.exists()) {
-                clientName = clientSnap.data().displayName || 'Anonymous';
-              }
-            } catch (e) {}
-          }
-          
-          html += `
-            <div class="job-card" onclick="window.location.href='open.html?job=${doc.id}'">
-              <div class="job-header">
-                <div class="job-poster">
-                  <i class="fas fa-user-circle"></i>
-                  <span>${escapeHTML(clientName)}</span>
-                </div>
-                <div class="job-time">
-                  <i class="far fa-clock"></i> ${timeAgo}
-                </div>
-              </div>
-              <div class="job-featured">✨ Featured</div>
-              <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
-              <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
-              <div class="job-details">
-                <span class="job-detail-item">💰 ${formatNPR(job.budget)}</span>
-                <span class="job-detail-item">📊 ${job.experience || 'Any'}</span>
-                <span class="job-detail-item">📍 ${job.location || 'Remote'}</span>
-              </div>
-              <a href="open.html?job=${doc.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now →</a>
-            </div>
-          `;
-        }
-        jobsContainer.innerHTML = html;
-        allJobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      } catch (error) {
-        console.error('Error loading jobs:', error);
-        try {
-          const jobsRef = collection(db, 'jobs');
-          const q = query(jobsRef, limit(5));
-          const snapshot = await getDocs(q);
-          
-          if (snapshot.empty) {
-            jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-briefcase"></i><p>No jobs available</p></div>';
-            return;
-          }
-
-          let html = '';
-          const jobs = [];
-          snapshot.forEach(doc => jobs.push({ id: doc.id, ...doc.data() }));
-          
-          jobs.sort((a, b) => {
-            const dateA = a.createdAt?.toDate?.() || new Date(0);
-            const dateB = b.createdAt?.toDate?.() || new Date(0);
-            return dateB - dateA;
-          });
-          
-          for (const job of jobs.slice(0, 5)) {
-            const createdAt = job.createdAt?.toDate?.();
-            const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
-            
-            let clientName = 'Anonymous';
-            if (job.clientId) {
-              try {
-                const clientSnap = await getDoc(doc(db, 'users', job.clientId));
-                if (clientSnap.exists()) {
-                  clientName = clientSnap.data().displayName || 'Anonymous';
-                }
-              } catch (e) {}
-            }
-            
-            html += `
-              <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
-                <div class="job-header">
-                  <div class="job-poster">
-                    <i class="fas fa-user-circle"></i>
-                    <span>${escapeHTML(clientName)}</span>
-                  </div>
-                  <div class="job-time">
-                    <i class="far fa-clock"></i> ${timeAgo}
-                  </div>
-                </div>
-                <div class="job-featured">✨ Featured</div>
-                <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
-                <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
-                <div class="job-details">
-                  <span class="job-detail-item">💰 ${formatNPR(job.budget)}</span>
-                  <span class="job-detail-item">📊 ${job.experience || 'Any'}</span>
-                  <span class="job-detail-item">📍 ${job.location || 'Remote'}</span>
-                </div>
-                <a href="open.html?job=${job.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now →</a>
-              </div>
-            `;
-          }
-          jobsContainer.innerHTML = html;
-          allJobs = jobs;
         } catch (e) {
-          jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load jobs</p></div>';
+          console.log('Using default citizen role');
         }
-      }
-    }
 
-    // ========== SEARCH FUNCTION ==========
-    function filterJobs() {
-      const term = searchInput.value.toLowerCase().trim();
-      
-      if (!term) {
-        // Show all normal content
-        welcomeBanner.classList.remove('search-active');
-        searchResultsTitle.classList.remove('show');
-        jobsHeader.style.display = 'block';
-        freelancersHeader.style.display = 'block';
-        freelancersContainer.style.display = 'grid';
-        loadJobs();
-        return;
-      }
-
-      // Hide normal content, show search results
-      welcomeBanner.classList.add('search-active');
-      searchResultsTitle.classList.add('show');
-      jobsHeader.style.display = 'none';
-      freelancersHeader.style.display = 'none';
-      freelancersContainer.style.display = 'none';
-
-      if (!allJobs.length) return;
-
-      const filtered = allJobs.filter(job => 
-        job.title?.toLowerCase().includes(term) ||
-        job.description?.toLowerCase().includes(term) ||
-        job.category?.toLowerCase().includes(term) ||
-        job.location?.toLowerCase().includes(term)
-      );
-
-      if (filtered.length === 0) {
-        jobsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><p>No jobs match your search</p></div>';
-        return;
-      }
-
-      let html = '';
-      filtered.slice(0, 5).forEach(job => {
-        const createdAt = job.createdAt?.toDate?.();
-        const timeAgo = createdAt ? formatTimeAgo(createdAt) : 'Just now';
-        
-        html += `
-          <div class="job-card" onclick="window.location.href='open.html?job=${job.id}'">
-            <div class="job-header">
-              <div class="job-poster">
-                <i class="fas fa-user-circle"></i>
-                <span>${escapeHTML(job.clientName || 'Anonymous')}</span>
-              </div>
-              <div class="job-time">
-                <i class="far fa-clock"></i> ${timeAgo}
-              </div>
+        const userHtml = `
+          <div class="dropdown">
+            <div class="user-profile">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName || 'User')}" alt="Profile">
+              <span>${user.displayName?.split(' ')[0] || 'User'}</span>
+              <i class="fas fa-chevron-down"></i>
             </div>
-            <div class="job-featured">✨ Featured</div>
-            <h3 class="job-title">${escapeHTML(job.title || 'Untitled')}</h3>
-            <p class="job-description">${escapeHTML(job.description?.substring(0, 100) || 'No description')}...</p>
-            <div class="job-details">
-              <span class="job-detail-item">💰 ${formatNPR(job.budget)}</span>
-              <span class="job-detail-item">📊 ${job.experience || 'Any'}</span>
-              <span class="job-detail-item">📍 ${job.location || 'Remote'}</span>
+            <div class="dropdown-content">
+              <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+              <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Issues</a>
+              <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
-            <a href="open.html?job=${job.id}" class="job-apply" onclick="event.stopPropagation();">Apply Now →</a>
           </div>
         `;
-      });
-      jobsContainer.innerHTML = html;
+        
+        authSection.innerHTML = userHtml;
+        mobileAuthSection.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+          <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Issues</a>
+          <a href="#" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        `;
+
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+          showNotification('Logged Out', 'You have been successfully logged out');
+        });
+        
+        document.getElementById('mobileLogoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+          showNotification('Logged Out', 'You have been successfully logged out');
+        });
+
+        showNotification('Welcome!', `Hello ${user.displayName || 'User'}, welcome to Develop Nepal`);
+      } else {
+        currentUser = null;
+        userRole = 'citizen';
+        authSection.innerHTML = '<a href="login.html" class="btn btn-primary btn-sm">Login</a>';
+        mobileAuthSection.innerHTML = '<a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>';
+      }
+    });
+
+    // Load data from Firebase
+    async function loadData() {
+      try {
+        const q = query(collection(db, 'issues'), orderBy('createdAt', 'desc'), limit(50));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          allIssues = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          // Update feature statistics
+          updateFeatureStats();
+          
+          // Render issues based on current filter
+          renderIssues();
+        } else {
+          issuesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem;">No issues found. Be the first to report one!</p>';
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+        issuesGrid.innerHTML = '<p style="color: var(--danger); text-align: center; padding: 2rem;">Error loading issues. Please refresh the page.</p>';
+      }
     }
 
-    // ========== EVENT LISTENERS ==========
-    searchInput?.addEventListener('input', debounce(filterJobs, 300));
+    // Update all feature statistics
+    function updateFeatureStats() {
+      // Total issues
+      const totalIssues = allIssues.length;
+      totalIssuesEl.textContent = totalIssues;
 
-    // ========== INIT ==========
-    onAuthStateChanged(auth, renderAuthUI);
-    loadTopFreelancers();
-    loadJobs();
+      // In progress count
+      const inProgress = allIssues.filter(i => i.status === 'in-progress').length;
+      inProgressCountEl.textContent = inProgress;
+
+      // Resolved count
+      const resolved = allIssues.filter(i => i.status === 'resolved').length;
+      resolvedCountEl.textContent = resolved;
+
+      // Total votes
+      const totalVotes = allIssues.reduce((sum, issue) => sum + (issue.votes || 0), 0);
+      totalVotesEl.textContent = totalVotes;
+
+      // Active leaders (unique leaderIds)
+      const leaders = new Set(allIssues.filter(i => i.leaderId).map(i => i.leaderId));
+      activeLeadersEl.textContent = leaders.size;
+
+      // Active districts
+      const districts = new Set(allIssues.map(i => i.district).filter(Boolean));
+      activeDistrictsEl.textContent = districts.size;
+
+      // Urgent issues (votes > 10)
+      const urgent = allIssues.filter(i => (i.votes || 0) > 10).length;
+      urgentIssuesEl.textContent = urgent;
+
+      // Total contributors (unique userIds)
+      const contributors = new Set(allIssues.map(i => i.userId).filter(Boolean));
+      totalContributorsEl.textContent = contributors.size;
+
+      // Success rate and resolution rate
+      const resolvedRate = totalIssues > 0 ? Math.round((resolved / totalIssues) * 100) : 0;
+      successRateEl.textContent = resolvedRate + '%';
+      resolutionRate.style.width = resolvedRate + '%';
+      successBar.style.width = resolvedRate + '%';
+
+      // Also store category counts
+      const categories = {};
+      allIssues.forEach(issue => {
+        if (issue.category) {
+          categories[issue.category] = (categories[issue.category] || 0) + 1;
+        }
+      });
+      window.categoryCounts = categories;
+    }
+
+    // Render issues with current filter
+    function renderIssues() {
+      let filteredIssues = allIssues;
+      
+      if (currentFilter !== 'all') {
+        filteredIssues = allIssues.filter(issue => issue.category === currentFilter);
+      }
+
+      if (filteredIssues.length === 0) {
+        issuesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem;">No issues found in this category.</p>';
+        return;
+      }
+
+      issuesGrid.innerHTML = filteredIssues.map(issue => {
+        const statusClass = issue.status === 'resolved' ? 'status-resolved' :
+                           issue.status === 'in-progress' ? 'status-progress' :
+                           issue.status === 'pending' ? 'status-pending' : 'status-active';
+        
+        const statusText = issue.status === 'resolved' ? 'Resolved' :
+                          issue.status === 'in-progress' ? 'Progress' :
+                          issue.status === 'pending' ? 'Pending' : 'Active';
+
+        const hasVoted = currentUser && issue.votedBy?.includes(currentUser.uid);
+        const isOwner = currentUser && issue.userId === currentUser.uid;
+        const isLeader = userRole === 'leader';
+
+        // Generate a placeholder image based on category
+        const categoryImages = {
+          'road': 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400',
+          'water': 'https://images.unsplash.com/photo-1581244277943-fe4a9c7775c0?w=400',
+          'electricity': 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400',
+          'sanitation': 'https://images.unsplash.com/photo-1618517351616-38fb9c5210c6?w=400',
+          'education': 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400',
+          'health': 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=400'
+        };
+        const imageUrl = issue.imageUrl || categoryImages[issue.category] || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400';
+
+        return `
+          <div class="issue-card">
+            <div class="issue-image" style="background-image: url('${imageUrl}')">
+              <span class="issue-status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="issue-content">
+              <h3 class="issue-title">${issue.title?.substring(0, 50) || 'Untitled'}</h3>
+              <div class="issue-location">
+                <i class="fas fa-map-marker-alt"></i> ${issue.district || 'Unknown'}, Ward ${issue.ward || 'N/A'}
+              </div>
+              <p class="issue-description">${(issue.description || '').substring(0, 80)}...</p>
+              
+              <div class="issue-meta">
+                <span><i class="fas fa-heart" style="color: #ef4444;"></i> ${issue.votes || 0}</span>
+                <span><i class="fas fa-comment" style="color: #3b82f6;"></i> ${issue.comments || 0}</span>
+                <span><i class="fas fa-tag" style="color: var(--primary);"></i> ${issue.category || 'other'}</span>
+              </div>
+
+              <div class="action-buttons">
+                <button class="action-btn view-btn" onclick="window.location.href='issue.html?id=${issue.id}'">
+                  <i class="fas fa-eye"></i> View
+                </button>
+                
+                <button class="vote-btn ${hasVoted ? 'voted' : ''}" onclick="handleVote('${issue.id}', ${hasVoted})">
+                  <i class="fas fa-heart"></i> ${hasVoted ? 'Voted' : 'Vote'}
+                </button>
+                
+                <button class="action-btn comment-btn" onclick="openCommentModal('${issue.id}')">
+                  <i class="fas fa-comment"></i> ${issue.comments || 0}
+                </button>
+
+                <button class="action-btn share-btn" onclick="shareIssue('${issue.id}')">
+                  <i class="fas fa-share-alt"></i> Share
+                </button>
+
+                ${isOwner || isLeader ? `
+                  <button class="action-btn edit-btn" onclick="editIssue('${issue.id}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" onclick="deleteIssue('${issue.id}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                ` : ''}
+
+                ${isLeader && issue.status === 'pending' ? `
+                  <button class="action-btn accept-btn" onclick="updateIssueStatus('${issue.id}', 'in-progress')">
+                    <i class="fas fa-check"></i> Accept
+                  </button>
+                  <button class="action-btn reject-btn" onclick="updateIssueStatus('${issue.id}', 'rejected')">
+                    <i class="fas fa-times"></i> Reject
+                  </button>
+                ` : ''}
+
+                ${isLeader && issue.status === 'in-progress' ? `
+                  <button class="action-btn success-btn" onclick="updateIssueStatus('${issue.id}', 'resolved')">
+                    <i class="fas fa-check-circle"></i> Resolve
+                  </button>
+                ` : ''}
+              </div>
+
+              ${issue.leaderResponded ? `
+                <div class="leader-badge">
+                  <i class="fas fa-check-circle"></i> Leader: ${issue.leaderName || 'Responded'}
+                </div>
+              ` : ''}
+
+              ${issue.status === 'in-progress' ? `
+                <button class="btn btn-sm btn-outline" style="margin-top: 0.5rem; width: 100%;" onclick="showProgressTracker('${issue.id}')">
+                  <i class="fas fa-chart-line"></i> Track Progress
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Feature 1: Vote function
+    window.handleVote = async (issueId, hasVoted) => {
+      if (!currentUser) {
+        showNotification('Login Required', 'Please login to vote on issues');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        const issueRef = doc(db, 'issues', issueId);
+        
+        if (hasVoted) {
+          await updateDoc(issueRef, {
+            votes: increment(-1),
+            votedBy: arrayRemove(currentUser.uid)
+          });
+          showNotification('Vote Removed', 'Your vote has been removed');
+        } else {
+          await updateDoc(issueRef, {
+            votes: increment(1),
+            votedBy: arrayUnion(currentUser.uid)
+          });
+          showNotification('Vote Added', 'Thank you for voting!');
+          
+          // Update user's vote count
+          const userRef = doc(db, 'users', currentUser.uid);
+          await updateDoc(userRef, {
+            votesGiven: increment(1)
+          });
+        }
+        loadData();
+      } catch (error) {
+        console.error('Error voting:', error);
+        showNotification('Error', 'Failed to vote. Please try again.');
+      }
+    };
+
+    // Feature 2: Comment functions
+    window.openCommentModal = async (issueId) => {
+      currentIssueId = issueId;
+      commentModal.classList.add('active');
+      
+      try {
+        const commentsQuery = query(collection(db, 'issues', issueId, 'comments'), orderBy('createdAt', 'desc'));
+        const commentsSnapshot = await getDocs(commentsQuery);
+        const comments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        commentsList.innerHTML = comments.length ? comments.map(c => `
+          <div class="comment-item">
+            <div class="comment-author">
+              <img src="${c.userPhoto || 'https://ui-avatars.com/api/?name='+encodeURIComponent(c.userName || 'A')}" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 0.3rem;">
+              ${c.userName || 'Anonymous'}
+            </div>
+            <div class="comment-text">${c.message}</div>
+            <div class="comment-time">${new Date(c.createdAt?.toDate?.() || c.createdAt).toLocaleString()}</div>
+          </div>
+        `).join('') : '<p style="text-align: center; color: var(--text-muted);">No comments yet. Be the first to comment!</p>';
+      } catch (error) {
+        console.error('Error loading comments:', error);
+      }
+
+      if (currentUser) {
+        commentForm.style.display = 'block';
+        loginToComment.style.display = 'none';
+      } else {
+        commentForm.style.display = 'none';
+        loginToComment.style.display = 'block';
+      }
+    };
+
+    window.closeCommentModal = () => {
+      commentModal.classList.remove('active');
+      commentInput.value = '';
+    };
+
+    window.submitComment = async () => {
+      const message = commentInput.value.trim();
+      if (!message) {
+        showNotification('Error', 'Please enter a comment');
+        return;
+      }
+      
+      if (!currentUser || !currentIssueId) {
+        showNotification('Error', 'You must be logged in to comment');
+        return;
+      }
+
+      try {
+        const commentData = {
+          userId: currentUser.uid,
+          userName: currentUser.displayName || 'Anonymous',
+          userPhoto: currentUser.photoURL || '',
+          message: message,
+          createdAt: new Date().toISOString()
+        };
+
+        await addDoc(collection(db, 'issues', currentIssueId, 'comments'), commentData);
+
+        await updateDoc(doc(db, 'issues', currentIssueId), {
+          comments: increment(1)
+        });
+
+        commentInput.value = '';
+        showNotification('Success', 'Comment posted successfully');
+        openCommentModal(currentIssueId);
+        loadData();
+      } catch (error) {
+        console.error('Error posting comment:', error);
+        showNotification('Error', 'Failed to post comment');
+      }
+    };
+
+    // Feature 3: Share issue
+    window.shareIssue = (issueId) => {
+      const url = `${window.location.origin}/issue.html?id=${issueId}`;
+      if (navigator.share) {
+        navigator.share({
+          title: 'Develop Nepal Issue',
+          url: url
+        }).catch(() => {
+          copyToClipboard(url);
+        });
+      } else {
+        copyToClipboard(url);
+      }
+    };
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showNotification('Copied!', 'Link copied to clipboard');
+      }).catch(() => {
+        prompt('Copy this link:', text);
+      });
+    }
+
+    // Feature 4: Delete function
+    window.deleteIssue = async (issueId) => {
+      if (!confirm('Are you sure you want to delete this issue? This action cannot be undone.')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'issues', issueId));
+        showNotification('Deleted', 'Issue has been deleted successfully');
+        loadData();
+      } catch (error) {
+        console.error('Error deleting issue:', error);
+        showNotification('Error', 'Failed to delete issue');
+      }
+    };
+
+    // Feature 5: Edit function
+    window.editIssue = (issueId) => {
+      window.location.href = `edit-issue.html?id=${issueId}`;
+    };
+
+    // Feature 6: Update issue status (for leaders)
+    window.updateIssueStatus = async (issueId, newStatus) => {
+      if (!currentUser || userRole !== 'leader') {
+        showNotification('Access Denied', 'Only leaders can update issue status');
+        return;
+      }
+
+      try {
+        const issueRef = doc(db, 'issues', issueId);
+        const updateData = {
+          status: newStatus,
+          lastUpdated: new Date().toISOString()
+        };
+
+        if (newStatus === 'in-progress') {
+          updateData.leaderResponded = true;
+          updateData.leaderId = currentUser.uid;
+          updateData.leaderName = currentUser.displayName || 'Leader';
+          updateData.startedAt = new Date().toISOString();
+        } else if (newStatus === 'resolved') {
+          updateData.resolvedAt = new Date().toISOString();
+        }
+
+        await updateDoc(issueRef, updateData);
+        
+        const statusMessages = {
+          'in-progress': 'Issue accepted and now in progress',
+          'resolved': 'Issue marked as resolved',
+          'rejected': 'Issue has been rejected'
+        };
+        
+        showNotification('Status Updated', statusMessages[newStatus] || 'Issue status updated');
+        loadData();
+      } catch (error) {
+        console.error('Error updating status:', error);
+        showNotification('Error', 'Failed to update status');
+      }
+    };
+
+    // Feature 7: Progress tracker
+    window.showProgressTracker = (issueId) => {
+      const issue = allIssues.find(i => i.id === issueId);
+      if (!issue) return;
+
+      const steps = [
+        { name: 'Reported', icon: 'fa-flag', completed: true },
+        { name: 'Under Review', icon: 'fa-search', completed: issue.status !== 'pending' },
+        { name: 'In Progress', icon: 'fa-spinner', completed: issue.status === 'in-progress' || issue.status === 'resolved' },
+        { name: 'Resolved', icon: 'fa-check-circle', completed: issue.status === 'resolved' }
+      ];
+
+      progressContent.innerHTML = `
+        <div style="margin-bottom: 1rem;">
+          <h4>${issue.title}</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Reported: ${new Date(issue.createdAt).toLocaleDateString()}</p>
+        </div>
+        <div class="tracker-container">
+          ${steps.map((step, index) => `
+            <div class="tracker-step">
+              <div class="step-icon ${step.completed ? 'completed' : index === steps.findIndex(s => !s.completed) ? 'active' : ''}">
+                <i class="fas ${step.icon}"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600;">${step.name}</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">
+                  ${step.completed ? 'Completed' : index === steps.findIndex(s => !s.completed) ? 'In Progress' : 'Pending'}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        ${issue.leaderName ? `
+          <div style="margin-top: 1rem; padding: 1rem; background: var(--primary-soft); border-radius: 12px;">
+            <p><strong>Assigned Leader:</strong> ${issue.leaderName}</p>
+            <p><strong>Started:</strong> ${issue.startedAt ? new Date(issue.startedAt).toLocaleDateString() : 'N/A'}</p>
+          </div>
+        ` : ''}
+      `;
+      
+      progressModal.classList.add('active');
+    };
+
+    window.closeProgressModal = () => {
+      progressModal.classList.remove('active');
+    };
+
+    // Feature 8: Filter by category
+    window.filterByCategory = (category) => {
+      currentFilter = category;
+      
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      renderIssues();
+    };
+
+    // Feature 9: Filter by status (from feature cards)
+    window.filterByStatus = (status) => {
+      const filtered = allIssues.filter(i => i.status === status);
+      showNotification(`${status.toUpperCase()} Issues`, `${filtered.length} issues found`);
+      
+      // You could redirect to a filtered view page
+      window.location.href = `view.html?status=${status}`;
+    };
+
+    // Feature 10: Show top voted issues
+    window.showTopVoted = () => {
+      const topIssues = [...allIssues]
+        .sort((a, b) => (b.votes || 0) - (a.votes || 0))
+        .slice(0, 5);
+      
+      let message = 'Top Voted Issues:\n';
+      topIssues.forEach((issue, i) => {
+        message += `${i+1}. ${issue.title?.substring(0, 30)} - ${issue.votes || 0} votes\n`;
+      });
+      
+      alert(message);
+    };
+
+    window.showDistrictStats = () => {
+      const districtCount = {};
+      allIssues.forEach(issue => {
+        if (issue.district) {
+          districtCount[issue.district] = (districtCount[issue.district] || 0) + 1;
+        }
+      });
+      
+      let message = 'Issues by District:\n';
+      Object.entries(districtCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .forEach(([district, count]) => {
+          message += `${district}: ${count} issues\n`;
+        });
+      
+      alert(message);
+    };
+
+    window.showUrgentIssues = () => {
+      const urgent = allIssues.filter(i => (i.votes || 0) > 10);
+      showNotification('Urgent Issues', `${urgent.length} issues need immediate attention`);
+      // Could redirect to urgent view
+      window.location.href = 'view.html?urgent=true';
+    };
+
+    window.showCategories = () => {
+      let message = 'Issues by Category:\n';
+      Object.entries(window.categoryCounts || {})
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([category, count]) => {
+          message += `${category}: ${count} issues\n`;
+        });
+      
+      alert(message);
+    };
+
+    window.showProgress = () => {
+      const resolved = allIssues.filter(i => i.status === 'resolved').length;
+      const total = allIssues.length;
+      const rate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+      
+      showNotification('Success Rate', `${rate}% of issues resolved (${resolved}/${total})`);
+    };
+
+    // Close modal when clicking outside
+    window.onclick = (event) => {
+      if (event.target === commentModal) {
+        closeCommentModal();
+      }
+      if (event.target === progressModal) {
+        closeProgressModal();
+      }
+    };
+
+    // Load data
+    loadData();
+
+    // Set up real-time updates (simplified - you could use onSnapshot for real real-time)
+    setInterval(loadData, 30000); // Refresh every 30 seconds
   </script>
 </body>
 </html>
