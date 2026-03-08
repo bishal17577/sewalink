@@ -1,6 +1,9 @@
 # robots.txt for Develop Nepal
+
 User-agent: *
 Allow: /
+
+# Allow important public pages
 Allow: /index.html
 Allow: /all-issues.html
 Allow: /issue.html
@@ -13,22 +16,16 @@ Allow: /feedback.html
 Allow: /privacy.html
 Allow: /terms.html
 
-# Disallow private/user-specific pages from crawling
+# Block private pages
 Disallow: /my-issues.html
 Disallow: /profile.html
 Disallow: /admin.html
 Disallow: /login.html
 Disallow: /report.html
 
-# Disallow Firebase configuration files
+# Block config files
 Disallow: /firebase-config.js
 Disallow: /firebase-init.js
 
-# Sitemap location
-Sitemap: https://www.developnepal.com/sitemap.xml
-
-# Crawl delay for gentle crawling
-Crawl-delay: 10
-
-# Host
-Host: www.developnepal.com
+# Sitemap
+Sitemap: https://www.bishalshrestha17.com.np/sitemap.xml
