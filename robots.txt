@@ -1,0 +1,34 @@
+# robots.txt for Develop Nepal
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /all-issues.html
+Allow: /issue.html
+Allow: /about.html
+Allow: /contact.html
+Allow: /guide.html
+Allow: /faq.html
+Allow: /support.html
+Allow: /feedback.html
+Allow: /privacy.html
+Allow: /terms.html
+
+# Disallow private/user-specific pages from crawling
+Disallow: /my-issues.html
+Disallow: /profile.html
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /report.html
+
+# Disallow Firebase configuration files
+Disallow: /firebase-config.js
+Disallow: /firebase-init.js
+
+# Sitemap location
+Sitemap: https://www.developnepal.com/sitemap.xml
+
+# Crawl delay for gentle crawling
+Crawl-delay: 10
+
+# Host
+Host: www.developnepal.com
