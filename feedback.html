@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Develop Nepal</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --primary: #0f3b2c;
+      --primary-dark: #0a2f22;
+      --primary-light: #1b6e50;
+      --accent: #d97706;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+
+    body {
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+    }
+
+    /* Navigation */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* User Menu */
+    .user-menu {
+      position: relative;
+    }
+
+    .user-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      cursor: pointer;
+    }
+
+    .user-btn img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-btn span {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--gray-800);
+    }
+
+    .dropdown {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      display: none;
+      z-index: 100;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.85rem;
+    }
+
+    .dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background: var(--gray-100);
+    }
+
+    .dropdown i {
+      width: 18px;
+      color: var(--primary);
+    }
+
+    .logout-btn {
+      color: #dc2626 !important;
+    }
+
+    .logout-btn i {
+      color: #dc2626 !important;
+    }
+
+    /* Mobile Menu */
+    .mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-btn {
+        display: block;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      background: var(--white);
+      padding: 1rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.6rem 0;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.9rem;
+    }
+
+    .mobile-menu a i {
+      width: 24px;
+      color: var(--primary);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 3rem 0;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--gray-600);
+      font-size: 1.1rem;
+    }
+
+    /* Feedback Form */
+    .feedback-form {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Rating */
+    .rating-section {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .rating-section h3 {
+      margin-bottom: 1rem;
+      color: var(--gray-800);
+    }
+
+    .stars {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--gray-300);
+      cursor: pointer;
+    }
+
+    .stars i {
+      transition: all 0.2s;
+    }
+
+    .stars i:hover,
+    .stars i.active {
+      color: #fbbf24;
+      transform: scale(1.1);
+    }
+
+    .rating-text {
+      margin-top: 0.5rem;
+      color: var(--gray-600);
+      font-size: 0.9rem;
+    }
+
+    /* Form Groups */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--gray-700);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 59, 44, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Checkbox Group */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .submit-btn i {
+      font-size: 1.1rem;
+    }
+
+    /* Feedback Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      color: var(--gray-600);
+      font-size: 0.85rem;
+    }
+
+    /* Recent Feedback */
+    .recent-feedback {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .recent-feedback h3 {
+      color: var(--gray-800);
+      margin-bottom: 1rem;
+    }
+
+    .feedback-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .feedback-item:last-child {
+      border-bottom: none;
+    }
+
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-user {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feedback-user img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
+    .feedback-user span {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .feedback-rating {
+      color: #fbbf24;
+    }
+
+    .feedback-text {
+      color: var(--gray-600);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-date {
+      color: var(--gray-400);
+      font-size: 0.75rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--gray-900);
+      color: white;
+      padding: 2.5rem 1.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .footer-section h4 {
+      color: white;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .footer-section p {
+      color: #9ca3af;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .footer-section a {
+      color: #9ca3af;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-section i {
+      width: 18px;
+      margin-right: 0.3rem;
+      color: var(--primary-light);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #1e293b;
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+
+    .copyright i {
+      color: #ef4444;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 3px solid var(--primary);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        Develop Nepal
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Issue</a>
+        <a href="all-issues.html">View Issues</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html" class="active">Feedback</a>
+        <div id="authSection"></div>
+      </div>
+
+      <button class="mobile-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="report.html"><i class="fas fa-plus-circle"></i> Report Issue</a>
+      <a href="all-issues.html"><i class="fas fa-list"></i> View Issues</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="feedback.html"><i class="fas fa-comment"></i> Feedback</a>
+      <div id="mobileAuthSection"></div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>We Value Your Feedback</h1>
+        <p>Help us improve Develop Nepal by sharing your experience</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">4.8</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Total Reviews</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Satisfaction</div>
+        </div>
+      </div>
+
+      <!-- Feedback Form -->
+      <div class="feedback-form">
+        <h2 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Share Your Feedback</h2>
+        
+        <form id="feedbackForm">
+          <!-- Rating -->
+          <div class="rating-section">
+            <h3>How would you rate your experience?</h3>
+            <div class="stars" id="starRating">
+              <i class="far fa-star" data-rating="1"></i>
+              <i class="far fa-star" data-rating="2"></i>
+              <i class="far fa-star" data-rating="3"></i>
+              <i class="far fa-star" data-rating="4"></i>
+              <i class="far fa-star" data-rating="5"></i>
+            </div>
+            <div class="rating-text" id="ratingText">Click to rate</div>
+            <input type="hidden" id="rating" name="rating" value="0">
+          </div>
+
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address (for follow-up)</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="feedbackType">Feedback Type</label>
+            <select id="feedbackType" required>
+              <option value="">Select type</option>
+              <option value="suggestion">Suggestion</option>
+              <option value="bug">Bug Report</option>
+              <option value="feature">Feature Request</option>
+              <option value="praise">Praise / Compliment</option>
+              <option value="complaint">Complaint</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="feedback">Your Feedback</label>
+            <textarea id="feedback" placeholder="Please share your thoughts, suggestions, or describe any issues you've encountered..." required></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="anonymous">
+            <label for="anonymous">Submit anonymously (your name won't be shown)</label>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="contact" checked>
+            <label for="contact">I'm open to being contacted about my feedback</label>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Submit Feedback
+          </button>
+        </form>
+      </div>
+
+      <!-- Recent Feedback -->
+      <div class="recent-feedback" id="recentFeedback">
+        <h3>Recent Feedback</h3>
+        <div class="loading" style="text-align: center; padding: 1rem;">
+          <div class="spinner" style="width: 25px; height: 25px; margin: 0 auto;"></div>
+          <p>Loading feedback...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Develop Nepal</h4>
+        <p>Report local issues directly to leaders. Track progress and build a better Nepal.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
+        <a href="mailto:samratxtha36@gmail.com"><i class="fas fa-envelope"></i> samratxtha36@gmail.com</a>
+        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
+        <a href="tel:+9779761409401"><i class="fas fa-phone"></i> +977 9761409401</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: 9761614027</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <a href="guide.html">User Guide</a>
+        <a href="faq.html">FAQ</a>
+        <a href="support.html">Support</a>
+        <a href="feedback.html" class="active">Feedback</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>© 2026 Develop Nepal. All rights reserved. | Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const authSection = document.getElementById('authSection');
+    const mobileAuthSection = document.getElementById('mobileAuthSection');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const stars = document.querySelectorAll('#starRating i');
+    const ratingInput = document.getElementById('rating');
+    const ratingText = document.getElementById('ratingText');
+    const recentFeedback = document.getElementById('recentFeedback');
+
+    // Rating descriptions
+    const ratingDescriptions = {
+      0: 'Click to rate',
+      1: 'Poor - Needs significant improvement',
+      2: 'Fair - Could be better',
+      3: 'Good - Satisfactory',
+      4: 'Very Good - Above average',
+      5: 'Excellent - Love it!'
+    };
+
+    // Mobile Menu Toggle
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authSection.innerHTML = `
+          <div class="user-menu">
+            <div class="user-btn" onclick="toggleDropdown()">
+              <span>${user.displayName?.split(' ')[0] || 'User'}</span>
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName || 'User')}">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown" id="dropdown">
+              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+              <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+              <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        `;
+
+        mobileAuthSection.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+          <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+          <a href="#" id="mobileLogoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        `;
+
+        // Pre-fill form if logged in
+        document.getElementById('name').value = user.displayName || '';
+        document.getElementById('email').value = user.email || '';
+
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+          showToast('Logged out successfully');
+        });
+        
+        document.getElementById('mobileLogoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+        });
+
+      } else {
+        authSection.innerHTML = '<a href="login.html" style="background: var(--primary); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; text-decoration: none;">Login</a>';
+        mobileAuthSection.innerHTML = '<a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>';
+      }
+    });
+
+    window.toggleDropdown = () => {
+      document.getElementById('dropdown')?.classList.toggle('show');
+    };
+
+    window.onclick = (e) => {
+      if (!e.target.closest('.user-menu')) {
+        document.getElementById('dropdown')?.classList.remove('show');
+      }
+    };
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    // Star Rating
+    stars.forEach(star => {
+      star.addEventListener('mouseover', function() {
+        const rating = parseInt(this.dataset.rating);
+        updateStars(rating);
+        ratingText.textContent = ratingDescriptions[rating];
+      });
+
+      star.addEventListener('mouseout', function() {
+        const currentRating = parseInt(ratingInput.value);
+        updateStars(currentRating);
+        ratingText.textContent = ratingDescriptions[currentRating];
+      });
+
+      star.addEventListener('click', function() {
+        const rating = parseInt(this.dataset.rating);
+        ratingInput.value = rating;
+        updateStars(rating);
+        ratingText.textContent = ratingDescriptions[rating];
+      });
+    });
+
+    function updateStars(rating) {
+      stars.forEach(star => {
+        const starRating = parseInt(star.dataset.rating);
+        if (starRating <= rating) {
+          star.className = 'fas fa-star active';
+        } else {
+          star.className = 'far fa-star';
+        }
+      });
+    }
+
+    // Form submission
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const rating = parseInt(ratingInput.value);
+      if (rating === 0) {
+        showToast('Please select a rating');
+        return;
+      }
+
+      const isAnonymous = document.getElementById('anonymous').checked;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const feedbackType = document.getElementById('feedbackType').value;
+      const feedback = document.getElementById('feedback').value;
+      const canContact = document.getElementById('contact').checked;
+
+      const feedbackData = {
+        rating: rating,
+        name: isAnonymous ? 'Anonymous' : name,
+        email: isAnonymous ? null : email,
+        type: feedbackType,
+        message: feedback,
+        canContact: canContact,
+        userId: auth.currentUser?.uid || null,
+        userPhoto: isAnonymous ? null : (auth.currentUser?.photoURL || null),
+        timestamp: serverTimestamp(),
+        status: 'pending'
+      };
+
+      try {
+        await addDoc(collection(db, 'feedback'), feedbackData);
+        showToast('Thank you for your feedback!');
+        feedbackForm.reset();
+        ratingInput.value = 0;
+        updateStars(0);
+        ratingText.textContent = ratingDescriptions[0];
+        loadRecentFeedback();
+      } catch (error) {
+        console.error('Error submitting feedback:', error);
+        showToast('Error submitting feedback. Please try again.');
+      }
+    });
+
+    // Load recent feedback
+    async function loadRecentFeedback() {
+      try {
+        const q = query(
+          collection(db, 'feedback'),
+          orderBy('timestamp', 'desc'),
+          limit(5)
+        );
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          recentFeedback.innerHTML = `
+            <h3>Recent Feedback</h3>
+            <p style="text-align: center; color: var(--gray-500); padding: 2rem;">No feedback yet. Be the first to share!</p>
+          `;
+          return;
+        }
+
+        const feedbackHtml = `
+          <h3>Recent Feedback</h3>
+          ${snapshot.docs.map(doc => {
+            const data = doc.data();
+            const date = data.timestamp?.toDate() || new Date();
+            const formattedDate = date.toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric',
+              year: 'numeric'
+            });
+
+            return `
+              <div class="feedback-item">
+                <div class="feedback-header">
+                  <div class="feedback-user">
+                    <img src="${data.userPhoto || 'https://ui-avatars.com/api/?name='+encodeURIComponent(data.name)}" alt="">
+                    <span>${data.name}</span>
+                  </div>
+                  <div class="feedback-rating">
+                    ${Array(data.rating).fill('<i class="fas fa-star"></i>').join('')}
+                  </div>
+                </div>
+                <div class="feedback-text">${data.message.substring(0, 100)}${data.message.length > 100 ? '...' : ''}</div>
+                <div class="feedback-date">${formattedDate} • ${data.type}</div>
+              </div>
+            `;
+          }).join('')}
+        `;
+
+        recentFeedback.innerHTML = feedbackHtml;
+      } catch (error) {
+        console.error('Error loading feedback:', error);
+        recentFeedback.innerHTML = `
+          <h3>Recent Feedback</h3>
+          <p style="text-align: center; color: var(--gray-500);">Error loading feedback</p>
+        `;
+      }
+    }
+
+    // Load initial feedback
+    loadRecentFeedback();
+  </script>
+</body>
+</html>

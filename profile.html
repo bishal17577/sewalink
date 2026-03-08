@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Develop Nepal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #1e293b;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0b4f3a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      font-size: 1.6rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #475569;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: #0b4f3a;
+    }
+
+    /* Profile Dropdown */
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      background: #f1f5f9;
+      border-radius: 50px;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+
+    .profile-btn img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #0b4f3a;
+    }
+
+    .profile-btn span {
+      font-weight: 600;
+      color: #0b4f3a;
+    }
+
+    .profile-btn i {
+      color: #64748b;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+      min-width: 200px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .profile-dropdown.show {
+      display: block;
+    }
+
+    .profile-dropdown a,
+    .profile-dropdown button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #1e293b;
+      text-decoration: none;
+      border-bottom: 1px solid #f1f5f9;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .profile-dropdown a:last-child,
+    .profile-dropdown button:last-child {
+      border-bottom: none;
+    }
+
+    .profile-dropdown a:hover,
+    .profile-dropdown button:hover {
+      background: #f8fafc;
+    }
+
+    .profile-dropdown i {
+      width: 20px;
+      color: #0b4f3a;
+    }
+
+    .logout-btn {
+      color: #ef4444 !important;
+    }
+
+    .logout-btn i {
+      color: #ef4444 !important;
+    }
+
+    /* Container */
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #0b4f3a;
+    }
+
+    .profile-info h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .profile-info p {
+      color: #64748b;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #475569;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      background: #0b4f3a;
+      color: white;
+      border-radius: 50px;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: #0b4f3a;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer {
+      background: #1e293b;
+      color: white;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #334155;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .button-group {
+        flex-direction: column;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        Develop Nepal
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="view-all.html">View Issues</a>
+        <a href="report-issue.html">Report Issue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div id="authSection"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
+        <div class="profile-info">
+          <h1 id="profileName">Loading...</h1>
+          <p id="profileEmail">loading@example.com</p>
+          <span class="role-badge" id="profileRole">Citizen</span>
+        </div>
+      </div>
+
+      <form id="profileForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="fullName" required>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="phone">
+        </div>
+
+        <div class="form-group">
+          <label>Select Role</label>
+          <select id="role">
+            <option value="citizen">Citizen</option>
+            <option value="leader">Leader</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="positionGroup" style="display: none;">
+          <label>Position (for Leaders)</label>
+          <select id="position">
+            <option value="Mayor">Mayor</option>
+            <option value="Deputy Mayor">Deputy Mayor</option>
+            <option value="Ward Chairperson">Ward Chairperson</option>
+            <option value="Minister">Minister</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='about.html'">About Us</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='contact.html'">Contact Us</button>
+          <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <h4>Develop Nepal</h4>
+        <p style="color: #94a3b8;">Report issues directly to leaders. Track progress and build a better Nepal.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:info@developnepal.com">info@developnepal.com</a>
+        <a href="tel:+9779761614027">+977 9761614027</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 Develop Nepal. All rights reserved.
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, updateProfile, deleteUser } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const authSection = document.getElementById('authSection');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      const userData = userDoc.exists() ? userDoc.data() : {};
+
+      // Profile dropdown
+      authSection.innerHTML = `
+        <div class="profile-container">
+          <div class="profile-btn" onclick="toggleDropdown()">
+            <span>${user.displayName?.split(' ')[0] || 'User'}</span>
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name='+user.displayName}">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="profile.html"><i class="fas fa-user"></i> Edit Profile</a>
+            <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Issues</a>
+            <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <hr style="margin: 0.5rem 0; border-color: #f1f5f9;">
+            <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+            <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        signOut(auth);
+      });
+
+      // Profile data
+      document.getElementById('profileAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name='+user.displayName;
+      document.getElementById('profileName').textContent = user.displayName;
+      document.getElementById('profileEmail').textContent = user.email;
+      document.getElementById('profileRole').textContent = userData.role === 'leader' ? 'Leader' : 'Citizen';
+      document.getElementById('fullName').value = user.displayName;
+      document.getElementById('phone').value = userData.phone || '';
+      document.getElementById('role').value = userData.role || 'citizen';
+      document.getElementById('position').value = userData.position || '';
+
+      if (userData.role === 'leader') {
+        document.getElementById('positionGroup').style.display = 'block';
+      }
+    });
+
+    window.toggleDropdown = () => {
+      document.getElementById('profileDropdown').classList.toggle('show');
+    };
+
+    window.onclick = (e) => {
+      if (!e.target.closest('.profile-container')) {
+        document.getElementById('profileDropdown')?.classList.remove('show');
+      }
+    };
+
+    document.getElementById('role').addEventListener('change', function() {
+      document.getElementById('positionGroup').style.display = this.value === 'leader' ? 'block' : 'none';
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      try {
+        await updateProfile(auth.currentUser, {
+          displayName: document.getElementById('fullName').value
+        });
+
+        await setDoc(doc(db, 'users', auth.currentUser.uid), {
+          name: document.getElementById('fullName').value,
+          phone: document.getElementById('phone').value,
+          role: document.getElementById('role').value,
+          position: document.getElementById('position').value,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+
+        alert('Profile updated successfully!');
+        window.location.reload();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+
+    window.deleteAccount = async () => {
+      if (!confirm('Are you sure? This cannot be undone.')) return;
+
+      try {
+        await deleteDoc(doc(db, 'users', auth.currentUser.uid));
+        await deleteUser(auth.currentUser);
+        window.location.href = 'index.html';
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+  </script>
+</body>
+</html>

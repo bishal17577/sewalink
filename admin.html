@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Develop Nepal</title>
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --primary: #0b4f3a;
+      --primary-dark: #063f2e;
+      --primary-light: #1e7e5c;
+      --primary-soft: #e6f7f0;
+      --accent: #f59e0b;
+      --gray-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-light: #475569;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --success: #10b981;
+      --success-soft: #d1fae5;
+      --warning: #f59e0b;
+      --warning-soft: #fef3c7;
+      --danger: #ef4444;
+      --danger-soft: #fee2e2;
+      --info: #3b82f6;
+      --info-soft: #dbeafe;
+    }
+
+    body {
+      background: var(--gray-bg);
+      color: var(--text-dark);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* PIN Overlay */
+    .pin-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-box {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .pin-box h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+
+    .pin-box p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .pin-input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1.5rem;
+      text-align: center;
+      letter-spacing: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .pin-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .pin-error {
+      color: var(--danger);
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .pin-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .pin-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .pin-btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .pin-btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .pin-btn-secondary {
+      background: var(--gray-bg);
+      color: var(--text-dark);
+    }
+
+    /* Header */
+    .header {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border: 1px solid var(--border);
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .header h1 i {
+      margin-right: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-title {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.7rem 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Tables */
+    .table-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--gray-bg);
+    }
+
+    .table-header h3 {
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .search-box input {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      width: 250px;
+    }
+
+    .search-box button {
+      padding: 0.5rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 1rem 1.5rem;
+      background: var(--gray-bg);
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    tr:hover {
+      background: var(--gray-bg);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .status-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-active {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .status-pending {
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
+    .status-blocked {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .status-approved {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .action-btn.view {
+      background: var(--info-soft);
+      color: var(--info);
+    }
+
+    .action-btn.edit {
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
+    .action-btn.block {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .action-btn.approve {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.3rem;
+    }
+
+    .close {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 10002;
+      border-left: 4px solid var(--success);
+    }
+
+    .toast.error {
+      border-left-color: var(--danger);
+    }
+
+    .toast.warning {
+      border-left-color: var(--warning);
+    }
+
+    .toast-icon {
+      font-size: 1.2rem;
+    }
+
+    .toast.success .toast-icon {
+      color: var(--success);
+    }
+
+    .toast.error .toast-icon {
+      color: var(--danger);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: white;
+      padding: 2rem 1rem 1rem;
+      margin-top: 2rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-section h3 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section a {
+      color: #94a3b8;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1e293b;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <!-- PIN Overlay -->
+  <div class="pin-overlay" id="pinOverlay">
+    <div class="pin-box">
+      <h2>🔐 Admin Access</h2>
+      <p>Enter PIN to access admin panel</p>
+      <input type="password" class="pin-input" id="pinInput" maxlength="6" placeholder="••••••" autofocus>
+      <div class="pin-error" id="pinError">Invalid PIN. Please try again.</div>
+      <div class="pin-buttons">
+        <button class="pin-btn pin-btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+        <button class="pin-btn pin-btn-primary" onclick="verifyPin()">Enter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent" style="display: none;">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div>
+          <h1><i class="fas fa-crown"></i> Admin Panel</h1>
+          <p>Manage your platform with real Firebase data</p>
+        </div>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-title">Total Users</div>
+          <div class="stat-number" id="totalUsers">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="stat-title">Total Issues</div>
+          <div class="stat-number" id="totalIssues">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-title">Pending Verifications</div>
+          <div class="stat-number" id="pendingVerifications">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-crown"></i></div>
+          <div class="stat-title">Active Leaders</div>
+          <div class="stat-number" id="activeLeaders">0</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('users')"><i class="fas fa-users"></i> Users</button>
+        <button class="tab-btn" onclick="showTab('verifications')"><i class="fas fa-id-card"></i> Verifications</button>
+        <button class="tab-btn" onclick="showTab('issues')"><i class="fas fa-exclamation-circle"></i> Issues</button>
+        <button class="tab-btn" onclick="showTab('leaders')"><i class="fas fa-crown"></i> Leaders</button>
+        <button class="tab-btn" onclick="showTab('settings')"><i class="fas fa-cog"></i> Settings</button>
+      </div>
+
+      <!-- Users Tab -->
+      <div id="usersTab" class="tab-content">
+        <div class="table-container">
+          <div class="table-header">
+            <h3><i class="fas fa-users"></i> All Users</h3>
+            <div class="search-box">
+              <input type="text" id="userSearch" placeholder="Search users...">
+              <button onclick="searchUsers()"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+          <div id="usersTableBody">
+            <div class="loading"><div class="spinner"></div><p>Loading users...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verifications Tab -->
+      <div id="verificationsTab" class="tab-content" style="display: none;">
+        <div class="table-container">
+          <div class="table-header">
+            <h3><i class="fas fa-id-card"></i> Pending Verifications</h3>
+          </div>
+          <div id="verificationsTableBody">
+            <div class="loading"><div class="spinner"></div><p>Loading verifications...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issues Tab -->
+      <div id="issuesTab" class="tab-content" style="display: none;">
+        <div class="table-container">
+          <div class="table-header">
+            <h3><i class="fas fa-exclamation-circle"></i> All Issues</h3>
+            <div class="search-box">
+              <input type="text" id="issueSearch" placeholder="Search issues...">
+              <button onclick="searchIssues()"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+          <div id="issuesTableBody">
+            <div class="loading"><div class="spinner"></div><p>Loading issues...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaders Tab -->
+      <div id="leadersTab" class="tab-content" style="display: none;">
+        <div class="table-container">
+          <div class="table-header">
+            <h3><i class="fas fa-crown"></i> Verified Leaders</h3>
+          </div>
+          <div id="leadersTableBody">
+            <div class="loading"><div class="spinner"></div><p>Loading leaders...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settingsTab" class="tab-content" style="display: none;">
+        <div class="table-container">
+          <div class="table-header">
+            <h3><i class="fas fa-cog"></i> Admin Settings</h3>
+          </div>
+          <div style="padding: 2rem;">
+            <div style="margin-bottom: 1.5rem;">
+              <h4 style="margin-bottom: 1rem;">Admin PIN</h4>
+              <p>Current PIN: <strong>882827</strong></p>
+              <p style="color: var(--text-muted); margin-top: 0.5rem;">PIN is fixed for security</p>
+            </div>
+            <div>
+              <h4 style="margin-bottom: 1rem;">Database Stats</h4>
+              <p>Total Users: <span id="statTotalUsers">0</span></p>
+              <p>Total Issues: <span id="statTotalIssues">0</span></p>
+              <p>Total Comments: <span id="statTotalComments">0</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal" id="editUserModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit User</h2>
+        <span class="close" onclick="closeModal('editUserModal')">&times;</span>
+      </div>
+      <form id="editUserForm">
+        <input type="hidden" id="editUserId">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="editName" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" id="editPhone">
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select id="editRole">
+            <option value="citizen">Citizen</option>
+            <option value="leader">Leader</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="editStatus">
+            <option value="active">Active</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="action-btn approve">Save Changes</button>
+          <button type="button" class="action-btn block" onclick="closeModal('editUserModal')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Issue Modal -->
+  <div class="modal" id="editIssueModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Issue</h2>
+        <span class="close" onclick="closeModal('editIssueModal')">&times;</span>
+      </div>
+      <form id="editIssueForm">
+        <input type="hidden" id="editIssueId">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="editIssueTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="editIssueStatus">
+            <option value="active">Active</option>
+            <option value="in-progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="action-btn approve">Update Issue</button>
+          <button type="button" class="action-btn block" onclick="closeModal('editIssueModal')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { 
+      getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, query, where 
+    } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Admin PIN
+    const ADMIN_PIN = '882827';
+    
+    // Global data
+    let allUsers = [];
+    let allIssues = [];
+    let allComments = [];
+
+    // Check session
+    if (sessionStorage.getItem('adminAuth') === 'true') {
+      document.getElementById('pinOverlay').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      loadAllData();
+    }
+
+    // Verify PIN
+    window.verifyPin = function() {
+      const pin = document.getElementById('pinInput').value;
+      if (pin === ADMIN_PIN) {
+        sessionStorage.setItem('adminAuth', 'true');
+        document.getElementById('pinOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        loadAllData();
+      } else {
+        document.getElementById('pinError').style.display = 'block';
+      }
+    };
+
+    // Logout
+    window.logout = function() {
+      sessionStorage.removeItem('adminAuth');
+      window.location.reload();
+    };
+
+    // Load all data from Firebase
+    async function loadAllData() {
+      try {
+        // Load users
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        allUsers = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Load issues
+        const issuesSnapshot = await getDocs(collection(db, 'issues'));
+        allIssues = issuesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Load comments (from first 10 issues to avoid too many reads)
+        allComments = [];
+        for (let i = 0; i < Math.min(allIssues.length, 10); i++) {
+          try {
+            const commentsSnapshot = await getDocs(collection(db, 'issues', allIssues[i].id, 'comments'));
+            commentsSnapshot.docs.forEach(doc => {
+              allComments.push({ id: doc.id, issueId: allIssues[i].id, ...doc.data() });
+            });
+          } catch (e) {
+            // Skip if comments don't exist
+          }
+        }
+
+        // Update stats
+        updateStats();
+        
+        // Load tables
+        loadUsersTable();
+        loadVerificationsTable();
+        loadIssuesTable();
+        loadLeadersTable();
+        
+      } catch (error) {
+        console.error('Error loading data:', error);
+        showToast('error', 'Failed to load data from Firebase');
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const totalUsers = allUsers.length;
+      const totalIssues = allIssues.length;
+      const pendingVerifications = allUsers.filter(u => u.verificationStatus === 'pending' && u.requestedRole === 'leader').length;
+      const activeLeaders = allUsers.filter(u => u.role === 'leader' && u.verificationStatus === 'approved').length;
+
+      document.getElementById('totalUsers').textContent = totalUsers;
+      document.getElementById('totalIssues').textContent = totalIssues;
+      document.getElementById('pendingVerifications').textContent = pendingVerifications;
+      document.getElementById('activeLeaders').textContent = activeLeaders;
+      
+      document.getElementById('statTotalUsers').textContent = totalUsers;
+      document.getElementById('statTotalIssues').textContent = totalIssues;
+      document.getElementById('statTotalComments').textContent = allComments.length;
+    }
+
+    // Load users table
+    function loadUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      
+      if (allUsers.length === 0) {
+        tbody.innerHTML = '<p style="padding: 2rem; text-align: center;">No users found</p>';
+        return;
+      }
+
+      tbody.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Verification</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allUsers.map(user => `
+              <tr>
+                <td>
+                  <div class="user-info">
+                    <img src="${user.photo || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.name || 'User')}" class="user-avatar">
+                    <span>${user.name || 'No Name'}</span>
+                  </div>
+                </td>
+                <td>${user.email || 'N/A'}</td>
+                <td><span class="status-badge status-${user.role || 'citizen'}">${user.role || 'citizen'}</span></td>
+                <td><span class="status-badge status-${user.status || 'active'}">${user.status || 'active'}</span></td>
+                <td><span class="status-badge status-${user.verificationStatus || 'pending'}">${user.verificationStatus || 'pending'}</span></td>
+                <td>${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="action-btn view" onclick="viewUser('${user.id}')"><i class="fas fa-eye"></i> View</button>
+                    <button class="action-btn edit" onclick="editUser('${user.id}')"><i class="fas fa-edit"></i> Edit</button>
+                    ${user.status !== 'blocked' ? 
+                      `<button class="action-btn block" onclick="toggleBlock('${user.id}', true)"><i class="fas fa-ban"></i> Block</button>` :
+                      `<button class="action-btn approve" onclick="toggleBlock('${user.id}', false)"><i class="fas fa-check"></i> Unblock</button>`}
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Load verifications table
+    function loadVerificationsTable() {
+      const tbody = document.getElementById('verificationsTableBody');
+      const pending = allUsers.filter(u => u.verificationStatus === 'pending' && u.requestedRole === 'leader');
+      
+      if (pending.length === 0) {
+        tbody.innerHTML = '<p style="padding: 2rem; text-align: center;">No pending verifications</p>';
+        return;
+      }
+
+      tbody.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Position</th>
+              <th>Documents</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${pending.map(user => `
+              <tr>
+                <td>
+                  <div class="user-info">
+                    <img src="${user.photo || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.name || 'User')}" class="user-avatar">
+                    <span>${user.name}</span>
+                  </div>
+                </td>
+                <td>${user.leaderPosition || 'Leader'}</td>
+                <td>${user.documents ? Object.keys(user.documents).length : 0} files</td>
+                <td>${user.documents ? new Date(Object.values(user.documents)[0]?.uploadedAt).toLocaleDateString() : 'N/A'}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="action-btn approve" onclick="verifyUser('${user.id}', 'approved')"><i class="fas fa-check"></i> Approve</button>
+                    <button class="action-btn block" onclick="verifyUser('${user.id}', 'rejected')"><i class="fas fa-times"></i> Reject</button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Load issues table
+    function loadIssuesTable() {
+      const tbody = document.getElementById('issuesTableBody');
+      
+      if (allIssues.length === 0) {
+        tbody.innerHTML = '<p style="padding: 2rem; text-align: center;">No issues found</p>';
+        return;
+      }
+
+      tbody.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Posted By</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Votes</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allIssues.slice(0, 50).map(issue => {
+              const user = allUsers.find(u => u.id === issue.userId) || {};
+              return `
+              <tr>
+                <td>${issue.title?.substring(0, 30)}...</td>
+                <td>${issue.userName || user.name || 'Anonymous'}</td>
+                <td>${issue.category || 'General'}</td>
+                <td>${issue.district || 'Unknown'}</td>
+                <td><span class="status-badge status-${issue.status || 'pending'}">${issue.status || 'pending'}</span></td>
+                <td>${issue.votes || 0}</td>
+                <td>${issue.createdAt ? new Date(issue.createdAt).toLocaleDateString() : 'N/A'}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="action-btn view" onclick="viewIssue('${issue.id}')"><i class="fas fa-eye"></i> View</button>
+                    <button class="action-btn edit" onclick="editIssue('${issue.id}')"><i class="fas fa-edit"></i> Edit</button>
+                    <button class="action-btn block" onclick="deleteIssue('${issue.id}')"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </td>
+              </tr>
+            `}).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Load leaders table
+    function loadLeadersTable() {
+      const tbody = document.getElementById('leadersTableBody');
+      const leaders = allUsers.filter(u => u.role === 'leader' && u.verificationStatus === 'approved');
+      
+      if (leaders.length === 0) {
+        tbody.innerHTML = '<p style="padding: 2rem; text-align: center;">No leaders found</p>';
+        return;
+      }
+
+      tbody.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Leader</th>
+              <th>Position</th>
+              <th>Region</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${leaders.map(leader => `
+              <tr>
+                <td>
+                  <div class="user-info">
+                    <img src="${leader.photo || 'https://ui-avatars.com/api/?name='+encodeURIComponent(leader.name || 'Leader')}" class="user-avatar">
+                    <span>${leader.name}</span>
+                  </div>
+                </td>
+                <td>${leader.leaderPosition || 'Leader'}</td>
+                <td>${leader.location?.district || 'N/A'}</td>
+                <td>${leader.email}</td>
+                <td>${leader.phone || 'N/A'}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="action-btn view" onclick="viewUser('${leader.id}')"><i class="fas fa-eye"></i> View</button>
+                    <button class="action-btn block" onclick="removeLeader('${leader.id}')"><i class="fas fa-user-minus"></i> Remove</button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Action functions
+    window.viewUser = (id) => window.open(`profile.html?id=${id}`, '_blank');
+    window.viewIssue = (id) => window.open(`issue.html?id=${id}`, '_blank');
+
+    window.editUser = (id) => {
+      const user = allUsers.find(u => u.id === id);
+      document.getElementById('editUserId').value = id;
+      document.getElementById('editName').value = user.name || '';
+      document.getElementById('editPhone').value = user.phone || '';
+      document.getElementById('editRole').value = user.role || 'citizen';
+      document.getElementById('editStatus').value = user.status || 'active';
+      document.getElementById('editUserModal').classList.add('active');
+    };
+
+    window.editIssue = (id) => {
+      const issue = allIssues.find(i => i.id === id);
+      document.getElementById('editIssueId').value = id;
+      document.getElementById('editIssueTitle').value = issue.title || '';
+      document.getElementById('editIssueStatus').value = issue.status || 'pending';
+      document.getElementById('editIssueModal').classList.add('active');
+    };
+
+    document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editUserId').value;
+      try {
+        await updateDoc(doc(db, 'users', id), {
+          name: document.getElementById('editName').value,
+          phone: document.getElementById('editPhone').value,
+          role: document.getElementById('editRole').value,
+          status: document.getElementById('editStatus').value
+        });
+        showToast('success', 'User updated successfully');
+        closeModal('editUserModal');
+        loadAllData();
+      } catch (error) {
+        showToast('error', 'Failed to update user');
+      }
+    });
+
+    document.getElementById('editIssueForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editIssueId').value;
+      try {
+        await updateDoc(doc(db, 'issues', id), {
+          title: document.getElementById('editIssueTitle').value,
+          status: document.getElementById('editIssueStatus').value
+        });
+        showToast('success', 'Issue updated successfully');
+        closeModal('editIssueModal');
+        loadAllData();
+      } catch (error) {
+        showToast('error', 'Failed to update issue');
+      }
+    });
+
+    window.toggleBlock = async (id, block) => {
+      if (confirm(`Are you sure you want to ${block ? 'block' : 'unblock'} this user?`)) {
+        try {
+          await updateDoc(doc(db, 'users', id), { status: block ? 'blocked' : 'active' });
+          showToast('success', `User ${block ? 'blocked' : 'unblocked'}`);
+          loadAllData();
+        } catch (error) {
+          showToast('error', 'Failed to update user');
+        }
+      }
+    };
+
+    window.verifyUser = async (id, status) => {
+      if (confirm(`Are you sure you want to ${status} this verification?`)) {
+        try {
+          await updateDoc(doc(db, 'users', id), {
+            verificationStatus: status,
+            role: status === 'approved' ? 'leader' : 'citizen'
+          });
+          showToast('success', `Verification ${status}`);
+          loadAllData();
+        } catch (error) {
+          showToast('error', 'Failed to update verification');
+        }
+      }
+    };
+
+    window.removeLeader = async (id) => {
+      if (confirm('Remove leader status from this user?')) {
+        try {
+          await updateDoc(doc(db, 'users', id), { role: 'citizen' });
+          showToast('success', 'Leader removed');
+          loadAllData();
+        } catch (error) {
+          showToast('error', 'Failed to remove leader');
+        }
+      }
+    };
+
+    window.deleteIssue = async (id) => {
+      if (confirm('Are you sure you want to delete this issue?')) {
+        try {
+          await deleteDoc(doc(db, 'issues', id));
+          showToast('success', 'Issue deleted');
+          loadAllData();
+        } catch (error) {
+          showToast('error', 'Failed to delete issue');
+        }
+      }
+    };
+
+    window.searchUsers = () => {
+      const term = document.getElementById('userSearch').value.toLowerCase();
+      showToast('info', `Searching for: ${term}`);
+    };
+
+    window.searchIssues = () => {
+      const term = document.getElementById('issueSearch').value.toLowerCase();
+      showToast('info', `Searching for: ${term}`);
+    };
+
+    window.showTab = (tab) => {
+      document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tab + 'Tab').style.display = 'block';
+      event.target.classList.add('active');
+    };
+
+    window.closeModal = (modalId) => {
+      document.getElementById(modalId).classList.remove('active');
+    };
+
+    function showToast(type, message) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        </div>
+        <div>${message}</div>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Handle Enter key
+    document.getElementById('pinInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') verifyPin();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Guide - Develop Nepal</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --primary: #0f3b2c;
+      --primary-dark: #0a2f22;
+      --primary-light: #1b6e50;
+      --accent: #d97706;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+
+    body {
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+    }
+
+    /* Navigation */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* User Menu */
+    .user-menu {
+      position: relative;
+    }
+
+    .user-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      cursor: pointer;
+    }
+
+    .user-btn img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-btn span {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--gray-800);
+    }
+
+    .dropdown {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      display: none;
+      z-index: 100;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.85rem;
+    }
+
+    .dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background: var(--gray-100);
+    }
+
+    .dropdown i {
+      width: 18px;
+      color: var(--primary);
+    }
+
+    .logout-btn {
+      color: #dc2626 !important;
+    }
+
+    .logout-btn i {
+      color: #dc2626 !important;
+    }
+
+    /* Mobile Menu */
+    .mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-btn {
+        display: block;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      background: var(--white);
+      padding: 1rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.6rem 0;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.9rem;
+    }
+
+    .mobile-menu a i {
+      width: 24px;
+      color: var(--primary);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 3rem 0;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--gray-600);
+      font-size: 1.1rem;
+    }
+
+    /* Guide Sections */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .guide-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.2s;
+    }
+
+    .guide-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .guide-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-light);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .guide-card h2 {
+      color: var(--gray-800);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .guide-card p {
+      color: var(--gray-600);
+      margin-bottom: 1.5rem;
+    }
+
+    .step-list {
+      list-style: none;
+    }
+
+    .step-list li {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .step-list li:last-child {
+      border-bottom: none;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content strong {
+      display: block;
+      color: var(--gray-800);
+      margin-bottom: 0.3rem;
+    }
+
+    .step-content span {
+      color: var(--gray-600);
+      font-size: 0.9rem;
+    }
+
+    /* Role Badges */
+    .role-badges {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .role-badge {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .role-citizen {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .role-leader {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    /* Video Section */
+    .video-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 20px;
+      padding: 3rem;
+      color: white;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .video-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .video-section p {
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .video-placeholder {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 4rem 2rem;
+      border: 2px dashed rgba(255,255,255,0.3);
+    }
+
+    .video-placeholder i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* FAQ Mini */
+    .faq-mini {
+      margin-top: 3rem;
+    }
+
+    .faq-mini h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--gray-800);
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--primary);
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .faq-answer {
+      margin-top: 1rem;
+      color: var(--gray-600);
+      display: none;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .view-all {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .view-all a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--gray-900);
+      color: white;
+      padding: 2.5rem 1.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .footer-section h4 {
+      color: white;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .footer-section p {
+      color: #9ca3af;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .footer-section a {
+      color: #9ca3af;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-section i {
+      width: 18px;
+      margin-right: 0.3rem;
+      color: var(--primary-light);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #1e293b;
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+
+    .copyright i {
+      color: #ef4444;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 3px solid var(--primary);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        Develop Nepal
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Issue</a>
+        <a href="all-issues.html">View Issues</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="guide.html" class="active">Guide</a>
+        <div id="authSection"></div>
+      </div>
+
+      <button class="mobile-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="report.html"><i class="fas fa-plus-circle"></i> Report Issue</a>
+      <a href="all-issues.html"><i class="fas fa-list"></i> View Issues</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="guide.html"><i class="fas fa-book"></i> Guide</a>
+      <div id="mobileAuthSection"></div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>User Guide</h1>
+        <p>Everything you need to know about using Develop Nepal</p>
+      </div>
+
+      <!-- Role Badges -->
+      <div class="role-badges">
+        <span class="role-badge role-citizen">Citizen</span>
+        <span class="role-badge role-leader">Local Leader</span>
+      </div>
+
+      <!-- Guide Grid -->
+      <div class="guide-grid">
+        <!-- For Citizens -->
+        <div class="guide-card">
+          <div class="guide-icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <h2>For Citizens</h2>
+          <p>Learn how to report issues and track their progress in your community.</p>
+          
+          <ul class="step-list">
+            <li>
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <strong>Create an Account</strong>
+                <span>Sign up with your email or Google account to start reporting issues.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <strong>Report an Issue</strong>
+                <span>Click "Report Issue", fill in details (title, location, photos, budget, urgency).</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <strong>Track Your Issue</strong>
+                <span>Visit "My Issues" to see status updates from leaders.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <strong>Vote & Comment</strong>
+                <span>Support other issues by voting and leaving comments.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <strong>Get Notifications</strong>
+                <span>Receive updates when your issue status changes.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- For Leaders -->
+        <div class="guide-card">
+          <div class="guide-icon">
+            <i class="fas fa-crown"></i>
+          </div>
+          <h2>For Local Leaders</h2>
+          <p>Guide for reviewing, accepting, and managing community issues.</p>
+          
+          <ul class="step-list">
+            <li>
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <strong>Verify Your Account</strong>
+                <span>Contact support to get leader verification.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <strong>Review Issues</strong>
+                <span>Browse issues in your district that need attention.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <strong>Accept/Reject Issues</strong>
+                <span>Accept valid issues to mark them as "in progress".</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <strong>Update Status</strong>
+                <span>Mark issues as "resolved" when work is completed.</span>
+              </div>
+            </li>
+            <li>
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <strong>Community Engagement</strong>
+                <span>Respond to comments and build trust with citizens.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Video Tutorial Section -->
+      <div class="video-section">
+        <h2>Watch Tutorial</h2>
+        <p>Learn how to use Develop Nepal in this quick video guide</p>
+        <div class="video-placeholder">
+          <i class="fas fa-play-circle"></i>
+          <h3>How to Report an Issue</h3>
+          <p>Video tutorial coming soon...</p>
+        </div>
+      </div>
+
+      <!-- Quick FAQ -->
+      <div class="faq-mini">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">
+            <span>How do I know if my issue has been accepted?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            You'll receive a notification when a leader reviews your issue. You can also check the status in "My Issues" - it will change from "Active" to "In Progress" when accepted.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">
+            <span>Can I edit my issue after reporting?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, you can edit your issue as long as it's still in "Active" status. Once a leader accepts it, editing is disabled to maintain transparency.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">
+            <span>How do leaders get verified?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Leaders must contact our support team with official documentation proving their position in local government. We manually verify each leader account.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">
+            <span>What does the budget field mean?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Estimated budget required to fix the issue. This helps leaders prioritize and allocate resources. You can leave it blank if unsure.
+          </div>
+        </div>
+
+        <div class="view-all">
+          <a href="faq.html">View all FAQs <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tips & Best Practices -->
+      <div style="margin-top: 3rem; background: white; border-radius: 20px; padding: 2rem; border: 1px solid var(--gray-200);">
+        <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Tips for Best Results</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div>
+            <i class="fas fa-camera" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+            <h3>Add Clear Photos</h3>
+            <p style="color: var(--gray-600);">Upload clear images of the issue from different angles.</p>
+          </div>
+          <div>
+            <i class="fas fa-map-pin" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+            <h3>Pin Exact Location</h3>
+            <p style="color: var(--gray-600);">Provide accurate location details for faster response.</p>
+          </div>
+          <div>
+            <i class="fas fa-clock" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+            <h3>Be Specific</h3>
+            <p style="color: var(--gray-600);">Describe the issue in detail, including when it started.</p>
+          </div>
+          <div>
+            <i class="fas fa-users" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+            <h3>Engage Community</h3>
+            <p style="color: var(--gray-600);">Share your issue on social media to get more votes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Develop Nepal</h4>
+        <p>Report local issues directly to leaders. Track progress and build a better Nepal.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
+        <a href="mailto:samratxtha36@gmail.com"><i class="fas fa-envelope"></i> samratxtha36@gmail.com</a>
+        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
+        <a href="tel:+9779761409401"><i class="fas fa-phone"></i> +977 9761409401</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: 9761614027</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <a href="guide.html" class="active">User Guide</a>
+        <a href="faq.html">FAQ</a>
+        <a href="support.html">Support</a>
+        <a href="feedback.html">Feedback</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>© 2026 Develop Nepal. All rights reserved. | Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const authSection = document.getElementById('authSection');
+    const mobileAuthSection = document.getElementById('mobileAuthSection');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    // Mobile Menu Toggle
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authSection.innerHTML = `
+          <div class="user-menu">
+            <div class="user-btn" onclick="toggleDropdown()">
+              <span>${user.displayName?.split(' ')[0] || 'User'}</span>
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName || 'User')}">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown" id="dropdown">
+              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+              <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+              <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        `;
+
+        mobileAuthSection.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+          <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+          <a href="#" id="mobileLogoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        `;
+
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+          showToast('Logged out successfully');
+        });
+        
+        document.getElementById('mobileLogoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+        });
+
+      } else {
+        authSection.innerHTML = '<a href="login.html" style="background: var(--primary); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; text-decoration: none;">Login</a>';
+        mobileAuthSection.innerHTML = '<a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>';
+      }
+    });
+
+    window.toggleDropdown = () => {
+      document.getElementById('dropdown')?.classList.toggle('show');
+    };
+
+    window.onclick = (e) => {
+      if (!e.target.closest('.user-menu')) {
+        document.getElementById('dropdown')?.classList.remove('show');
+      }
+    };
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    // Toggle FAQ
+    window.toggleFAQ = (element) => {
+      element.classList.toggle('active');
+    };
+  </script>
+</body>
+</html>

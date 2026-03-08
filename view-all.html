@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Details - Develop Nepal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748b;
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .issue-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .issue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .issue-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .status-badge {
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .status-active { background: #fef3c7; color: #f59e0b; }
+    .status-progress { background: #dbeafe; color: #3b82f6; }
+    .status-resolved { background: #d1fae5; color: #10b981; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .meta-item i {
+      color: #0b4f3a;
+      width: 20px;
+    }
+
+    .issue-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+    }
+
+    .description {
+      line-height: 1.8;
+      margin: 1.5rem 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .vote-btn.voted {
+      background: #ef4444;
+      color: white;
+      border-color: #ef4444;
+    }
+
+    .vote-btn.voted i {
+      color: white;
+    }
+
+    .share-btn {
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .comments-section {
+      margin-top: 2rem;
+    }
+
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .comment-form {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .comment-form input {
+      flex: 1;
+      padding: 0.8rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 30px;
+    }
+
+    .comment-form button {
+      padding: 0.8rem 2rem;
+      background: #0b4f3a;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .comment {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .comment-content {
+      flex: 1;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .comment-time {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="javascript:history.back()" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <div id="issueContainer">
+      <div style="text-align: center; padding: 2rem;">Loading...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, doc, getDoc, collection, addDoc, getDocs, query, orderBy, updateDoc, increment, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const issueId = urlParams.get('id');
+
+    if (!issueId) {
+      window.location.href = 'index.html';
+    }
+
+    let currentUser = null;
+    let currentIssue = null;
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      loadIssue();
+    });
+
+    async function loadIssue() {
+      try {
+        const issueDoc = await getDoc(doc(db, 'issues', issueId));
+        if (!issueDoc.exists()) {
+          document.getElementById('issueContainer').innerHTML = '<p>Issue not found</p>';
+          return;
+        }
+
+        currentIssue = { id: issueDoc.id, ...issueDoc.data() };
+
+        // Load comments
+        const commentsQuery = query(collection(db, 'issues', issueId, 'comments'), orderBy('createdAt', 'desc'));
+        const commentsSnap = await getDocs(commentsQuery);
+        const comments = commentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        displayIssue(comments);
+      } catch (error) {
+        document.getElementById('issueContainer').innerHTML = '<p>Error loading issue</p>';
+      }
+    }
+
+    function displayIssue(comments) {
+      const hasVoted = currentUser && currentIssue.votedBy?.includes(currentUser.uid);
+      const statusClass = currentIssue.status === 'resolved' ? 'status-resolved' :
+                         currentIssue.status === 'in-progress' ? 'status-progress' : 'status-active';
+      const statusText = currentIssue.status === 'resolved' ? 'Resolved' :
+                        currentIssue.status === 'in-progress' ? 'In Progress' : 'Active';
+
+      document.getElementById('issueContainer').innerHTML = `
+        <div class="issue-card">
+          <div class="issue-header">
+            <h1 class="issue-title">${currentIssue.title || 'Untitled'}</h1>
+            <span class="status-badge ${statusClass}">${statusText}</span>
+          </div>
+
+          <div class="meta-grid">
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i> ${currentIssue.district}, Ward ${currentIssue.ward}</div>
+            <div class="meta-item"><i class="fas fa-user"></i> Posted by ${currentIssue.userName}</div>
+            <div class="meta-item"><i class="fas fa-calendar"></i> ${new Date(currentIssue.createdAt).toLocaleDateString()}</div>
+            <div class="meta-item"><i class="fas fa-tag"></i> ${currentIssue.category}</div>
+          </div>
+
+          ${currentIssue.imageUrl ? `<img src="${currentIssue.imageUrl}" class="issue-image">` : ''}
+
+          <p class="description">${currentIssue.description}</p>
+
+          <div class="action-buttons">
+            <button class="vote-btn ${hasVoted ? 'voted' : ''}" id="voteBtn">
+              <i class="fas fa-heart"></i> <span id="voteCount">${currentIssue.votes || 0}</span> Votes
+            </button>
+            <button class="share-btn" id="shareBtn">
+              <i class="fas fa-share-alt"></i> Share
+            </button>
+          </div>
+
+          <div class="comments-section">
+            <div class="comments-header">
+              <h3>Comments (${comments.length})</h3>
+            </div>
+
+            ${currentUser ? `
+              <div class="comment-form">
+                <input type="text" id="commentInput" placeholder="Write a comment...">
+                <button id="submitComment">Post</button>
+              </div>
+            ` : '<p><a href="login.html">Login</a> to comment</p>'}
+
+            <div id="commentsList">
+              ${comments.map(c => `
+                <div class="comment">
+                  <img src="${c.userPhoto || 'https://ui-avatars.com/api/?name='+c.userName}" class="comment-avatar">
+                  <div class="comment-content">
+                    <div class="comment-author">${c.userName}</div>
+                    <div class="comment-time">${new Date(c.createdAt).toLocaleString()}</div>
+                    <div>${c.message}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('voteBtn').addEventListener('click', handleVote);
+      document.getElementById('shareBtn').addEventListener('click', handleShare);
+      
+      if (currentUser) {
+        document.getElementById('submitComment').addEventListener('click', handleComment);
+      }
+    }
+
+    async function handleVote() {
+      if (!currentUser) {
+        alert('Please login to vote');
+        return;
+      }
+
+      const hasVoted = currentIssue.votedBy?.includes(currentUser.uid);
+      
+      try {
+        await updateDoc(doc(db, 'issues', issueId), {
+          votes: increment(hasVoted ? -1 : 1),
+          votedBy: hasVoted ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
+        });
+        
+        loadIssue();
+      } catch (error) {
+        alert('Vote failed');
+      }
+    }
+
+    function handleShare() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied to clipboard!');
+    }
+
+    async function handleComment() {
+      const input = document.getElementById('commentInput');
+      const message = input.value.trim();
+      
+      if (!message) return;
+
+      try {
+        await addDoc(collection(db, 'issues', issueId, 'comments'), {
+          userId: currentUser.uid,
+          userName: currentUser.displayName,
+          userPhoto: currentUser.photoURL,
+          message: message,
+          createdAt: new Date().toISOString()
+        });
+
+        await updateDoc(doc(db, 'issues', issueId), {
+          comments: increment(1)
+        });
+
+        input.value = '';
+        loadIssue();
+      } catch (error) {
+        alert('Failed to post comment');
+      }
+    }
+  </script>
+</body>
+</html>

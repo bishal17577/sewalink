@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Develop Nepal</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --primary: #0f3b2c;
+      --primary-dark: #0a2f22;
+      --primary-light: #1b6e50;
+      --accent: #d97706;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+
+    body {
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+    }
+
+    /* Navigation */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* User Menu */
+    .user-menu {
+      position: relative;
+    }
+
+    .user-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      cursor: pointer;
+    }
+
+    .user-btn img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-btn span {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--gray-800);
+    }
+
+    .dropdown {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      display: none;
+      z-index: 100;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.85rem;
+    }
+
+    .dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background: var(--gray-100);
+    }
+
+    .dropdown i {
+      width: 18px;
+      color: var(--primary);
+    }
+
+    .logout-btn {
+      color: #dc2626 !important;
+    }
+
+    .logout-btn i {
+      color: #dc2626 !important;
+    }
+
+    /* Mobile Menu */
+    .mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-btn {
+        display: block;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      background: var(--white);
+      padding: 1rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.6rem 0;
+      color: var(--gray-700);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.9rem;
+    }
+
+    .mobile-menu a i {
+      width: 24px;
+      color: var(--primary);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 3rem 0;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--gray-600);
+      font-size: 1.1rem;
+    }
+
+    /* Search */
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 59, 44, 0.1);
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .category-btn {
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      color: var(--gray-600);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* FAQ Accordion */
+    .faq-section {
+      margin-bottom: 2rem;
+    }
+
+    .faq-category {
+      margin-bottom: 2rem;
+    }
+
+    .faq-category h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--primary);
+    }
+
+    .faq-question {
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    .faq-question i {
+      color: var(--primary);
+      transition: transform 0.2s;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.2rem 1.5rem;
+      color: var(--gray-600);
+      display: none;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    /* Still Need Help */
+    .help-box {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 20px;
+      padding: 3rem;
+      color: white;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .help-box h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .help-box p {
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .help-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .help-btn {
+      background: white;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s;
+    }
+
+    .help-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .help-btn i {
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--gray-900);
+      color: white;
+      padding: 2.5rem 1.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .footer-section h4 {
+      color: white;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .footer-section p {
+      color: #9ca3af;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .footer-section a {
+      color: #9ca3af;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-section i {
+      width: 18px;
+      margin-right: 0.3rem;
+      color: var(--primary-light);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #1e293b;
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+
+    .copyright i {
+      color: #ef4444;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 3px solid var(--primary);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        Develop Nepal
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Issue</a>
+        <a href="all-issues.html">View Issues</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html" class="active">FAQ</a>
+        <div id="authSection"></div>
+      </div>
+
+      <button class="mobile-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="report.html"><i class="fas fa-plus-circle"></i> Report Issue</a>
+      <a href="all-issues.html"><i class="fas fa-list"></i> View Issues</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
+      <div id="mobileAuthSection"></div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about Develop Nepal</p>
+      </div>
+
+      <!-- Search -->
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchFAQ" placeholder="Search FAQs...">
+      </div>
+
+      <!-- Categories -->
+      <div class="categories">
+        <button class="category-btn active" data-category="all">All</button>
+        <button class="category-btn" data-category="general">General</button>
+        <button class="category-btn" data-category="reporting">Reporting</button>
+        <button class="category-btn" data-category="account">Account</button>
+        <button class="category-btn" data-category="leaders">For Leaders</button>
+        <button class="category-btn" data-category="technical">Technical</button>
+      </div>
+
+      <!-- FAQ Sections -->
+      <div class="faq-section" id="faqContainer">
+        <!-- General Category -->
+        <div class="faq-category" data-category="general">
+          <h2>General Questions</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>What is Develop Nepal?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Develop Nepal is a community platform that allows citizens to report local infrastructure issues (like road damage, broken streetlights, garbage problems) directly to local leaders. It promotes transparency and accountability in community development.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Is Develop Nepal free to use?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, Develop Nepal is completely free for all citizens. Local leaders also use the platform free of charge to serve their communities better.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Who can use this platform?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Anyone living in Nepal can use Develop Nepal. Citizens can report issues, and verified local leaders (ward members, municipality officials) can respond to and manage these reports.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Is my personal information safe?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, we take privacy seriously. Your personal information is encrypted and never shared with third parties. Your name and photo are visible on issues you report, but your email and phone number remain private.
+            </div>
+          </div>
+        </div>
+
+        <!-- Reporting Category -->
+        <div class="faq-category" data-category="reporting">
+          <h2>Reporting Issues</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I report an issue?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Click on "Report Issue" in the navigation menu. Fill in the title, select your district and ward, add a description, upload photos, and optionally provide an estimated budget. Then click "Submit" to post your issue.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>What types of issues can I report?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              You can report various infrastructure and community issues including: road damage, broken streetlights, garbage dumping, water supply problems, drainage issues, public toilet conditions, damaged bridges, and other local development concerns.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Do I need to include photos?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              While photos are not mandatory, they are highly recommended. Clear photos help leaders understand the severity of the issue and verify its authenticity. Issues with photos typically get faster responses.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>What does the urgency level mean?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Urgency levels help prioritize issues:<br>
+              <strong>High:</strong> Immediate danger or critical infrastructure (collapsed bridge, major road blockage)<br>
+              <strong>Medium:</strong> Significant inconvenience but not dangerous (broken streetlights in busy area)<br>
+              <strong>Low:</strong> Minor issues or aesthetic problems (graffiti, small potholes)
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Can I report issues anonymously?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              No, you need to be logged in to report issues. This helps prevent spam and ensures accountability. However, your personal contact details remain private - only your name and profile photo are visible on the issue.
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Category -->
+        <div class="faq-category" data-category="account">
+          <h2>Account & Profile</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I create an account?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Click the "Login" button in the top right corner, then choose "Sign up". You can register using your email address or sign in with Google for a faster process.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I reset my password?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              On the login page, click "Forgot Password". Enter your email address, and we'll send you a link to reset your password. Follow the instructions in the email to create a new password.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Can I edit my profile information?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, go to "My Profile" from the user menu. You can update your display name, profile photo, and other information. Your email cannot be changed as it's used for login.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I delete my account?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              To delete your account, please contact our support team at support@developnepal.com with your account details. We'll process your request within 48 hours. Note that your reported issues may remain visible but will be anonymized.
+            </div>
+          </div>
+        </div>
+
+        <!-- For Leaders Category -->
+        <div class="faq-category" data-category="leaders">
+          <h2>For Local Leaders</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I become a verified leader?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              To become a verified leader, you need to contact our support team with official documentation proving your position in local government (e.g., ward member, municipality official). We'll verify your credentials and upgrade your account within 2-3 business days.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>What can leaders do on the platform?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Verified leaders can:<br>
+              - Accept or reject reported issues<br>
+              - Mark issues as "in progress" when work begins<br>
+              - Mark issues as "resolved" when completed<br>
+              - Comment on issues to provide updates<br>
+              - See issues filtered by their district
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I respond to issues in my area?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Log in to your leader account, browse issues in your district, and use the action buttons on each issue card. You can accept, reject, or mark issues as complete. You can also add comments to provide detailed updates to citizens.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Can I assign issues to other departments?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Currently, this feature is in development. For now, you can comment on issues to redirect them or contact relevant departments manually. We're working on adding department-level assignments in a future update.
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Category -->
+        <div class="faq-category" data-category="technical">
+          <h2>Technical Issues</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>The website isn't loading properly. What should I do?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Try these steps:<br>
+              1. Refresh the page<br>
+              2. Clear your browser cache<br>
+              3. Use an updated browser (Chrome, Firefox, Safari)<br>
+              4. Check your internet connection<br>
+              5. If problems persist, contact support
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>My photos won't upload. Why?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Photo upload issues can occur if:<br>
+              - File size is too large (max 5MB per image)<br>
+              - File format is not supported (use JPG, PNG)<br>
+              - Slow internet connection<br>
+              Try compressing your images or using a different browser.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>Is there a mobile app?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Currently, we offer a mobile-friendly website that works well on all devices. We're developing native Android and iOS apps, which will be released in 2025. Stay tuned for updates!
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <span>How do I report a bug?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              If you encounter any technical issues or bugs, please report them through our <a href="feedback.html">Feedback</a> page or email us at tech@developnepal.com with details about the issue and steps to reproduce it.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Still Need Help -->
+      <div class="help-box">
+        <h2>Still Have Questions?</h2>
+        <p>Can't find what you're looking for? We're here to help!</p>
+        <div class="help-buttons">
+          <a href="support.html" class="help-btn">
+            <i class="fas fa-headset"></i> Contact Support
+          </a>
+          <a href="feedback.html" class="help-btn">
+            <i class="fas fa-comment"></i> Send Feedback
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Develop Nepal</h4>
+        <p>Report local issues directly to leaders. Track progress and build a better Nepal.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
+        <a href="mailto:samratxtha36@gmail.com"><i class="fas fa-envelope"></i> samratxtha36@gmail.com</a>
+        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
+        <a href="tel:+9779761409401"><i class="fas fa-phone"></i> +977 9761409401</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: 9761614027</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <a href="guide.html">User Guide</a>
+        <a href="faq.html" class="active">FAQ</a>
+        <a href="support.html">Support</a>
+        <a href="feedback.html">Feedback</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>© 2026 Develop Nepal. All rights reserved. | Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
+      authDomain: "develop-nepal.firebaseapp.com",
+      projectId: "develop-nepal",
+      storageBucket: "develop-nepal.firebasestorage.app",
+      messagingSenderId: "436371033887",
+      appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const authSection = document.getElementById('authSection');
+    const mobileAuthSection = document.getElementById('mobileAuthSection');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const searchInput = document.getElementById('searchFAQ');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const faqItems = document.querySelectorAll('.faq-item');
+    const faqCategories = document.querySelectorAll('.faq-category');
+
+    // Mobile Menu Toggle
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authSection.innerHTML = `
+          <div class="user-menu">
+            <div class="user-btn" onclick="toggleDropdown()">
+              <span>${user.displayName?.split(' ')[0] || 'User'}</span>
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName || 'User')}">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown" id="dropdown">
+              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+              <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+              <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        `;
+
+        mobileAuthSection.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+          <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
+          <a href="#" id="mobileLogoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        `;
+
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+          showToast('Logged out successfully');
+        });
+        
+        document.getElementById('mobileLogoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth);
+        });
+
+      } else {
+        authSection.innerHTML = '<a href="login.html" style="background: var(--primary); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; text-decoration: none;">Login</a>';
+        mobileAuthSection.innerHTML = '<a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>';
+      }
+    });
+
+    window.toggleDropdown = () => {
+      document.getElementById('dropdown')?.classList.toggle('show');
+    };
+
+    window.onclick = (e) => {
+      if (!e.target.closest('.user-menu')) {
+        document.getElementById('dropdown')?.classList.remove('show');
+      }
+    };
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    // Toggle FAQ
+    window.toggleFAQ = (element) => {
+      const faqItem = element.closest('.faq-item');
+      faqItem.classList.toggle('active');
+    };
+
+    // Category Filter
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const category = btn.dataset.category;
+
+        // Show/hide categories
+        faqCategories.forEach(cat => {
+          if (category === 'all' || cat.dataset.category === category) {
+            cat.style.display = 'block';
+          } else {
+            cat.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+        
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Show categories that have visible items
+      faqCategories.forEach(category => {
+        const hasVisible = Array.from(category.querySelectorAll('.faq-item')).some(item => item.style.display !== 'none');
+        category.style.display = hasVisible ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
