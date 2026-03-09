@@ -6,29 +6,38 @@
 
   <title>Develop Nepal – Report Local Issues & Improve Nepal</title>
 
+  <!-- Primary Meta Tags -->
   <meta name="description" content="Develop Nepal is a civic platform where citizens report local problems like roads, water, electricity and public services to help build a better Nepal.">
-
   <meta name="keywords" content="Develop Nepal, Nepal development, report issues Nepal, civic platform Nepal, public problem reporting Nepal">
-
   <meta name="author" content="Bishal Shrestha">
-
   <meta name="robots" content="index, follow">
-
   <link rel="canonical" href="https://bishalshrestha17.com.np/">
+
+ 
+
+  <!-- Schema Markup -->
   <script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "WebSite",
- "name": "Develop Nepal",
- "url": "https://bishalshrestha17.com.np/",
- "description": "Develop Nepal is a platform where citizens report issues and help improve Nepal.",
- "publisher": {
-   "@type": "Person",
-   "name": "Bishal Shrestha"
- }
-}
-</script>
-<style>
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Develop Nepal",
+    "url": "https://bishalshrestha17.com.np/",
+    "description": "Develop Nepal is a platform where citizens report issues and help improve Nepal.",
+    "publisher": {
+      "@type": "Person",
+      "name": "Bishal Shrestha"
+    }
+  }
+  </script>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /*---------------------------------------
+      RESET & VARIABLES
+    ---------------------------------------*/
     * {
       margin: 0;
       padding: 0;
@@ -40,7 +49,6 @@
       --primary: #0f3b2c;
       --primary-dark: #0a2f22;
       --primary-light: #1b6e50;
-      --accent: #d97706;
       --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
@@ -50,7 +58,6 @@
       --gray-800: #1f2937;
       --gray-900: #111827;
       --white: #ffffff;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
@@ -78,7 +85,9 @@
       }
     }
 
-    /* Navigation - Clean & Minimal */
+    /*---------------------------------------
+      NAVIGATION
+    ---------------------------------------*/
     .navbar {
       background: var(--white);
       border-bottom: 1px solid var(--gray-200);
@@ -135,7 +144,9 @@
       color: var(--primary);
     }
 
-    /* Filter in Navbar */
+    /*---------------------------------------
+      FILTER
+    ---------------------------------------*/
     .filter-nav {
       display: flex;
       align-items: center;
@@ -146,11 +157,6 @@
       border: 1px solid var(--gray-200);
     }
 
-    .filter-nav i {
-      color: var(--gray-600);
-      font-size: 0.9rem;
-    }
-
     .filter-nav select {
       border: none;
       background: transparent;
@@ -159,11 +165,6 @@
       font-weight: 500;
       cursor: pointer;
       outline: none;
-      padding-right: 0.5rem;
-    }
-
-    .filter-nav select option {
-      background: white;
     }
 
     .filter-nav button {
@@ -176,14 +177,15 @@
       font-weight: 500;
       cursor: pointer;
       transition: background 0.2s;
-      white-space: nowrap;
     }
 
     .filter-nav button:hover {
       background: var(--primary-dark);
     }
 
-    /* User Menu / Login Button */
+    /*---------------------------------------
+      AUTH BUTTONS
+    ---------------------------------------*/
     .auth-wrapper {
       display: flex;
       align-items: center;
@@ -197,21 +199,18 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 0.85rem;
-      transition: background 0.2s;
-      white-space: nowrap;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-    }
-
-    .login-btn i {
-      font-size: 0.8rem;
+      cursor: pointer;
+      border: none;
     }
 
     .login-btn:hover {
       background: var(--primary-dark);
     }
 
+    /* User Menu */
     .user-menu {
       position: relative;
     }
@@ -232,12 +231,6 @@
       height: 32px;
       border-radius: 50%;
       object-fit: cover;
-    }
-
-    .user-btn span {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--gray-800);
     }
 
     .dropdown {
@@ -265,7 +258,6 @@
       color: var(--gray-700);
       text-decoration: none;
       border-bottom: 1px solid var(--gray-200);
-      font-size: 0.85rem;
     }
 
     .dropdown a:last-child {
@@ -276,27 +268,21 @@
       background: var(--gray-100);
     }
 
-    .dropdown i {
-      width: 18px;
-      color: var(--primary);
-    }
-
     .logout-btn {
       color: #dc2626 !important;
     }
 
-    .logout-btn i {
-      color: #dc2626 !important;
-    }
-
-    /* Mobile Menu */
+    /*---------------------------------------
+      MOBILE MENU
+    ---------------------------------------*/
     .mobile-btn {
       display: none;
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       color: var(--primary);
       cursor: pointer;
+      padding: 0.5rem;
     }
 
     @media (max-width: 768px) {
@@ -310,6 +296,8 @@
       background: var(--white);
       padding: 1rem;
       border-top: 1px solid var(--gray-200);
+      max-height: 80vh;
+      overflow-y: auto;
     }
 
     .mobile-menu.active {
@@ -317,12 +305,13 @@
     }
 
     .mobile-menu a {
-      display: block;
-      padding: 0.6rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 0;
       color: var(--gray-700);
       text-decoration: none;
       border-bottom: 1px solid var(--gray-200);
-      font-size: 0.9rem;
     }
 
     .mobile-menu a i {
@@ -330,27 +319,54 @@
       color: var(--primary);
     }
 
+    .mobile-filter {
+      background: var(--gray-100);
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+    }
+
+    .mobile-filter select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+    }
+
+    .mobile-filter button {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     .mobile-auth-section {
-      margin-top: 0.8rem;
+      margin-top: 1rem;
     }
 
     .mobile-auth-section a {
-      display: inline-block;
+      display: block;
+      text-align: center;
       background: var(--primary);
       color: white;
-      padding: 0.5rem 1.2rem;
-      border-radius: 50px;
+      padding: 0.8rem;
+      border-radius: 8px;
       text-decoration: none;
-      border: none;
     }
 
-    /* Main Content */
+    /*---------------------------------------
+      MAIN CONTENT
+    ---------------------------------------*/
     .main-content {
       flex: 1;
       padding: 2rem 0;
     }
 
-    /* Section Header */
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -383,15 +399,14 @@
       }
     }
 
-    /* Issue Card - Clean Transparent Design */
+    /* Issue Card */
     .issue-card {
-      background: transparent;
+      background: white;
       border: 1px solid var(--gray-200);
       border-radius: 16px;
       overflow: hidden;
       transition: all 0.2s;
       cursor: pointer;
-      backdrop-filter: blur(4px);
     }
 
     .issue-card:hover {
@@ -422,19 +437,16 @@
     .status-active {
       background: #fef3c7;
       color: #b45309;
-      border-color: #f59e0b;
     }
 
     .status-progress {
       background: #dbeafe;
       color: #1e40af;
-      border-color: #3b82f6;
     }
 
     .status-resolved {
       background: #d1fae5;
       color: #065f46;
-      border-color: #10b981;
     }
 
     .issue-content {
@@ -445,8 +457,6 @@
       font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.3rem;
-      color: var(--gray-800);
-      line-height: 1.4;
     }
 
     .issue-location {
@@ -458,11 +468,6 @@
       margin-bottom: 0.5rem;
     }
 
-    .issue-location i {
-      color: var(--primary);
-      font-size: 0.7rem;
-    }
-
     .issue-author {
       display: flex;
       align-items: center;
@@ -470,18 +475,12 @@
       font-size: 0.7rem;
       color: var(--gray-500);
       margin-bottom: 0.5rem;
-      cursor: pointer;
     }
 
     .issue-author img {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .issue-author:hover {
-      color: var(--primary);
     }
 
     .issue-meta {
@@ -493,19 +492,10 @@
 
     .issue-budget {
       background: var(--gray-100);
-      color: var(--gray-700);
       padding: 0.2rem 0.6rem;
       border-radius: 30px;
       font-size: 0.65rem;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-
-    .issue-budget i {
-      color: var(--primary);
-      font-size: 0.6rem;
     }
 
     .issue-urgency {
@@ -547,11 +537,6 @@
       font-size: 0.7rem;
     }
 
-    .issue-stats i {
-      color: var(--primary);
-      font-size: 0.7rem;
-    }
-
     .issue-footer {
       display: flex;
       justify-content: space-between;
@@ -568,55 +553,16 @@
       align-items: center;
       gap: 0.2rem;
       cursor: pointer;
-      color: var(--gray-700);
     }
 
     .vote-btn i {
       color: #ef4444;
     }
 
-    .vote-btn:hover {
-      background: #fee2e2;
-      border-color: #ef4444;
-    }
-
     .vote-btn.voted {
       background: #ef4444;
       color: white;
       border-color: #ef4444;
-    }
-
-    .vote-btn.voted i {
-      color: white;
-    }
-
-    .leader-actions {
-      display: flex;
-      gap: 0.2rem;
-    }
-
-    .leader-btn {
-      padding: 0.2rem 0.6rem;
-      border-radius: 30px;
-      border: none;
-      font-size: 0.65rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .accept-btn {
-      background: #d1fae5;
-      color: #065f46;
-    }
-
-    .reject-btn {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .complete-btn {
-      background: #dbeafe;
-      color: #1e40af;
     }
 
     /* Loading */
@@ -640,7 +586,77 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Footer */
+    /*---------------------------------------
+      LOGIN MODAL
+    ---------------------------------------*/
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .google-login-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      width: 100%;
+      padding: 0.8rem;
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+
+    .google-login-btn:hover {
+      background: var(--gray-50);
+      border-color: var(--primary);
+    }
+
+    .google-login-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .close-btn {
+      background: var(--gray-100);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /*---------------------------------------
+      FOOTER
+    ---------------------------------------*/
     .footer {
       background: var(--gray-900);
       color: white;
@@ -659,21 +675,12 @@
     @media (max-width: 768px) {
       .footer-content {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
       }
     }
 
     .footer-section h4 {
       color: white;
       margin-bottom: 1rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .footer-section p {
-      color: #9ca3af;
-      font-size: 0.8rem;
-      line-height: 1.6;
     }
 
     .footer-section a {
@@ -686,36 +693,6 @@
 
     .footer-section a:hover {
       color: white;
-    }
-
-    .footer-section i {
-      width: 18px;
-      margin-right: 0.3rem;
-      color: var(--primary-light);
-    }
-
-    .social-links {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-
-    .social-link {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-decoration: none;
-      font-size: 0.8rem;
-    }
-
-    .social-link:hover {
-      background: var(--primary);
     }
 
     .copyright {
@@ -743,7 +720,6 @@
       border-left: 3px solid var(--primary);
       z-index: 1000;
       animation: slideIn 0.3s ease;
-      font-size: 0.85rem;
     }
 
     @keyframes slideIn {
@@ -773,10 +749,9 @@
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         
-        <!-- Filter in Navbar - Compact -->
         <div class="filter-nav">
           <i class="fas fa-map-marker-alt"></i>
-          <select id="province" style="min-width: 100px;">
+          <select id="province">
             <option value="">Province</option>
             <option value="Koshi">Koshi</option>
             <option value="Madhesh">Madhesh</option>
@@ -788,20 +763,18 @@
           </select>
           
           <i class="fas fa-map-pin"></i>
-          <select id="district" style="min-width: 100px;">
+          <select id="district">
             <option value="">District</option>
           </select>
           
-          <i class="fas fa-filter"></i>
           <button id="applyFilter">Apply</button>
         </div>
 
-        <!-- auth section will be injected here (login button or user menu) -->
         <div class="auth-wrapper" id="authSection"></div>
       </div>
 
       <button class="mobile-btn" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-ellipsis-v"></i>
       </button>
     </div>
 
@@ -811,9 +784,10 @@
       <a href="all-issues.html"><i class="fas fa-list"></i> View Issues</a>
       <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
       <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
-      <div class="filter-nav" style="margin: 1rem 0; width: 100%; flex-wrap: wrap;">
-        <select id="mobileProvince" style="width: 100%;">
-          <option value="">Province</option>
+      
+      <div class="mobile-filter">
+        <select id="mobileProvince">
+          <option value="">Select Province</option>
           <option value="Koshi">Koshi</option>
           <option value="Madhesh">Madhesh</option>
           <option value="Bagmati">Bagmati</option>
@@ -822,79 +796,117 @@
           <option value="Karnali">Karnali</option>
           <option value="Sudurpashchim">Sudurpashchim</option>
         </select>
-        <select id="mobileDistrict" style="width: 100%; margin-top: 0.5rem;">
-          <option value="">District</option>
+        
+        <select id="mobileDistrict">
+          <option value="">Select District</option>
         </select>
-        <button id="mobileApplyFilter" style="width: 100%; margin-top: 0.5rem;">Apply Filter</button>
+        
+        <button id="mobileApplyFilter">Apply Filter</button>
       </div>
+      
       <div class="mobile-auth-section" id="mobileAuthSection"></div>
     </div>
   </nav>
 
   <main class="main-content">
     <div class="container">
-      <!-- Issues Grid -->
       <div class="section-header">
-        <h2 class="section-title">Latest Issues</h2>
+        <h2 class="section-title">🇳🇵 Latest Issues</h2>
       </div>
 
       <div class="issues-grid" id="issuesGrid">
         <div class="loading">
           <div class="spinner"></div>
-          <p>Loading real issues from Firebase...</p>
+          <p>Loading issues from Firebase...</p>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer with Real Contact Info -->
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h3>🇳🇵 Welcome to Develop Nepal</h3>
+      <p>Sign in to report issues and track progress</p>
+      
+      <button class="google-login-btn" id="googleLoginBtn">
+        <img src="https://www.google.com/favicon.ico" alt="Google">
+        Continue with Google
+      </button>
+      
+      <button class="close-btn" onclick="closeLoginModal()">Close</button>
+      
+      <p style="margin-top: 1rem; font-size: 0.7rem; color: var(--gray-500);">
+        By signing in, you agree to our Terms and Privacy Policy
+      </p>
+    </div>
+  </div>
+
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-section">
         <h4>Develop Nepal</h4>
-        <p>Report local issues directly to leaders. Track progress and build a better Nepal.</p>
-        <p>Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+        <p>Report local issues and build a better Nepal.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Bishal Shrestha</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
+        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
       </div>
 
       <div class="footer-section">
         <h4>Quick Links</h4>
-        <a href="about.html">About Us</a>
+        <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy</a>
       </div>
 
       <div class="footer-section">
-        <h4>Contact Info</h4>
-        <a href="mailto:bishalxtha17@gmail.com"><i class="fas fa-envelope"></i> bishalxtha17@gmail.com</a>
-        <a href="mailto:samratxtha36@gmail.com"><i class="fas fa-envelope"></i> samratxtha36@gmail.com</a>
-        <a href="tel:+9779761614027"><i class="fas fa-phone"></i> +977 9761614027</a>
-        <a href="tel:+9779761409401"><i class="fas fa-phone"></i> +977 9761409401</a>
-        <a href="tel:+9779761409400"><i class="fas fa-phone"></i> +977 9761409400</a>
-        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: 9761614027</a>
-        <a href="#"><i class="fab fa-facebook"></i> FB: samrat shrestha</a>
-        <a href="#"><i class="fab fa-tiktok"></i> TikTok: Bishal.xtha17</a>
-      </div>
-
-      <div class="footer-section">
-        <h4>Resources</h4>
-        <a href="guide.html">User Guide</a>
-        <a href="faq.html">FAQ</a>
-        <a href="support.html">Support</a>
-        <a href="feedback.html">Feedback</a>
+        <h4>Follow</h4>
+        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
       </div>
     </div>
 
     <div class="copyright">
-      <p>© 2026 Develop Nepal. All rights reserved. | Made with <i class="fas fa-heart"></i> by Bishal Shrestha, Dhading</p>
+      <p>© 2026 Develop Nepal. Made with <i class="fas fa-heart"></i> in Nepal</p>
     </div>
   </footer>
 
   <script type="module">
+    //---------------------------------------
+    // FIREBASE IMPORTS
+    //---------------------------------------
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getFirestore, collection, getDocs, query, orderBy, where, doc, getDoc, updateDoc, increment, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { 
+      getFirestore, 
+      collection, 
+      getDocs, 
+      query, 
+      orderBy, 
+      doc, 
+      updateDoc, 
+      increment, 
+      arrayUnion, 
+      arrayRemove, 
+      setDoc, 
+      Timestamp 
+    } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { 
+      getAuth, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signInWithRedirect,
+      getRedirectResult,
+      signOut, 
+      onAuthStateChanged 
+    } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
+    //---------------------------------------
+    // FIREBASE CONFIG
+    //---------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyDLhB2fK6_b6b09SyeEXxhubEvejdq9iyA",
       authDomain: "develop-nepal.firebaseapp.com",
@@ -904,11 +916,15 @@
       appId: "1:436371033887:web:4f73a3c9104c8fd6a2aa2a"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
-    // DOM Elements
+    //---------------------------------------
+    // DOM ELEMENTS
+    //---------------------------------------
     const authSection = document.getElementById('authSection');
     const mobileAuthSection = document.getElementById('mobileAuthSection');
     const issuesGrid = document.getElementById('issuesGrid');
@@ -920,28 +936,67 @@
     const mobileApplyFilter = document.getElementById('mobileApplyFilter');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
+    const loginModal = document.getElementById('loginModal');
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
 
-    // Districts data
+    //---------------------------------------
+    // DISTRICTS DATA
+    //---------------------------------------
     const districts = {
-      'Koshi': ['Morang', 'Sunsari', 'Jhapa', 'Ilam', 'Dhankuta', 'Bhojpur', 'Khotang', 'Okhaldhunga', 'Panchthar', 'Sankhuwasabha', 'Solukhumbu', 'Taplejung', 'Terhathum', 'Udayapur'],
-      'Madhesh': ['Saptari', 'Siraha', 'Dhanusha', 'Mahottari', 'Sarlahi', 'Bara', 'Parsa', 'Rautahat'],
-      'Bagmati': ['Kathmandu', 'Lalitpur', 'Bhaktapur', 'Dhading', 'Nuwakot', 'Rasuwa', 'Sindhupalchok', 'Kavrepalanchok', 'Sindhuli', 'Ramechhap', 'Dolakha', 'Makwanpur', 'Chitwan'],
-      'Gandaki': ['Kaski', 'Gorkha', 'Lamjung', 'Tanahu', 'Manang', 'Mustang', 'Parbat', 'Syangja', 'Myagdi', 'Baglung', 'Nawalpur'],
-      'Lumbini': ['Rupandehi', 'Kapilvastu', 'Palpa', 'Arghakhanchi', 'Gulmi', 'Nawalparasi', 'Dang', 'Pyuthan', 'Rolpa', 'Eastern Rukum'],
-      'Karnali': ['Western Rukum', 'Salyan', 'Surkhet', 'Dailekh', 'Jajarkot', 'Dolpa', 'Jumla', 'Kalikot', 'Mugu', 'Humla'],
-      'Sudurpashchim': ['Kailali', 'Kanchanpur', 'Doti', 'Achham', 'Bajura', 'Bajhang', 'Darchula', 'Baitadi', 'Dadeldhura']
+      'Koshi': ['Morang', 'Sunsari', 'Jhapa', 'Ilam', 'Dhankuta'],
+      'Madhesh': ['Saptari', 'Siraha', 'Dhanusha', 'Mahottari'],
+      'Bagmati': ['Kathmandu', 'Lalitpur', 'Bhaktapur', 'Dhading'],
+      'Gandaki': ['Kaski', 'Gorkha', 'Lamjung', 'Tanahu'],
+      'Lumbini': ['Rupandehi', 'Kapilvastu', 'Palpa'],
+      'Karnali': ['Surkhet', 'Dailekh', 'Jumla'],
+      'Sudurpashchim': ['Kailali', 'Kanchanpur', 'Doti']
     };
 
     let currentUser = null;
-    let userRole = 'citizen';
     let allIssues = [];
 
-    // Mobile Menu Toggle
+    //---------------------------------------
+    // UTILITY FUNCTIONS
+    //---------------------------------------
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return 'Recently';
+      try {
+        if (timestamp.toDate) {
+          return timestamp.toDate().toLocaleDateString();
+        }
+        return new Date(timestamp).toLocaleDateString();
+      } catch {
+        return 'Recently';
+      }
+    }
+
+    // Modal functions
+    window.openLoginModal = () => {
+      loginModal.classList.add('active');
+    };
+
+    window.closeLoginModal = () => {
+      loginModal.classList.remove('active');
+    };
+
+    //---------------------------------------
+    // MOBILE MENU
+    //---------------------------------------
     mobileMenuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('active');
     });
 
-    // Province Change
+    //---------------------------------------
+    // DISTRICT UPDATES
+    //---------------------------------------
     function updateDistricts(selectElement, targetSelect) {
       const province = selectElement.value;
       targetSelect.innerHTML = '<option value="">District</option>';
@@ -961,21 +1016,75 @@
       updateDistricts(this, mobileDistrict);
     });
 
-    // Auth State
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
+    //---------------------------------------
+    // GOOGLE LOGIN (FIXED - No Popup Block)
+    //---------------------------------------
+    googleLoginBtn.addEventListener('click', async () => {
+      try {
+        // Try popup first
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
         
-        try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            userRole = userDoc.data().role || 'citizen';
-          }
-        } catch (error) {
-          console.log('Using default citizen role');
+        // Save user to Firestore
+        await setDoc(doc(db, 'users', user.uid), {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: 'citizen',
+          lastLogin: Timestamp.now()
+        }, { merge: true });
+        
+        showToast('✨ Login successful!');
+        closeLoginModal();
+      } catch (error) {
+        if (error.code === 'auth/popup-blocked') {
+          showToast('Opening login page...');
+          await signInWithRedirect(auth, googleProvider);
+        } else {
+          showToast('❌ Login failed: ' + error.message);
         }
+      }
+    });
 
-        // Logged-in UI (user menu)
+    // Handle redirect result
+    getRedirectResult(auth).then((result) => {
+      if (result) {
+        const user = result.user;
+        setDoc(doc(db, 'users', user.uid), {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: 'citizen',
+          lastLogin: Timestamp.now()
+        }, { merge: true });
+        
+        showToast('✨ Login successful!');
+        closeLoginModal();
+      }
+    }).catch((error) => {
+      console.error('Redirect error:', error);
+    });
+
+    //---------------------------------------
+    // LOGOUT
+    //---------------------------------------
+    window.handleLogout = async () => {
+      try {
+        await signOut(auth);
+        showToast('👋 Logged out');
+      } catch (error) {
+        showToast('❌ Logout failed');
+      }
+    };
+
+    //---------------------------------------
+    // AUTH STATE
+    //---------------------------------------
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      
+      if (user) {
+        // Logged in UI
         authSection.innerHTML = `
           <div class="user-menu">
             <div class="user-btn" onclick="toggleDropdown()">
@@ -984,35 +1093,25 @@
               <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown" id="dropdown">
-              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
-              <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
-              <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              <a href="#" onclick="alert('Profile coming soon')"><i class="fas fa-user"></i> Profile</a>
+              <a href="#" onclick="alert('My reports coming soon')"><i class="fas fa-file-alt"></i> My Reports</a>
+              <a href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
           </div>
         `;
 
         mobileAuthSection.innerHTML = `
-          <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
-          <a href="my-issues.html"><i class="fas fa-file-alt"></i> My Posts</a>
-          <a href="#" id="mobileLogoutBtn" class="logout-btn" style="display:inline-block; margin-top:0.5rem;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          <a href="#" onclick="alert('Profile coming soon')"><i class="fas fa-user"></i> Profile</a>
+          <a href="#" onclick="alert('My reports coming soon')"><i class="fas fa-file-alt"></i> My Reports</a>
+          <a href="#" onclick="handleLogout()">Logout</a>
         `;
-
-        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-          e.preventDefault();
-          signOut(auth);
-          showToast('Logged out successfully');
-        });
-        
-        document.getElementById('mobileLogoutBtn')?.addEventListener('click', (e) => {
-          e.preventDefault();
-          signOut(auth);
-        });
-
       } else {
-        // NO LOGIN: show login button (exactly as requested)
-        authSection.innerHTML = '<a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>';
-        mobileAuthSection.innerHTML = '<a href="login.html" class="login-btn" style="background: var(--primary); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; text-decoration: none;"><i class="fas fa-sign-in-alt"></i> Login</a>';
+        // Logged out UI
+        authSection.innerHTML = '<button class="login-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button>';
+        mobileAuthSection.innerHTML = '<button class="login-btn" onclick="openLoginModal()">Login</button>';
       }
+      
+      loadIssues();
     });
 
     window.toggleDropdown = () => {
@@ -1025,102 +1124,123 @@
       }
     };
 
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = message;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 2000);
-    }
-
-    // Load real issues from Firebase
+    //---------------------------------------
+    // LOAD ISSUES
+    //---------------------------------------
     async function loadIssues() {
       try {
         const q = query(collection(db, 'issues'), orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
         
-        allIssues = snapshot.docs.map(doc => ({ 
-          id: doc.id, 
-          ...doc.data(),
-          userPhoto: doc.data().userPhoto || 'https://ui-avatars.com/api/?name='+doc.data().userName
-        }));
+        if (snapshot.empty) {
+          await createSampleIssues();
+          const newSnapshot = await getDocs(q);
+          allIssues = newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else {
+          allIssues = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        }
         
         displayIssues(allIssues);
       } catch (error) {
-        console.error('Error loading issues:', error);
-        issuesGrid.innerHTML = '<p style="grid-column:1/-1; text-align:center;">Error loading issues. Please refresh.</p>';
+        issuesGrid.innerHTML = '<div class="loading"><p>Error loading issues</p></div>';
       }
     }
 
+    // Create sample issues
+    async function createSampleIssues() {
+      const samples = [
+        {
+          id: 'road-dhading',
+          title: "Broken Road in Dhading",
+          province: "Bagmati",
+          district: "Dhading",
+          ward: "5",
+          urgency: "high",
+          budget: 500000,
+          status: "active",
+          votes: 15,
+          userName: "Bishal Shrestha",
+          imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400",
+          createdAt: Timestamp.now()
+        },
+        {
+          id: 'water-kathmandu',
+          title: "Water Shortage in Kathmandu",
+          province: "Bagmati",
+          district: "Kathmandu",
+          ward: "12",
+          urgency: "high",
+          budget: 200000,
+          status: "in-progress",
+          votes: 28,
+          userName: "Samrat Shrestha",
+          imageUrl: "https://images.unsplash.com/photo-1581244277943-fe4a9c7775c0?w=400",
+          createdAt: Timestamp.now()
+        }
+      ];
+
+      for (const issue of samples) {
+        await setDoc(doc(db, 'issues', issue.id), {
+          ...issue,
+          votedBy: [],
+          comments: 0,
+          views: 0,
+          userPhoto: `https://ui-avatars.com/api/?name=${issue.userName}`
+        });
+      }
+    }
+
+    // Display issues
     function displayIssues(issues) {
       if (issues.length === 0) {
-        issuesGrid.innerHTML = '<p style="grid-column:1/-1; text-align:center;">No issues found</p>';
+        issuesGrid.innerHTML = '<div class="loading"><p>No issues found</p></div>';
         return;
       }
 
       issuesGrid.innerHTML = issues.map(issue => {
-        const status = issue.status || 'active';
-        const statusClass = status === 'resolved' ? 'status-resolved' : 
-                          status === 'in-progress' ? 'status-progress' : 'status-active';
-        const statusText = status === 'resolved' ? 'Resolved' : 
-                         status === 'in-progress' ? 'Progress' : 'Active';
-
+        const statusClass = issue.status === 'resolved' ? 'status-resolved' :
+                          issue.status === 'in-progress' ? 'status-progress' : 'status-active';
+        
         const urgencyClass = issue.urgency === 'high' ? 'urgency-high' :
                            issue.urgency === 'medium' ? 'urgency-medium' : 'urgency-low';
 
         const hasVoted = currentUser && issue.votedBy?.includes(currentUser.uid);
-        const isLeader = userRole === 'leader';
 
         return `
           <div class="issue-card" onclick="window.location.href='issue.html?id=${issue.id}'">
-            <div class="issue-image" style="background-image: url('${issue.imageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400'}')">
-              <span class="issue-status ${statusClass}">${statusText}</span>
+            <div class="issue-image" style="background-image: url('${issue.imageUrl}')">
+              <span class="issue-status ${statusClass}">${issue.status}</span>
             </div>
             <div class="issue-content">
-              <h3 class="issue-title">${issue.title || 'Untitled Issue'}</h3>
+              <h3 class="issue-title">${issue.title}</h3>
               <div class="issue-location">
-                <i class="fas fa-map-marker-alt"></i>
-                ${issue.district || 'Unknown'}, Ward ${issue.ward || 'N/A'}
+                <i class="fas fa-map-marker-alt"></i> ${issue.district}, Ward ${issue.ward}
               </div>
               
-              <div class="issue-author" onclick="event.stopPropagation(); window.location.href='profile.html?id=${issue.userId}'">
-                <img src="${issue.userPhoto}" alt="">
-                <span>${issue.userName || 'Anonymous'}</span>
+              <div class="issue-author">
+                <img src="${issue.userPhoto}" alt=""> <span>${issue.userName}</span>
               </div>
               
               <div class="issue-meta">
-                ${issue.budget ? `
-                  <span class="issue-budget">
-                    <i class="fas fa-money-bill"></i> NPR ${issue.budget.toLocaleString()}
-                  </span>
-                ` : ''}
-                <span class="issue-urgency ${urgencyClass}">${issue.urgency || 'medium'}</span>
+                <span class="issue-budget"><i class="fas fa-money-bill"></i> NPR ${issue.budget?.toLocaleString()}</span>
+                <span class="issue-urgency ${urgencyClass}">${issue.urgency}</span>
               </div>
 
               <div class="issue-stats">
                 <span><i class="fas fa-heart"></i> ${issue.votes || 0}</span>
-                <span><i class="fas fa-comment"></i> ${issue.comments || 0}</span>
-                <span><i class="fas fa-eye"></i> ${issue.views || 0}</span>
-                <span><i class="fas fa-calendar"></i> ${new Date(issue.createdAt).toLocaleDateString()}</span>
+                <span><i class="fas fa-calendar"></i> ${formatDate(issue.createdAt)}</span>
               </div>
 
               <div class="issue-footer" onclick="event.stopPropagation()">
-                <button class="vote-btn ${hasVoted ? 'voted' : ''}" onclick="handleVote('${issue.id}', ${hasVoted})">
-                  <i class="fas fa-heart"></i> <span>${hasVoted ? 'Voted' : 'Vote'}</span>
-                </button>
-
-                ${isLeader && issue.status === 'active' ? `
-                  <div class="leader-actions">
-                    <button class="leader-btn accept-btn" onclick="handleAction('accept', '${issue.id}')">Accept</button>
-                    <button class="leader-btn reject-btn" onclick="handleAction('reject', '${issue.id}')">Reject</button>
-                  </div>
-                ` : ''}
-
-                ${isLeader && issue.status === 'in-progress' ? `
-                  <div class="leader-actions">
-                    <button class="leader-btn complete-btn" onclick="handleAction('complete', '${issue.id}')">Complete</button>
-                  </div>
-                ` : ''}
+                ${currentUser ? `
+                  <button class="vote-btn ${hasVoted ? 'voted' : ''}" onclick="handleVote('${issue.id}', ${hasVoted})">
+                    <i class="fas fa-heart"></i> ${hasVoted ? 'Voted' : 'Vote'}
+                  </button>
+                ` : `
+                  <button class="vote-btn" onclick="openLoginModal()">
+                    <i class="fas fa-heart"></i> Login to Vote
+                  </button>
+                `}
               </div>
             </div>
           </div>
@@ -1131,7 +1251,7 @@
     // Handle Vote
     window.handleVote = async (issueId, hasVoted) => {
       if (!currentUser) {
-        window.location.href = 'login.html';
+        openLoginModal();
         return;
       }
 
@@ -1154,39 +1274,11 @@
         
         loadIssues();
       } catch (error) {
-        console.error('Vote error:', error);
+        showToast('Error voting');
       }
     };
 
-    // Handle Leader Actions
-    window.handleAction = async (action, issueId) => {
-      if (!currentUser) return;
-      
-      try {
-        const issueRef = doc(db, 'issues', issueId);
-        let update = {};
-        
-        if (action === 'accept') {
-          update = { status: 'in-progress' };
-          showToast('Issue accepted');
-        }
-        if (action === 'reject') {
-          update = { status: 'rejected' };
-          showToast('Issue rejected');
-        }
-        if (action === 'complete') {
-          update = { status: 'resolved' };
-          showToast('Issue completed');
-        }
-        
-        await updateDoc(issueRef, update);
-        loadIssues();
-      } catch (error) {
-        console.error('Action error:', error);
-      }
-    };
-
-    // Apply Filter
+    // Filter
     function filterIssues() {
       const province = provinceSelect.value;
       const district = districtSelect.value;
@@ -1207,6 +1299,7 @@
       updateDistricts(mobileProvince, districtSelect);
       districtSelect.value = mobileDistrict.value;
       filterIssues();
+      mobileMenu.classList.remove('active');
     });
 
     // Initial load
