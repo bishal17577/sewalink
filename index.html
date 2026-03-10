@@ -7,26 +7,71 @@
   <title>Develop Nepal – Report Local Issues & Improve Nepal</title>
 
   <!-- Primary Meta Tags -->
-  <meta name="description" content="Develop Nepal is a civic platform where citizens report local problems like roads, water, electricity and public services to help build a better Nepal.">
+  <meta name="description" content="Develop Nepal is a civic platform where citizens report local problems like roads, water, electricity and public services to help build a better Nepal. Created by Bishal Shrestha (adult developer from Dhading), not related to any news articles.">
   <meta name="keywords" content="Develop Nepal, Nepal development, report issues Nepal, civic platform Nepal, public problem reporting Nepal">
-  <meta name="author" content="Bishal Shrestha">
+  <meta name="author" content="Bishal Shrestha, Adult Web Developer from Dhading, Nepal">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://bishalshrestha17.com.np/">
 
   <!-- Google AdSense Verification -->
   <meta name="google-adsense-account" content="ca-pub-436371033887">
 
-  <!-- Schema Markup -->
+  <!-- Clarify to Google that this is NOT related to news -->
+  <meta name="googlebot-news" content="noindex">
+  <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+
+  <!-- Open Graph for better social sharing -->
+  <meta property="og:title" content="Develop Nepal - Civic Platform">
+  <meta property="og:description" content="Report local issues and help build a better Nepal">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bishalshrestha17.com.np/">
+
+  <!-- Schema Markup - Clear identification -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Develop Nepal",
     "url": "https://bishalshrestha17.com.np/",
-    "description": "Develop Nepal is a platform where citizens report issues and help improve Nepal.",
-    "publisher": {
+    "description": "A civic platform for reporting local issues in Nepal",
+    "author": {
       "@type": "Person",
-      "name": "Bishal Shrestha"
+      "name": "Bishal Shrestha",
+      "description": "Web developer from Dhading, Nepal",
+      "knowsAbout": "Web Development, Civic Tech"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Nepal Development",
+      "description": "Platform for citizens to report local infrastructure problems"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://bishalshrestha17.com.np/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Additional Schema to disassociate from news -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Develop Nepal",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Develop Nepal"
+    },
+    "significantLink": "https://bishalshrestha17.com.np/all-issues",
+    "about": {
+      "@type": "Thing",
+      "name": "Civic Issues Reporting",
+      "description": "Platform for reporting local infrastructure problems"
+    },
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Nepali Citizens"
     }
   }
   </script>
