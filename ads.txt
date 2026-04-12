@@ -1,5 +1,5 @@
 # ads.txt for Develop Nepal
-google.com, pub-3595833253537452, DIRECT, f08c47fec0942fa0
+<meta name="google-adsense-account" content="ca-pub-4613290012533303">
 
 # Add other ad networks if using multiple
 # example.com, 1234, DIRECT, 123456789
